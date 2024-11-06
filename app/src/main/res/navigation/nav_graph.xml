@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/alarmsFragment">
+
+    <fragment
+        android:id="@+id/alarmsFragment"
+        android:name="net.micg.plantcare.ui.fragments.AlarmsFragment"
+        android:label="AlarmsFragment" >
+        <action
+            android:id="@+id/action_alarmsFragment_to_articlesFragment2"
+            app:destination="@id/articlesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="net.micg.plantcare.ui.fragments.ArticleFragment"
+        android:label="ArticleFragment" >
+        <action
+            android:id="@+id/action_articleFragment_to_articlesFragment"
+            app:destination="@id/articlesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/articlesFragment"
+        android:name="net.micg.plantcare.ui.fragments.ArticlesFragment"
+        android:label="ArticlesFragment" >
+        <action
+            android:id="@+id/action_articlesFragment_to_alarmsFragment2"
+            app:destination="@id/alarmsFragment" />
+        <action
+            android:id="@+id/action_articlesFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
+</navigation>

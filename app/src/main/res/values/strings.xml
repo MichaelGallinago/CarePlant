@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PlantCare</string>
+    <string name="articles">Articles</string>
+    <string name="schedule">Schedule</string>
+    <string name="time_placeholder">04:04</string>
+    <string name="date_placeholder">04.04.0404</string>
 </resources>
