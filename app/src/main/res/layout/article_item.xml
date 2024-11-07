@@ -11,7 +11,7 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Название"
+        android:text="@string/article_name_placeholder"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
