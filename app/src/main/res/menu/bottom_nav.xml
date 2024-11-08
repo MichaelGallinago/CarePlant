@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/action_schedule"
+        android:id="@+id/alarmsFragment"
         android:icon="@drawable/ic_alarm"
-        android:title="@string/schedule" />
+        android:title="@string/alarms" />
     <item
-        android:id="@+id/action_articles"
+        android:id="@+id/articlesFragment"
         android:icon="@drawable/ic_book"
         android:title="@string/articles" />
 </menu>

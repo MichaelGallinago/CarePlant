@@ -1,6 +1,7 @@
 package net.micg.plantcare.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +16,7 @@ class ArticlesFragment : Fragment(R.layout.fragment_alarms) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Log.d("ebat", "you're in the articles fragment")
         with(binding.recycler) {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = articlesAdapter

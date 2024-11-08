@@ -4,7 +4,8 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import net.micg.plantcare.R
 import net.micg.plantcare.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -18,9 +19,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val navHostFragment = supportFragmentManager
-            .findFragmentById(binding.fragmentContainerView.id) as NavHostFragment
-        val navController = navHostFragment.navController
+            .findFragmentById(R.id.fragment_container_view) as NavHostFragment
 
-        NavigationUI.setupWithNavController(binding.bottomNavView, navController)
+        setupWithNavController(binding.bottomNavView, navHostFragment.navController)
     }
 }

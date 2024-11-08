@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">PlantCare</string>
-    <string name="articles">Articles</string>
-    <string name="schedule">Schedule</string>
+    <string name="articles">Статьи</string>
+    <string name="alarms">Напоминания</string>
     <string name="alarm_time_placeholder">04:04</string>
     <string name="alarm_date_placeholder">04.04.0404</string>
     <string name="article_name_placeholder">Название</string>
     <string name="alarm_name_placeholder">Название</string>
     <string name="alarm_type_placeholder">Тип</string>
+    <string name="add_alarm_button_description">Add alarm</string>
+    <string name="back_button_description">Back to articles</string>
 </resources>
