@@ -70,4 +70,6 @@ dependencies {
 
     //Material Components
     implementation (libs.material)
+
+    implementation(libs.androidx.activity.ktx)
 }
