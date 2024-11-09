@@ -1,3 +1,3 @@
-package net.micg.plantcare.models
+package net.micg.plantcare.data.models
 
 enum class ArticlePartViewType { Image, Text }

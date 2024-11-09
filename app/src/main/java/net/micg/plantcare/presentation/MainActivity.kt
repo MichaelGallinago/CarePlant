@@ -1,10 +1,10 @@
-package net.micg.plantcare.ui
+package net.micg.plantcare.presentation
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.navigation.ui.setupWithNavController
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.ActivityMainBinding
 
@@ -21,6 +21,6 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragment_container_view) as NavHostFragment
 
-        setupWithNavController(binding.bottomNavView, navHostFragment.navController)
+        binding.bottomNavView.setupWithNavController(navHostFragment.navController)
     }
 }

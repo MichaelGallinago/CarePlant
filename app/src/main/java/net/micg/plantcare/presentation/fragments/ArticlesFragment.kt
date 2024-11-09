@@ -1,4 +1,4 @@
-package net.micg.plantcare.ui.fragments
+package net.micg.plantcare.presentation.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentArticlesBinding
-import net.micg.plantcare.ui.adapters.ArticlesAdapter
+import net.micg.plantcare.presentation.adapters.ArticlesAdapter
 
-class ArticlesFragment : Fragment(R.layout.fragment_alarms) {
+class ArticlesFragment : Fragment(R.layout.fragment_articles) {
     private val binding: FragmentArticlesBinding by viewBinding()
     private val articlesAdapter = ArticlesAdapter()
 

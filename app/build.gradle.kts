@@ -69,7 +69,15 @@ dependencies {
     implementation(libs.coil.network.okhttp)
 
     //Material Components
-    implementation (libs.material)
+    implementation(libs.material)
 
     implementation(libs.androidx.activity.ktx)
+
+    // Room
+    implementation("androidx.room:room-runtime:2.4.1")
+    kapt("androidx.room:room-compiler:2.4.1")
+
+    // ViewModel and LiveData
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
 }

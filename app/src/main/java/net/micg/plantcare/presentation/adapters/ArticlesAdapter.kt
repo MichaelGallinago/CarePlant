@@ -1,13 +1,13 @@
-package net.micg.plantcare.ui.adapters
+package net.micg.plantcare.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import net.micg.plantcare.databinding.ArticleItemBinding
-import net.micg.plantcare.models.ArticleListItem
+import net.micg.plantcare.data.models.Article
 
 class ArticlesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var data = listOf<ArticleListItem>()
+    private var data = listOf<Article>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -26,7 +26,7 @@ class ArticlesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class TextViewHolder(private val binding: ArticleItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(item: ArticleListItem) {
+        fun onBind(item: Article) {
             binding.name.text = item.name
         }
     }
