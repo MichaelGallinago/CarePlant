@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import net.micg.plantcare.data.AlarmRepository
+import net.micg.plantcare.data.AlarmsRepository
 import net.micg.plantcare.data.models.Alarm
 import javax.inject.Inject
 
-class AlarmViewModel @Inject constructor(private val repository: AlarmRepository) : ViewModel() {
+class AlarmViewModel @Inject constructor(
+    private val repository: AlarmsRepository
+) : ViewModel() {
     val allAlarms: LiveData<List<Alarm>> = repository.allAlarms
 
     fun insert(alarm: Alarm) = viewModelScope.launch { repository.insert(alarm) }

@@ -1,11 +1,16 @@
 package net.micg.plantcare.di
 
+import android.content.Context
+import dagger.BindsInstance
 import dagger.Component
-import net.micg.plantcare.presentation.MainActivity
-import javax.inject.Singleton
+import net.micg.plantcare.presentation.fragments.AlarmsFragment
 
-@Singleton
-@Component(modules = [DatabaseModule::class, ViewModelModule::class])
+@Component(modules = [AppModule::class])
 interface AppComponent {
-    fun inject(activity: MainActivity)
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance context: Context): AppComponent
+    }
+
+    fun inject(fragment: AlarmsFragment)
 }

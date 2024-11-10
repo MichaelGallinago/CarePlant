@@ -32,10 +32,10 @@ class AlarmsAdapter(
                 type.text = alarm.type
                 time.text = alarm.time
                 date.text = alarm.date
-                enableButton.isChecked = alarm.isEnabled
+                switchButton.isChecked = alarm.isEnabled
 
                 root.setOnClickListener { onAlarmClick(alarm) }
-                enableButton.setOnCheckedChangeListener { _, isChecked ->
+                switchButton.setOnCheckedChangeListener { _, isChecked ->
                     onToggleClick(alarm, isChecked)
                 }
             }

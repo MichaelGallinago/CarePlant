@@ -1,14 +1,19 @@
 package net.micg.plantcare.di
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import net.micg.plantcare.data.AlarmRepository
+import dagger.multibindings.IntoMap
 import net.micg.plantcare.presentation.AlarmViewModel
 
 @Module
-abstract class ViewModelModule {
-    @Provides
-    fun provideAlarmViewModel(repository: AlarmRepository): AlarmViewModel {
-        return AlarmViewModel(repository)
-    }
+interface ViewModelModule {
+    @Binds
+    fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AlarmViewModel::class)
+    fun bindAlarmViewModel(vm: AlarmViewModel): ViewModel
 }

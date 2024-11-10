@@ -11,7 +11,6 @@ import javax.inject.Singleton
 @Module
 class DatabaseModule {
     @Provides
-    @Singleton
     fun provideDatabase(context: Context): AlarmDatabase {
         return Room.databaseBuilder(
             context.applicationContext,
