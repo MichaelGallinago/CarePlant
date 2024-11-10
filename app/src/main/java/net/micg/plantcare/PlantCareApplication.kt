@@ -8,8 +8,7 @@ class PlantCareApplication : Application() {
         private set
 
     override fun onCreate() {
-        appComponent = DaggerAppComponent
-            .create()
+        //appComponent = DaggerAppComponent.create()
 
         super.onCreate()
     }

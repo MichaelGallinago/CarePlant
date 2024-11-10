@@ -6,14 +6,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import net.micg.plantcare.data.models.Alarm
+import net.micg.plantcare.databinding.AlarmItemBinding
 
-class AlarmAdapter(
+class AlarmsAdapter(
     private val onAlarmClick: (Alarm) -> Unit,
     private val onToggleClick: (Alarm, Boolean) -> Unit
-) : ListAdapter<Alarm, AlarmAdapter.AlarmViewHolder>(AlarmDiffUtil()) {
+) : ListAdapter<Alarm, AlarmsAdapter.AlarmViewHolder>(AlarmDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmViewHolder {
-        val binding = ItemAlarmBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = AlarmItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AlarmViewHolder(binding)
     }
 
@@ -22,18 +23,19 @@ class AlarmAdapter(
         holder.bind(alarm)
     }
 
-    inner class AlarmViewHolder(private val binding: ItemAlarmBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class AlarmViewHolder(private val binding: AlarmItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(alarm: Alarm) {
             binding.apply {
-                alarmName.text = alarm.name
-                alarmType.text = alarm.type
-                alarmTime.text = alarm.time
-                alarmDate.text = alarm.date
-                alarmSwitch.isChecked = alarm.isEnabled
+                name.text = alarm.name
+                type.text = alarm.type
+                time.text = alarm.time
+                date.text = alarm.date
+                enableButton.isChecked = alarm.isEnabled
 
                 root.setOnClickListener { onAlarmClick(alarm) }
-                alarmSwitch.setOnCheckedChangeListener { _, isChecked ->
+                enableButton.setOnCheckedChangeListener { _, isChecked ->
                     onToggleClick(alarm, isChecked)
                 }
             }
