@@ -2,6 +2,7 @@ package net.micg.plantcare.presentation.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -52,6 +53,8 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
         viewModel.allAlarms.observe(viewLifecycleOwner) { alarms ->
             alarmAdapter.submitList(alarms)
         }
+
+        viewModel.updateAlarms()
 
         val navController = findNavController()
         binding.addAlarmButton.setOnClickListener {

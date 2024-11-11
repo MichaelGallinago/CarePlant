@@ -1,5 +1,6 @@
 package net.micg.plantcare.presentation.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -21,8 +22,7 @@ class AlarmsAdapter(
     }
 
     override fun onBindViewHolder(holder: AlarmViewHolder, position: Int) {
-        val alarm = getItem(position)
-        holder.bind(alarm)
+        holder.bind(getItem(position))
     }
 
     inner class AlarmViewHolder(private val binding: AlarmItemBinding) :
@@ -36,21 +36,19 @@ class AlarmsAdapter(
                 days.text = alarm.getDaysOfWeekLabel()
                 switchButton.isChecked = alarm.isEnabled
 
-                root.setOnClickListener { onAlarmClick(alarm) }
+                /*root.setOnClickListener { onAlarmClick(alarm) }
                 switchButton.setOnCheckedChangeListener { _, isChecked ->
                     onToggleClick(alarm, isChecked)
-                }
+                }*/
             }
         }
     }
 
     class AlarmDiffUtil : DiffUtil.ItemCallback<Alarm>() {
-        override fun areItemsTheSame(oldItem: Alarm, newItem: Alarm): Boolean {
-            return oldItem.id == newItem.id
-        }
+        override fun areItemsTheSame(oldItem: Alarm, newItem: Alarm): Boolean =
+            oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: Alarm, newItem: Alarm): Boolean {
-            return oldItem == newItem
-        }
+        override fun areContentsTheSame(oldItem: Alarm, newItem: Alarm): Boolean =
+            oldItem == newItem
     }
 }

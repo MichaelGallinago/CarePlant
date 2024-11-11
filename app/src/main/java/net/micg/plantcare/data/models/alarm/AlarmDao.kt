@@ -1,6 +1,5 @@
 package net.micg.plantcare.data.models.alarm
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
@@ -12,7 +11,7 @@ interface AlarmDao {
     suspend fun delete(alarm: Alarm)
 
     @Query("SELECT * FROM alarms ORDER BY id")
-    fun getAllAlarms(): LiveData<List<Alarm>>
+    suspend fun getAllAlarms(): List<Alarm>
 
     @Update
     suspend fun update(alarm: Alarm)

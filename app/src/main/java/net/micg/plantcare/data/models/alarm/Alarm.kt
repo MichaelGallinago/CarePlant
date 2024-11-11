@@ -1,5 +1,6 @@
 package net.micg.plantcare.data.models.alarm
 
+import android.util.Log
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
