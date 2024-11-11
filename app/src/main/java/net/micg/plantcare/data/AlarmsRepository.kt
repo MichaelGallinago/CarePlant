@@ -1,7 +1,7 @@
 package net.micg.plantcare.data
 
 import androidx.lifecycle.LiveData
-import net.micg.plantcare.data.models.Alarm
+import net.micg.plantcare.data.models.alarm.Alarm
 
 interface AlarmsRepository {
     val allAlarms: LiveData<List<Alarm>>

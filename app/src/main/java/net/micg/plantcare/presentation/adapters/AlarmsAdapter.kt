@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import net.micg.plantcare.data.models.Alarm
+import net.micg.plantcare.data.models.alarm.Alarm
 import net.micg.plantcare.databinding.AlarmItemBinding
 
 class AlarmsAdapter(
@@ -14,7 +14,9 @@ class AlarmsAdapter(
 ) : ListAdapter<Alarm, AlarmsAdapter.AlarmViewHolder>(AlarmDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmViewHolder {
-        val binding = AlarmItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = AlarmItemBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
         return AlarmViewHolder(binding)
     }
 
@@ -29,9 +31,9 @@ class AlarmsAdapter(
         fun bind(alarm: Alarm) {
             binding.apply {
                 name.text = alarm.name
-                type.text = alarm.type
-                time.text = alarm.time
-                date.text = alarm.date
+                type.text = alarm.getTypeLabel()
+                time.text = alarm.getTimeFormatted()
+                days.text = alarm.getDaysOfWeekLabel()
                 switchButton.isChecked = alarm.isEnabled
 
                 root.setOnClickListener { onAlarmClick(alarm) }

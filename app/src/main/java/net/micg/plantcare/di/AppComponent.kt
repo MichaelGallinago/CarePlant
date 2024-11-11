@@ -3,6 +3,7 @@ package net.micg.plantcare.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
+import net.micg.plantcare.presentation.fragments.AlarmCreationFragment
 import net.micg.plantcare.presentation.fragments.AlarmsFragment
 
 @Component(modules = [AppModule::class])
@@ -13,4 +14,5 @@ interface AppComponent {
     }
 
     fun inject(fragment: AlarmsFragment)
+    fun inject(fragment: AlarmCreationFragment)
 }

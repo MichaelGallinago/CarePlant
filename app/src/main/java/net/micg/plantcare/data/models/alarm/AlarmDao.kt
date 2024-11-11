@@ -1,4 +1,4 @@
-package net.micg.plantcare.data.models
+package net.micg.plantcare.data.models.alarm
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

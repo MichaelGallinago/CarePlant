@@ -20,4 +20,9 @@
         android:name="net.micg.plantcare.presentation.fragments.ArticleFragment"
         android:label="ArticleFragment"
         tools:layout="@layout/fragment_article" />
+    <fragment
+        android:id="@+id/alarmCreationFragment"
+        android:name="net.micg.plantcare.presentation.fragments.AlarmCreationFragment"
+        android:label="AlarmCreationFragment"
+        tools:layout="@layout/fragment_alarm_creation" />
 </navigation>

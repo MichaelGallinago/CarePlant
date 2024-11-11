@@ -16,7 +16,7 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("ebat", "you're in the articles fragment")
+
         with(binding.recycler) {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = articlesAdapter

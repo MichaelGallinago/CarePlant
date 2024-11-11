@@ -6,7 +6,7 @@
     <data>
         <variable
             name="alarm"
-            type="net.micg.plantcare.data.models.Alarm" />
+            type="net.micg.plantcare.data.models.alarm.Alarm" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{alarm.name}"
-            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,8 +31,7 @@
             android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{alarm.type}"
-            android:textColor="@color/black"
+            android:text="@{alarm.getTypeLabel()}"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name"
@@ -43,24 +41,22 @@
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{alarm.time}"
-            android:textColor="@color/black"
+            android:text="@{alarm.getTimeFormatted()}"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/type"
             tools:text="04:04" />
 
         <TextView
-            android:id="@+id/date"
+            android:id="@+id/days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16sp"
-            android:text="@{alarm.date}"
-            android:textColor="@color/black"
+            android:text="@{alarm.getDaysOfWeekLabel()}"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/time"
             app:layout_constraintTop_toBottomOf="@id/type"
-            tools:text="04.04.0404" />
+            tools:text="Пн, Вт, Ср, Чт, Пт, Сб, Вс" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_button"

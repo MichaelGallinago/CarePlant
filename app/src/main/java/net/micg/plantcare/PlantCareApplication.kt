@@ -9,9 +9,7 @@ class PlantCareApplication : Application() {
         private set
 
     override fun onCreate() {
-        //TODO: uncomment
         appComponent = DaggerAppComponent.factory().create(applicationContext)
-
         super.onCreate()
     }
 }

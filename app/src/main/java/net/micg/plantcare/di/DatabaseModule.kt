@@ -4,9 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import net.micg.plantcare.data.models.AlarmDao
-import net.micg.plantcare.data.models.AlarmDatabase
-import javax.inject.Singleton
+import net.micg.plantcare.data.models.alarm.AlarmDao
+import net.micg.plantcare.data.models.alarm.AlarmDatabase
 
 @Module
 class DatabaseModule {
@@ -16,7 +15,9 @@ class DatabaseModule {
             context.applicationContext,
             AlarmDatabase::class.java,
             "alarm_database"
-        ).build()
+        )
+        .fallbackToDestructiveMigration() //TODO: REMOVE THIS
+        .build()
     }
 
     @Provides

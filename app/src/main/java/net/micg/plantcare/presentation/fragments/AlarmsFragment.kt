@@ -6,6 +6,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
@@ -23,6 +27,11 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
     private val binding: FragmentAlarmsBinding by viewBinding()
     private val viewModel: AlarmViewModel by viewModels { factory }
 
+    override fun onAttach(context: Context) {
+        context.appComponent.inject(this)
+        super.onAttach(context)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -31,7 +40,7 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
                 // TODO: Обработка нажатия на элемент будильника
             },
             onToggleClick = { alarm, isEnabled ->
-                viewModel.update(alarm.copy(isEnabled = !isEnabled))
+                viewModel.update(alarm.copy(isEnabled = isEnabled))
             }
         )
 
@@ -43,10 +52,13 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
         viewModel.allAlarms.observe(viewLifecycleOwner) { alarms ->
             alarmAdapter.submitList(alarms)
         }
-    }
 
-    override fun onAttach(context: Context) {
-        context.appComponent.inject(this)
-        super.onAttach(context)
+        val navController = findNavController()
+        binding.addAlarmButton.setOnClickListener {
+            navController.navigate(R.id.alarmCreationFragment, null,
+                NavOptions.Builder()
+                    .setPopUpTo(R.id.alarmsFragment, inclusive = false)
+                    .build())
+        }
     }
 }

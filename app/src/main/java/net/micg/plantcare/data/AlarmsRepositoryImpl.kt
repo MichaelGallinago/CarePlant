@@ -1,10 +1,9 @@
 package net.micg.plantcare.data
 
 import androidx.lifecycle.LiveData
-import net.micg.plantcare.data.models.Alarm
-import net.micg.plantcare.data.models.AlarmDao
+import net.micg.plantcare.data.models.alarm.Alarm
+import net.micg.plantcare.data.models.alarm.AlarmDao
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class AlarmsRepositoryImpl @Inject constructor(private val alarmDao: AlarmDao) : AlarmsRepository {
     override val allAlarms: LiveData<List<Alarm>> = alarmDao.getAllAlarms()

@@ -6,4 +6,17 @@
     <string name="add_alarm_button_description">Add alarm</string>
     <string name="back_button_description">Back to articles</string>
     <string name="switch_button_placeholder">Switch</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="new_alarm">Новое напоминание</string>
+    <string name="alarm_name_hint">Имя напоминания</string>
+    <string name="watering">Полив</string>
+    <string name="fertilize">Удобрение</string>
+    <string name="monday">Понеделник</string>
+    <string name="tuesday">Вторник</string>
+    <string name="wednesday">Среда</string>
+    <string name="thursday">Четверг</string>
+    <string name="friday">Пятница</string>
+    <string name="saturday">Суббота</string>
+    <string name="sunday">Воскресенье</string>
 </resources>

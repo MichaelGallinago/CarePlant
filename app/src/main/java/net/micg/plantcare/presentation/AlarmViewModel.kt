@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import net.micg.plantcare.data.AlarmsRepository
-import net.micg.plantcare.data.models.Alarm
+import net.micg.plantcare.data.models.alarm.Alarm
+import java.util.Locale
 import javax.inject.Inject
 
 class AlarmViewModel @Inject constructor(
