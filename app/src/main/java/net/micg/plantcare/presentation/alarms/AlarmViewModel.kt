@@ -1,4 +1,4 @@
-package net.micg.plantcare.presentation
+package net.micg.plantcare.presentation.alarms
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

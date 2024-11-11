@@ -1,10 +1,10 @@
-package net.micg.plantcare.presentation.adapters
+package net.micg.plantcare.presentation.articles
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import net.micg.plantcare.databinding.ArticleItemBinding
 import net.micg.plantcare.data.models.Article
+import net.micg.plantcare.databinding.ArticleItemBinding
 
 class ArticlesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var data = listOf<Article>()

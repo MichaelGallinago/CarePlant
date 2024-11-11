@@ -1,4 +1,4 @@
-package net.micg.plantcare.presentation.fragments
+package net.micg.plantcare.presentation.alarms
 
 import android.content.Context
 import android.os.Bundle
@@ -17,7 +17,6 @@ import net.micg.plantcare.data.models.alarm.Alarm
 import net.micg.plantcare.databinding.FragmentAlarmCreationBinding
 import net.micg.plantcare.di.ViewModelFactory
 import net.micg.plantcare.di.appComponent
-import net.micg.plantcare.presentation.AlarmViewModel
 import javax.inject.Inject
 
 class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {

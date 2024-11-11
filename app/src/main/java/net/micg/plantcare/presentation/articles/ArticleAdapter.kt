@@ -1,12 +1,12 @@
-package net.micg.plantcare.presentation.adapters
+package net.micg.plantcare.presentation.articles
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import net.micg.plantcare.databinding.ArticlePartImageItemBinding
-import net.micg.plantcare.databinding.ArticlePartTextItemBinding
 import net.micg.plantcare.data.models.ArticlePart
 import net.micg.plantcare.data.models.ArticlePartViewType
+import net.micg.plantcare.databinding.ArticlePartImageItemBinding
+import net.micg.plantcare.databinding.ArticlePartTextItemBinding
 import net.micg.plantcare.presentation.utils.AdaptersUtils
 
 class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

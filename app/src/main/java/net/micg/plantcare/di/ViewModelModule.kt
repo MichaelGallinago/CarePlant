@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import net.micg.plantcare.presentation.AlarmViewModel
+import net.micg.plantcare.presentation.alarms.AlarmViewModel
 
 @Module
 interface ViewModelModule {
