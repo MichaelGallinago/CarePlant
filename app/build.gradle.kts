@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "net.micg.plantcare"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "net.micg.plantcare"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -52,8 +52,7 @@ dependencies {
 
     //Dagger 2 DI
     implementation(libs.dagger)
-    //kapt(libs.dagger.compiler)
-    kapt("com.google.dagger:dagger-compiler:2.52")
+    kapt(libs.dagger.compiler)
 
     //Vbpd
     implementation(libs.viewbindingpropertydelegate.full)
@@ -76,11 +75,11 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
 
     // Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 
     // ViewModel and LiveData
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 }
