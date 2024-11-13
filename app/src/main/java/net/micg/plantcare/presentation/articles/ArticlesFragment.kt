@@ -15,11 +15,6 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding.recycler) {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = articlesAdapter
-        }
-
         //articlesAdapter.submitValue(getScheduleForThisDay())
     }
 }

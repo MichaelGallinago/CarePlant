@@ -3,8 +3,11 @@ package net.micg.plantcare.data.models.alarm
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 @Entity(tableName = "alarms")
 data class Alarm(
@@ -23,12 +26,32 @@ data class Alarm(
         }
     }
 
-    fun getIntervalFormatted() = convertMillisToDateTime(intervalInMillis)
-    fun getDateFormatted() = convertMillisToDateTime(dateInMillis)
+    fun getTimeFormatedUntilNextAlarm(): String {
+        var currentTime = System.currentTimeMillis()
+
+        if (currentTime >= dateInMillis) {
+            if (intervalInMillis == 0L) return convertMillisToDateTime(0L)
+
+            val diffMillis = currentTime - dateInMillis
+            val nextAlarmTime =
+                dateInMillis + ((diffMillis / intervalInMillis) + 1) * intervalInMillis
+            return convertMillisToDateTime(nextAlarmTime - currentTime)
+        }
+
+        return convertMillisToDateTime(dateInMillis - currentTime)
+    }
 
     private fun convertMillisToDateTime(millis: Long): String {
-        val dateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
-        val date = Date(millis)
-        return dateFormat.format(date)
+        var minutes = millis / 1000 / 60
+        var hours = minutes / 60
+        var days = hours / 24
+        minutes %= 60
+        hours %= 24
+
+        return buildString {
+            if (days > 0) append("$days d ")
+            if (hours > 0) append("$hours h ")
+            if (minutes > 0  || isEmpty()) append("$minutes min ")
+        }.trim()
     }
 }

@@ -35,17 +35,7 @@
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/type"
-        tools:text="04:04" />
-
-    <TextView
-        android:id="@+id/days"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16sp"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@id/time"
-        app:layout_constraintTop_toBottomOf="@id/type"
-        tools:text="Пн, Вт, Ср, Чт, Пт, Сб, Вс" />
+        tools:text="dd.MM.yyyy HH:mm:ss" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_button"

@@ -1,5 +1,8 @@
 package net.micg.plantcare.presentation.alarms
 
+import android.annotation.SuppressLint
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -12,6 +15,15 @@ class AlarmsAdapter(
     private val onAlarmClick: (Alarm) -> Unit,
     private val onToggleClick: (Alarm, Boolean) -> Unit
 ) : ListAdapter<Alarm, AlarmsAdapter.AlarmViewHolder>(AlarmDiffUtil()) {
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var runnable: Runnable = object : Runnable {
+        @SuppressLint("NotifyDataSetChanged")
+        override fun run() {
+            notifyDataSetChanged()
+            handler.postDelayed(this, 60000)
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmViewHolder {
         val binding = AlarmItemBinding.inflate(
@@ -37,6 +49,16 @@ class AlarmsAdapter(
         submitList(currentList)
     }
 
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        handler.removeCallbacks(runnable)
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        handler.post(runnable)
+    }
+
     inner class AlarmViewHolder(private val binding: AlarmItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -44,8 +66,7 @@ class AlarmsAdapter(
             with(binding) {
                 name.text = alarm.name
                 type.text = alarm.getTypeLabel()
-                time.text = alarm.getTimeFormatted()
-                days.text = alarm.getDaysOfWeekLabel()
+                time.text = alarm.getTimeFormatedUntilNextAlarm()
                 switchButton.isChecked = alarm.isEnabled
 
                 root.setOnClickListener { onAlarmClick(alarm) }
