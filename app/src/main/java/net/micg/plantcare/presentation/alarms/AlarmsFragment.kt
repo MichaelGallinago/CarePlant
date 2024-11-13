@@ -2,7 +2,6 @@ package net.micg.plantcare.presentation.alarms
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
-import net.micg.plantcare.data.models.alarm.Alarm
 import net.micg.plantcare.databinding.FragmentAlarmsBinding
 import net.micg.plantcare.di.ViewModelFactory
 import net.micg.plantcare.di.appComponent
@@ -56,19 +54,21 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
 
         val navController = findNavController()
         binding.addAlarmButton.setOnClickListener {
-            navController.navigate(R.id.alarmCreationFragment, null,
+            navController.navigate(
+                R.id.alarmCreationFragment, null,
                 NavOptions.Builder()
                     .setPopUpTo(R.id.alarmsFragment, inclusive = false)
-                    .build())
+                    .build()
+            )
         }
 
         viewModel.updateAlarms()
     }
 
-    private fun createItemTouchHelper(adapter: AlarmsAdapter): ItemTouchHelper {
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN, // Перемещение
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT // Удаление
+    private fun createItemTouchHelper(adapter: AlarmsAdapter) =
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -86,8 +86,5 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
                 viewModel.delete(adapter.currentList[position])
                 adapter.removeItem(position)
             }
-        }
-
-        return ItemTouchHelper(itemTouchHelperCallback)
-    }
+        })
 }

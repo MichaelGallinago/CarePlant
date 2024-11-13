@@ -14,7 +14,7 @@ class PlantCareApplication : Application() {
 
     override fun onCreate() {
         appComponent = DaggerAppComponent.factory().create(applicationContext)
-        //createNotificationChannel()
+        createNotificationChannel()
         super.onCreate()
     }
 
@@ -31,5 +31,4 @@ class PlantCareApplication : Application() {
             createNotificationChannel(channel)
         }
     }
-
 }

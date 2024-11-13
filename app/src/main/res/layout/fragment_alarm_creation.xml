@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -24,6 +25,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/date_selector"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@id/time_selector"
+        app:layout_constraintStart_toStartOf="@id/cancelButton"
+        app:layout_constraintTop_toBottomOf="@id/cancelButton"
+        tools:text="Выбор даты" />
+
+    <Button
+        android:id="@+id/time_selector"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@id/confirmButton"
+        app:layout_constraintStart_toEndOf="@id/date_selector"
+        app:layout_constraintTop_toBottomOf="@id/confirmButton"
+        tools:text="Выбор времени" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,33 +57,80 @@
         app:layout_constraintStart_toStartOf="@id/cancelButton"
         app:layout_constraintTop_toTopOf="@id/cancelButton" />
 
-    <Spinner
-        android:id="@+id/timeHourSpinner"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/interval_label"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_constraintEnd_toStartOf="@id/timeMinuteSpinner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/confirmButton" />
+        android:layout_marginTop="16dp"
+        android:text="@string/select_interval"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/confirmButton"
+        app:layout_constraintStart_toStartOf="@id/date_selector"
+        app:layout_constraintTop_toBottomOf="@id/date_selector" />
 
     <Spinner
-        android:id="@+id/timeMinuteSpinner"
+        android:id="@+id/timeDaysSpinner"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_margin="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/timeHourSpinner"
-        app:layout_constraintTop_toBottomOf="@id/confirmButton" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/interval_label" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/days"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/timeDaysSpinner"
+        app:layout_constraintStart_toEndOf="@id/timeDaysSpinner"
+        app:layout_constraintTop_toTopOf="@id/timeDaysSpinner" />
+
+    <Spinner
+        android:id="@+id/timeHoursSpinner"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timeDaysSpinner" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/hours"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/timeHoursSpinner"
+        app:layout_constraintStart_toEndOf="@id/timeHoursSpinner"
+        app:layout_constraintTop_toTopOf="@id/timeHoursSpinner" />
+
+    <Spinner
+        android:id="@+id/timeMinutesSpinner"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timeHoursSpinner" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/minutes"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/timeMinutesSpinner"
+        app:layout_constraintStart_toEndOf="@id/timeMinutesSpinner"
+        app:layout_constraintTop_toTopOf="@id/timeMinutesSpinner" />
 
     <EditText
         android:id="@+id/nameEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_margin="16dp"
         android:autofillHints="name"
         android:hint="@string/alarm_name_hint"
         android:inputType="none"
-        app:layout_constraintTop_toBottomOf="@id/timeHourSpinner" />
+        app:layout_constraintTop_toBottomOf="@id/timeMinutesSpinner" />
 
     <RadioGroup
         android:id="@+id/actionRadioGroup"
@@ -84,62 +154,5 @@
             android:layout_height="wrap_content"
             android:text="@string/fertilize" />
     </RadioGroup>
-
-    <LinearLayout
-        android:id="@+id/daysOfWeekCheckboxGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/actionRadioGroup">
-
-        <CheckBox
-            android:id="@+id/checkboxMonday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/monday" />
-
-        <CheckBox
-            android:id="@+id/checkboxTuesday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/tuesday" />
-
-        <CheckBox
-            android:id="@+id/checkboxWednesday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/wednesday" />
-
-        <CheckBox
-            android:id="@+id/checkboxThursday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/thursday" />
-
-        <CheckBox
-            android:id="@+id/checkboxFriday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/friday" />
-
-        <CheckBox
-            android:id="@+id/checkboxSaturday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/saturday" />
-
-        <CheckBox
-            android:id="@+id/checkboxSunday"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/sunday" />
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

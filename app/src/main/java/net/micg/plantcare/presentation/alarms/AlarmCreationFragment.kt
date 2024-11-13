@@ -38,8 +38,9 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
 
         setupListeners(findNavController())
 
-        setupSpinner(binding.timeHourSpinner, 24)
-        setupSpinner(binding.timeMinuteSpinner, 60)
+        setupSpinner(binding.timeHoursSpinner, 24)
+        setupSpinner(binding.timeMinutesSpinner, 60)
+        setupSpinner(binding.timeDaysSpinner, 365)
 
         checkboxes = with(binding) { listOf(
             checkboxMonday, checkboxTuesday, checkboxWednesday, checkboxThursday,
@@ -82,13 +83,14 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
 
         val name = binding.nameEditText.text.toString()
         val type = if (binding.radioWatering.isChecked) 0.toByte() else 1.toByte()
-        val hour = binding.timeHourSpinner.selectedItem.toString().toInt()
-        val minute = binding.timeMinuteSpinner.selectedItem.toString().toInt()
+        val days = binding.timeHoursSpinner.selectedItem.toString().toInt()
+        val hours = binding.timeHoursSpinner.selectedItem.toString().toInt()
+        val minutes = binding.timeMinutesSpinner.selectedItem.toString().toInt()
 
         viewModel.insert(Alarm(
             name = name,
             type = type,
-            timeInMinutes = hour * 60 + minute,
+            timeInMinutes = (days * 24 + hours) * 60 + minutes,
             daysOfWeekFlags = daysOfWeekFlags,
             isEnabled = true
         ))
