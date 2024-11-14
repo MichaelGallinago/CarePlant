@@ -3,13 +3,10 @@ package net.micg.plantcare.presentation
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.ActivityMainBinding
-import net.micg.plantcare.presentation.fragments.AlarmsFragment
-import net.micg.plantcare.presentation.fragments.ArticlesFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

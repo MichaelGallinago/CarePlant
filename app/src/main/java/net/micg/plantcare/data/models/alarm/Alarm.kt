@@ -2,16 +2,14 @@ package net.micg.plantcare.data.models.alarm
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import java.util.Locale
 
 @Entity(tableName = "alarms")
 data class Alarm(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val name: String,
     val type: Byte,
-    val timeInMinutes: Int,
-    val daysOfWeekFlags: Int,
+    val dateInMillis: Long,
+    val intervalInMillis: Long,
     val isEnabled: Boolean
 ) {
     fun getTypeLabel(): String {
@@ -22,31 +20,32 @@ data class Alarm(
         }
     }
 
-    fun getTimeFormatted(): String {
-        val hours = timeInMinutes / 60
-        val minutes = timeInMinutes % 60
-        return String.format(Locale.getDefault(), "%02d:%02d", hours, minutes)
+    fun getTimeFormatedUntilNextAlarm(): String {
+        var currentTime = System.currentTimeMillis()
+
+        if (currentTime >= dateInMillis) {
+            if (intervalInMillis == 0L) return convertMillisToDateTime(0L)
+
+            val diffMillis = currentTime - dateInMillis
+            val nextAlarmTime =
+                dateInMillis + ((diffMillis / intervalInMillis) + 1) * intervalInMillis
+            return convertMillisToDateTime(nextAlarmTime - currentTime)
+        }
+
+        return convertMillisToDateTime(dateInMillis - currentTime)
     }
 
-    fun getDaysOfWeekLabel(): String {
-        return days
-            .filterIndexed { index, _ -> (daysOfWeekFlags shr index) and 1 == 1 }
-            .joinToString(", ")
-    }
+    private fun convertMillisToDateTime(millis: Long): String {
+        var minutes = millis / 1000 / 60
+        var hours = minutes / 60
+        var days = hours / 24
+        minutes %= 60
+        hours %= 24
 
-    companion object {
-        private val days = listOf("Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс")
-    }
-}
-
-class Converters {
-    @TypeConverter
-    fun fromDaysOfWeekFlags(flags: Int): List<WeekDay> {
-        return WeekDay.entries.filter { (flags and it.flag) != 0 }
-    }
-
-    @TypeConverter
-    fun toDaysOfWeekFlags(days: List<WeekDay>): Int {
-        return days.fold(0) { acc, day -> acc or day.flag }
+        return buildString {
+            if (days > 0) append("$days d ")
+            if (hours > 0) append("$hours h ")
+            if (minutes > 0  || isEmpty()) append("$minutes min ")
+        }.trim()
     }
 }

@@ -1,23 +1,20 @@
-package net.micg.plantcare.presentation.fragments
+package net.micg.plantcare.presentation.alarms
 
 import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmsBinding
 import net.micg.plantcare.di.ViewModelFactory
 import net.micg.plantcare.di.appComponent
-import net.micg.plantcare.presentation.AlarmViewModel
-import net.micg.plantcare.presentation.adapters.AlarmsAdapter
 import javax.inject.Inject
 
 class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
@@ -44,6 +41,8 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
             }
         )
 
+        createItemTouchHelper(alarmAdapter).attachToRecyclerView(binding.recycler)
+
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = alarmAdapter
@@ -55,10 +54,37 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
 
         val navController = findNavController()
         binding.addAlarmButton.setOnClickListener {
-            navController.navigate(R.id.alarmCreationFragment, null,
+            navController.navigate(
+                R.id.alarmCreationFragment, null,
                 NavOptions.Builder()
                     .setPopUpTo(R.id.alarmsFragment, inclusive = false)
-                    .build())
+                    .build()
+            )
         }
+
+        viewModel.updateAlarms()
     }
+
+    private fun createItemTouchHelper(adapter: AlarmsAdapter) =
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                val fromPosition = viewHolder.adapterPosition
+                val toPosition = target.adapterPosition
+                adapter.moveItem(fromPosition, toPosition)
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                viewModel.delete(adapter.currentList[position])
+                adapter.removeItem(position)
+            }
+        })
 }
