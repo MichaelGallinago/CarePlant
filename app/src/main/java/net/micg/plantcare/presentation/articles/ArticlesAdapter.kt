@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import net.micg.plantcare.data.models.Article
 import net.micg.plantcare.databinding.ArticleItemBinding
 
-class ArticlesAdapter : ListAdapter<Article, ArticlesAdapter.ArticleViewHolder>(ArticleDiffUtil()) {
+class ArticlesAdapter(
+    private val onArticleClick: (Article) -> Unit
+) : ListAdapter<Article, ArticlesAdapter.ArticleViewHolder>(ArticleDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ArticleItemBinding.inflate(layoutInflater, parent, false)
@@ -24,6 +26,7 @@ class ArticlesAdapter : ListAdapter<Article, ArticlesAdapter.ArticleViewHolder>(
 
         fun onBind(item: Article) {
             binding.name.text = item.title
+            binding.root.setOnClickListener { onArticleClick(item) }
         }
     }
 

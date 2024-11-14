@@ -23,7 +23,10 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
 
     private val binding: FragmentArticlesBinding by viewBinding()
     private val viewModel: ArticleViewModel by viewModels { factory }
-    private val articlesAdapter = ArticlesAdapter()
+    private val articlesAdapter = ArticlesAdapter { article ->
+        val action = ArticlesFragmentDirections.actionArticlesFragmentToArticleFragment(article.url)
+        findNavController().navigate(action)
+    }
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -46,13 +49,5 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
             layoutManager = LinearLayoutManager(context)
             adapter = articlesAdapter
         }
-
-        val navController = findNavController()
-        navController.navigate(
-            R.id.articleFragment, null,
-            NavOptions.Builder()
-                .setPopUpTo(R.id.articlesFragment, inclusive = false)
-                .build()
-        )
     }
 }

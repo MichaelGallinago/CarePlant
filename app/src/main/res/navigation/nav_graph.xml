@@ -14,12 +14,20 @@
         android:id="@+id/articlesFragment"
         android:name="net.micg.plantcare.presentation.articles.ArticlesFragment"
         android:label="ArticlesFragment"
-        tools:layout="@layout/fragment_articles" />
+        tools:layout="@layout/fragment_articles">
+        <action
+            android:id="@+id/action_articlesFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
     <fragment
         android:id="@+id/articleFragment"
         android:name="net.micg.plantcare.presentation.articles.ArticleFragment"
         android:label="ArticleFragment"
-        tools:layout="@layout/fragment_article" />
+        tools:layout="@layout/fragment_article">
+        <argument
+            android:name="articleUrl"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/alarmCreationFragment"
         android:name="net.micg.plantcare.presentation.alarms.AlarmCreationFragment"

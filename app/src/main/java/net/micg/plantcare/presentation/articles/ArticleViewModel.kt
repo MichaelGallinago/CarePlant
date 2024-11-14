@@ -41,7 +41,7 @@ class ArticleViewModel @Inject constructor() : ViewModel() {
     }
 
     companion object {
-        private const val URL = "https://michaelgallinago.github.io/plant-app-web-storage/"
+        const val URL = "https://michaelgallinago.github.io/plant-app-web-storage/"
         const val WATERING = URL + "watering.html"
         const val PLANTS = URL + "plants.html"
     }

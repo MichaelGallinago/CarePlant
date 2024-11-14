@@ -20,9 +20,15 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             navController.popBackStack()
         }
 
-        with(binding.webView) {
-            settings.cacheMode = WebSettings.LOAD_DEFAULT
-            loadUrl(ArticleViewModel.PLANTS)
+        val articleUrl = arguments?.let {
+            ArticleFragmentArgs.fromBundle(it).articleUrl
+        }
+
+        articleUrl?.let { url ->
+            with(binding.webView) {
+                settings.cacheMode = WebSettings.LOAD_DEFAULT
+                loadUrl(ArticleViewModel.URL + url)
+            }
         }
     }
 }
