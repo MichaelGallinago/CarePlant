@@ -26,9 +26,8 @@ class AlarmsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmViewHolder {
-        val binding = AlarmItemBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = AlarmItemBinding.inflate(layoutInflater, parent, false)
         return AlarmViewHolder(binding)
     }
 

@@ -22,12 +22,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
         with(binding.webView) {
             settings.cacheMode = WebSettings.LOAD_DEFAULT
-            loadUrl(WATERING)
+            loadUrl(ArticleViewModel.PLANTS)
         }
-    }
-
-    companion object {
-        private const val URL = "https://michaelgallinago.github.io/plant-app-web-storage/"
-        private const val WATERING = URL + "watering.html"
     }
 }

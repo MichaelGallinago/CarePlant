@@ -2,32 +2,36 @@ package net.micg.plantcare.presentation.articles
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import net.micg.plantcare.data.models.Article
 import net.micg.plantcare.databinding.ArticleItemBinding
 
-class ArticlesAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var data = listOf<Article>()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TextViewHolder {
+class ArticlesAdapter : ListAdapter<Article, ArticlesAdapter.ArticleViewHolder>(ArticleDiffUtil()) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ArticleItemBinding.inflate(layoutInflater, parent, false)
-        return TextViewHolder(binding)
+        return ArticleViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is TextViewHolder) {
-            holder.onBind(data[position])
-        }
+    override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
+        holder.onBind(currentList[position])
     }
 
-    override fun getItemCount(): Int = data.size
-
-    inner class TextViewHolder(private val binding: ArticleItemBinding) :
+    inner class ArticleViewHolder(private val binding: ArticleItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(item: Article) {
-            binding.name.text = item.name
+            binding.name.text = item.title
         }
+    }
+
+    class ArticleDiffUtil : DiffUtil.ItemCallback<Article>() {
+        override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean =
+            oldItem.url == newItem.url
+
+        override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean =
+            oldItem == newItem
     }
 }
