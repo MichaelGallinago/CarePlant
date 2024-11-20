@@ -8,32 +8,33 @@ import android.widget.Toast
 import dagger.Module
 
 @Module
-class AlarmNotificationService(private val context: Context) {
+class AlarmNotificationModule(private val context: Context) {
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
     fun cancelAlarm(id: Int) {
-        alarmManager.cancel(createPendingIntent(id))
-        Toast.makeText(context, "Будильник отменён", Toast.LENGTH_SHORT).show()
+        alarmManager.cancel(createPendingIntent(id, "", ""))
+        Toast.makeText(context, "Будильник отменён", Toast.LENGTH_SHORT).show() // TODO: remove
     }
 
-    fun setAlarm(id: Int, triggerAtMillis: Long, intervalMillis: Long) {
+    fun setAlarm(id: Int, name: String, type: String, triggerAtMillis: Long, intervalMillis: Long) {
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             triggerAtMillis,
             intervalMillis,
-            createPendingIntent(id)
+            createPendingIntent(id, name, type)
         )
 
-        Toast.makeText(context, "Будильник установлен", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Будильник установлен", Toast.LENGTH_SHORT).show() // TODO: remove
     }
 
-    private fun createPendingIntent(id: Int, alarmName: String, alarmType: String) =
+    private fun createPendingIntent(id: Int, name: String, type: String) =
         PendingIntent.getBroadcast(
             context,
             id,
             Intent(context, AlarmReceiver::class.java).apply {
-                putExtra("ALARM_NAME", alarmName)
-                putExtra("ALARM_TYPE", alarmType)
+                putExtra("ALARM_ID", id)
+                putExtra("ALARM_NAME", name)
+                putExtra("ALARM_TYPE", type)
             },
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )

@@ -3,17 +3,17 @@ package net.micg.plantcare.di
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import net.micg.plantcare.data.AlarmNotificationService
+import net.micg.plantcare.data.AlarmNotificationModule
 
 @Module(includes = [
     AppBindsModule::class,
     ViewModelModule::class,
     DatabaseModule::class,
-    AlarmNotificationService::class
+    AlarmNotificationModule::class
 ])
 class AppModule {
     @Provides
-    fun provideAlarmNotificationService(context: Context): AlarmNotificationService {
-        return AlarmNotificationService(context)
+    fun provideAlarmNotificationService(context: Context): AlarmNotificationModule {
+        return AlarmNotificationModule(context)
     }
 }

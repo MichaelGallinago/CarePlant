@@ -22,18 +22,23 @@ class AlarmReceiver : BroadcastReceiver() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val notification = NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_flower)
-            .setContentTitle("Время пришло!")
-            .setContentText("Ваш будильник сработал.")
-            .setDefaults(NotificationCompat.DEFAULT_ALL)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(true)
-            .build()
+        val alarmId = intent.getIntExtra("ALARM_ID", 0)
+        val alarmName = intent.getStringExtra("ALARM_NAME").takeUnless {
+            it.isNullOrBlank()
+        } ?: "Уход за растением"
+        val alarmType = intent.getStringExtra("ALARM_TYPE").takeUnless {
+            it.isNullOrBlank()
+        } ?: "Ваше растение нуждается в вас"
+
+        val notification =
+            NotificationCompat.Builder(context, ALARM_CHANNEL_ID).setSmallIcon(R.drawable.ic_flower)
+                .setContentTitle(alarmName).setContentText(alarmType)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_HIGH).setContentIntent(pendingIntent)
+                .setAutoCancel(true).build()
 
         with(context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager) {
-            notify(1, notification)
+            notify(alarmId, notification)
         }
     }
 
