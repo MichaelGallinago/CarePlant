@@ -5,7 +5,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import dagger.Module
 
+@Module
 class AlarmNotificationService(private val context: Context) {
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -25,10 +27,14 @@ class AlarmNotificationService(private val context: Context) {
         Toast.makeText(context, "Будильник установлен", Toast.LENGTH_SHORT).show()
     }
 
-    private fun createPendingIntent(id: Int) = PendingIntent.getBroadcast(
-        context,
-        id,
-        Intent(context, AlarmReceiver::class.java),
-        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-    )
+    private fun createPendingIntent(id: Int, alarmName: String, alarmType: String) =
+        PendingIntent.getBroadcast(
+            context,
+            id,
+            Intent(context, AlarmReceiver::class.java).apply {
+                putExtra("ALARM_NAME", alarmName)
+                putExtra("ALARM_TYPE", alarmType)
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 }
