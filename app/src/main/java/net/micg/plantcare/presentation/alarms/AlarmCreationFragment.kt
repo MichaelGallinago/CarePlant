@@ -21,6 +21,7 @@ import net.micg.plantcare.data.models.alarm.Alarm
 import net.micg.plantcare.databinding.FragmentAlarmCreationBinding
 import net.micg.plantcare.di.ViewModelFactory
 import net.micg.plantcare.di.appComponent
+import net.micg.plantcare.presentation.alarms.AlarmCreationFragment.Companion.getCurrentCalendar
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Calendar
@@ -33,15 +34,11 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private val binding: FragmentAlarmCreationBinding by viewBinding()
     private val viewModel: AlarmViewModel by viewModels { factory }
 
-    private var selectedTime: Long = getCurrentCalendar().run {
-        set(get(Calendar.YEAR), get(Calendar.MONTH), get(Calendar.DAY_OF_MONTH), 0, 0, 0)
-        timeInMillis
-    }
-
-    private var selectedDate: Long = getCurrentCalendar().run {
-        set(0, 0, 0, get(Calendar.HOUR_OF_DAY), get(Calendar.MINUTE), 0)
-        timeInMillis
-    }
+    private var year: Int = 0
+    private var month: Int = 0
+    private var dayOfMonth: Int = 0
+    private var hourOfDay: Int = 0
+    private var minute: Int = 0
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -59,17 +56,22 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
             setupSpinner(timeDaysSpinner, 365)
 
             with(getCurrentCalendar()) {
-                dateSelector.text = getDateFormated(
-                    get(Calendar.YEAR),
-                    get(Calendar.MONTH),
-                    get(Calendar.DAY_OF_MONTH))
-                timeSelector.text = getTimeFormated(
-                    get(Calendar.HOUR_OF_DAY),
-                    get(Calendar.MINUTE))
+                year = get(Calendar.YEAR)
+                month = get(Calendar.MONTH)
+                dayOfMonth = get(Calendar.DAY_OF_MONTH)
+                hourOfDay = get(Calendar.HOUR_OF_DAY)
+                minute = get(Calendar.MINUTE)
             }
 
-            timeSelector.setOnClickListener { pickTime() }
-            dateSelector.setOnClickListener { pickDate() }
+            with(dateSelector) {
+                text = getDateFormated(year, month, dayOfMonth)
+                setOnClickListener { pickDate() }
+            }
+
+            with(timeSelector) {
+                text = getTimeFormated(hourOfDay, minute)
+                setOnClickListener { pickTime() }
+            }
         }
     }
 
@@ -91,10 +93,9 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private fun setDate(picker: DatePicker, year: Int, month: Int, day: Int) {
         binding.dateSelector.text = getDateFormated(year, month, day)
 
-        getCurrentCalendar().apply {
-            set(year, month, day, 0, 0, 0)
-            selectedDate = timeInMillis
-        }
+        this.year = year
+        this.month = month
+        dayOfMonth = day
     }
 
     private fun pickTime() {
@@ -112,10 +113,8 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private fun setTime(picker: TimePicker, hour: Int, minute: Int) {
         binding.timeSelector.text = getTimeFormated(hour, minute)
 
-        getCurrentCalendar().apply {
-            set(0, 0, 0, hour, minute, 0)
-            selectedTime = timeInMillis
-        }
+        hourOfDay = hour
+        this.minute = minute
     }
 
     private fun setupListeners(navController: NavController) {
@@ -143,15 +142,25 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private fun saveAlarm(): Boolean {
         val name = binding.nameEditText.text.toString()
         val type = if (binding.radioWatering.isChecked) 0.toByte() else 1.toByte()
-        val days = binding.timeDaysSpinner.selectedItem.toString().toLong()
-        val hours = binding.timeHoursSpinner.selectedItem.toString().toLong()
-        val minutes = binding.timeMinutesSpinner.selectedItem.toString().toLong()
+        val intervalDays = binding.timeDaysSpinner.selectedItem.toString().toLong()
+        val intervalHours = binding.timeHoursSpinner.selectedItem.toString().toLong()
+        val intervalMinutes = binding.timeMinutesSpinner.selectedItem.toString().toLong()
+
+        val dateInMillis = Calendar.getInstance().apply {
+            timeInMillis = 0L
+            set(Calendar.YEAR, year)
+            set(Calendar.MONTH, month)
+            set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            set(Calendar.HOUR_OF_DAY, hourOfDay)
+            set(Calendar.MINUTE, minute)
+        }.timeInMillis
 
         viewModel.insert(Alarm(
             name = name,
             type = type,
-            dateInMillis = selectedDate + selectedTime,
-            intervalInMillis = ((days * 24L + hours) * 60L + minutes) * 60L * 1000L,
+            dateInMillis = dateInMillis,
+            intervalInMillis =
+                ((intervalDays * 24L + intervalHours) * 60L + intervalMinutes) * 60000L,
             isEnabled = true
         ))
         return true
