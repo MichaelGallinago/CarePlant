@@ -29,6 +29,11 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
         super.onAttach(context)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateAlarms()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -81,7 +86,7 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
                 adapter.removeItem(position)
             }
 
-            @Deprecated(message = "Проект не предусматривает эту фичу как полезную и/или обязательную.")
+            @Deprecated(message = "Проект не предусматривает перемещение элементов как полезную или обязательную фичу.")
             private fun moveItem(
                 viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
             ) {
