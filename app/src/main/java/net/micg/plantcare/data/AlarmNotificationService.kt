@@ -1,4 +1,4 @@
-package net.micg.plantcare
+package net.micg.plantcare.data
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -11,7 +11,7 @@ class AlarmNotificationService(private val context: Context) {
 
     fun cancelAlarm(id: Int) {
         alarmManager.cancel(createPendingIntent(id))
-        Toast.makeText(context, "Alarm Cancelled", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Будильник отменён", Toast.LENGTH_SHORT).show()
     }
 
     fun setAlarm(id: Int, triggerAtMillis: Long, intervalMillis: Long) {
@@ -22,7 +22,7 @@ class AlarmNotificationService(private val context: Context) {
             createPendingIntent(id)
         )
 
-        Toast.makeText(context, "Alarm set Successfully", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Будильник установлен", Toast.LENGTH_SHORT).show()
     }
 
     private fun createPendingIntent(id: Int) = PendingIntent.getBroadcast(

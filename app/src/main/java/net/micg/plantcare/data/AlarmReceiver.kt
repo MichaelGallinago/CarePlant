@@ -1,4 +1,4 @@
-package net.micg.plantcare
+package net.micg.plantcare.data
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
+import net.micg.plantcare.R
 import net.micg.plantcare.presentation.MainActivity
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -24,10 +25,11 @@ class AlarmReceiver : BroadcastReceiver() {
         val notification = NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_flower)
             .setContentTitle("Время пришло!")
-            .setContentText("Ваш точный будильник сработал.")
+            .setContentText("Ваш будильник сработал.")
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
             .build()
 
         with(context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager) {
@@ -36,6 +38,6 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        const val ALARM_CHANNEL_ID = "my_channel_id"
+        const val ALARM_CHANNEL_ID = "flowers_alarm_channel_id"
     }
 }

@@ -31,7 +31,7 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateAlarms()
+        viewModel.refreshAlarms()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,7 +64,7 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
             )
         }
 
-        viewModel.updateAlarms()
+        viewModel.refreshAlarms()
     }
 
     private fun createItemTouchHelper(adapter: AlarmsAdapter) =
