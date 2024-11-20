@@ -65,6 +65,8 @@ class AlarmsAdapter(
                 name.text = alarm.name
                 type.text = alarm.getTypeLabel()
                 time.text = alarm.getTimeFormatedUntilNextAlarm()
+
+                switchButton.setOnCheckedChangeListener(null)
                 switchButton.isChecked = alarm.isEnabled
 
                 switchButton.setOnCheckedChangeListener { _, isChecked ->
