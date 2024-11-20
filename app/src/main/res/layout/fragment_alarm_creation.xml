@@ -70,7 +70,7 @@
 
     <Spinner
         android:id="@+id/timeDaysSpinner"
-        android:layout_width="0dp"
+        android:layout_width="120dp"
         android:layout_height="48dp"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +88,7 @@
 
     <Spinner
         android:id="@+id/timeHoursSpinner"
-        android:layout_width="0dp"
+        android:layout_width="120dp"
         android:layout_height="48dp"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +106,7 @@
 
     <Spinner
         android:id="@+id/timeMinutesSpinner"
-        android:layout_width="0dp"
+        android:layout_width="120dp"
         android:layout_height="48dp"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -129,7 +129,10 @@
         android:layout_margin="16dp"
         android:autofillHints="name"
         android:hint="@string/alarm_name_hint"
-        android:inputType="none"
+        android:inputType="text|textNoSuggestions"
+        android:maxLength="128"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
         app:layout_constraintTop_toBottomOf="@id/timeMinutesSpinner" />
 
     <RadioGroup
