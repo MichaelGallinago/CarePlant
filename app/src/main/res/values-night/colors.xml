@@ -3,6 +3,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#7F7F7F</color>
-    <color name="panel">#FAF4FF</color>
-    <color name="border">#7F7F7F</color>
+    <color name="panel">#2A2830</color>
+    <color name="border">#4A4458</color>
 </resources>

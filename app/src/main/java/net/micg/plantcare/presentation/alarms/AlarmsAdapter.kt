@@ -12,7 +12,6 @@ import net.micg.plantcare.data.models.alarm.Alarm
 import net.micg.plantcare.databinding.AlarmItemBinding
 
 class AlarmsAdapter(
-    private val onAlarmClick: (Alarm) -> Unit,
     private val onToggleClick: (Alarm, Boolean) -> Unit
 ) : ListAdapter<Alarm, AlarmsAdapter.AlarmViewHolder>(AlarmDiffUtil()) {
 
@@ -68,7 +67,6 @@ class AlarmsAdapter(
                 time.text = alarm.getTimeFormatedUntilNextAlarm()
                 switchButton.isChecked = alarm.isEnabled
 
-                root.setOnClickListener { onAlarmClick(alarm) }
                 switchButton.setOnCheckedChangeListener { _, isChecked ->
                     onToggleClick(alarm, isChecked)
                 }

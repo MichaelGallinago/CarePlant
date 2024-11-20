@@ -18,7 +18,8 @@ class ArticleViewModel @Inject constructor() : ViewModel() {
 
     private val api = retrofit.create(ArticlesApi::class.java)
 
-    var articles: List<Article>? = null
+    private val _articles = MutableLiveData<List<Article>>()
+    val articles: LiveData<List<Article>> get() = _articles
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
@@ -30,7 +31,7 @@ class ArticleViewModel @Inject constructor() : ViewModel() {
                 response: retrofit2.Response<List<Article>>
             ) {
                 if (response.isSuccessful) {
-                    articles = response.body()
+                    _articles.value = response.body()
                 }
             }
 
@@ -42,7 +43,5 @@ class ArticleViewModel @Inject constructor() : ViewModel() {
 
     companion object {
         const val URL = "https://michaelgallinago.github.io/plant-app-web-storage/"
-        const val WATERING = URL + "watering.html"
-        const val PLANTS = URL + "plants.html"
     }
 }

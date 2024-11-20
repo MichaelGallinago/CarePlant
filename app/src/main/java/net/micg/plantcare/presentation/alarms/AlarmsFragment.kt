@@ -33,9 +33,6 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
         super.onViewCreated(view, savedInstanceState)
 
         val alarmAdapter = AlarmsAdapter(
-            onAlarmClick = { alarm ->
-                // TODO: Обработка нажатия на элемент будильника
-            },
             onToggleClick = { alarm, isEnabled ->
                 viewModel.update(alarm.copy(isEnabled = isEnabled))
             }
@@ -75,16 +72,22 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                val fromPosition = viewHolder.adapterPosition
-                val toPosition = target.adapterPosition
-                adapter.moveItem(fromPosition, toPosition)
-                return true
+                return false
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 viewModel.delete(adapter.currentList[position])
                 adapter.removeItem(position)
+            }
+
+            @Deprecated(message = "Проект не предусматривает эту фичу как полезную и/или обязательную.")
+            private fun moveItem(
+                viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
+            ) {
+                val fromPosition = viewHolder.adapterPosition
+                val toPosition = target.adapterPosition
+                adapter.moveItem(fromPosition, toPosition)
             }
         })
 }

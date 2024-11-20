@@ -42,8 +42,11 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
             }
         }
 
+        viewModel.articles.observe(viewLifecycleOwner) { articles ->
+            articlesAdapter.submitList(articles)
+        }
+
         viewModel.loadArticles()
-        articlesAdapter.submitList(viewModel.articles)
 
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(context)
