@@ -9,7 +9,12 @@
         android:id="@+id/alarmsFragment"
         android:name="net.micg.plantcare.presentation.alarms.AlarmsFragment"
         android:label="AlarmsFragment"
-        tools:layout="@layout/fragment_alarms" />
+        tools:layout="@layout/fragment_alarms">
+        <action
+            android:id="@+id/action_alarmsFragment_to_alarmCreationFragment"
+            app:destination="@id/alarmCreationFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/articlesFragment"
         android:name="net.micg.plantcare.presentation.articles.ArticlesFragment"
@@ -19,6 +24,7 @@
             android:id="@+id/action_articlesFragment_to_articleFragment"
             app:destination="@id/articleFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/articleFragment"
         android:name="net.micg.plantcare.presentation.articles.ArticleFragment"
@@ -28,6 +34,7 @@
             android:name="articleUrl"
             app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/alarmCreationFragment"
         android:name="net.micg.plantcare.presentation.alarms.AlarmCreationFragment"

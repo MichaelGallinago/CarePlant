@@ -23,5 +23,16 @@ class MainActivity : AppCompatActivity() {
 
         val navController = navHostFragment.navController
         binding.bottomNavView.setupWithNavController(navController)
+
+        val alarmsDestinations = setOf(R.id.alarmsFragment, R.id.alarmCreationFragment)
+        val articlesDestinations = setOf(R.id.articlesFragment, R.id.articleFragment)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                in alarmsDestinations -> R.id.alarmsFragment
+                in articlesDestinations -> R.id.articlesFragment
+                else -> null
+            }?.let { binding.bottomNavView.menu.findItem(it)?.isChecked = true }
+        }
     }
 }
