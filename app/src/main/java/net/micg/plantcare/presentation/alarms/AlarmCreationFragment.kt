@@ -4,13 +4,12 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.CheckBox
 import android.widget.DatePicker
 import android.widget.Spinner
 import android.widget.TimePicker
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -21,9 +20,6 @@ import net.micg.plantcare.data.models.alarm.Alarm
 import net.micg.plantcare.databinding.FragmentAlarmCreationBinding
 import net.micg.plantcare.di.ViewModelFactory
 import net.micg.plantcare.di.appComponent
-import net.micg.plantcare.presentation.alarms.AlarmCreationFragment.Companion.getCurrentCalendar
-import java.time.LocalDate
-import java.time.ZoneId
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -121,7 +117,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         binding.cancelButton.setOnClickListener { navController.popBackStack() }
 
         binding.confirmButton.setOnClickListener {
-            if (saveAlarm()) {
+            if (trySaveAlarm()) {
                 navController.popBackStack()
             }
         }
@@ -139,7 +135,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         }
     }
 
-    private fun saveAlarm(): Boolean {
+    private fun trySaveAlarm(): Boolean {
         val name = binding.nameEditText.text.toString()
         val type = if (binding.radioWatering.isChecked) 0.toByte() else 1.toByte()
         val intervalDays = binding.timeDaysSpinner.selectedItem.toString().toLong()
