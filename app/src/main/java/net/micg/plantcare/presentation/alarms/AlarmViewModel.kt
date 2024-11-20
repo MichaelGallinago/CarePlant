@@ -3,6 +3,8 @@ package net.micg.plantcare.presentation.alarms
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.micg.plantcare.data.AlarmNotificationModule
 import net.micg.plantcare.data.AlarmsRepository
@@ -16,11 +18,10 @@ class AlarmViewModel @Inject constructor(
     private val _allAlarms = MutableLiveData<List<Alarm>>()
     val allAlarms: LiveData<List<Alarm>> get() = _allAlarms
 
-    fun refreshAlarms() = runBlocking { _allAlarms.value = repository.getAllAlarms() }
+    fun refreshAlarms() = viewModelScope.launch { _allAlarms.value = repository.getAllAlarms() }
 
     fun insert(alarm: Alarm) = runBlocking {
-        repository.insert(alarm)
-        setAlarm(alarm)
+        setAlarm(repository.insert(alarm), alarm)
         refreshAlarms()
     }
 
@@ -33,14 +34,14 @@ class AlarmViewModel @Inject constructor(
     fun update(alarm: Alarm) = runBlocking {
         repository.update(alarm)
         if (alarm.isEnabled) {
-            setAlarm(alarm)
+            setAlarm(alarm.id, alarm)
         } else {
             alarmNotificationModule.cancelAlarm(alarm.id)
         }
         refreshAlarms()
     }
 
-    private fun setAlarm(alarm: Alarm) = with(alarm) {
+    private fun setAlarm(id: Long, alarm: Alarm) = with(alarm) {
         alarmNotificationModule.setAlarm(id, name, getTypeLabel(), dateInMillis, intervalInMillis)
     }
 }

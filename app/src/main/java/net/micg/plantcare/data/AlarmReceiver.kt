@@ -15,14 +15,14 @@ class AlarmReceiver : BroadcastReceiver() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
+        val alarmId = intent.getIntExtra("ALARM_ID", 0)
         val pendingIntent = PendingIntent.getActivity(
             context,
-            0,
+            alarmId,
             i,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val alarmId = intent.getIntExtra("ALARM_ID", 0)
         val alarmName = intent.getStringExtra("ALARM_NAME").takeUnless {
             it.isNullOrBlank()
         } ?: "Уход за растением"
