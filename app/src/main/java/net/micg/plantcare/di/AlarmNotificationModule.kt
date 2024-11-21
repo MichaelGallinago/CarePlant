@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import dagger.Module
-import net.micg.plantcare.data.alarm.AlarmReceiver
+import net.micg.plantcare.domain.AlarmReceiver
 
 @Module
 class AlarmNotificationModule(private val context: Context) {
@@ -35,9 +35,9 @@ class AlarmNotificationModule(private val context: Context) {
             context,
             id.toInt(),
             Intent(context, AlarmReceiver::class.java).apply {
-                putExtra("ALARM_ID", id)
-                putExtra("ALARM_NAME", name)
-                putExtra("ALARM_TYPE", type)
+                putExtra(AlarmReceiver.ALARM_ID, id)
+                putExtra(AlarmReceiver.ALARM_NAME, name)
+                putExtra(AlarmReceiver.ALARM_TYPE, type)
             },
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )

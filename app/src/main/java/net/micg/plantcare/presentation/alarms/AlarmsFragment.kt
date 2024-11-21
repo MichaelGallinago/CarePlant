@@ -37,30 +37,25 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val alarmAdapter = AlarmsAdapter(
-            onToggleClick = { alarm, isEnabled ->
-                viewModel.update(alarm.copy(isEnabled = isEnabled))
+        AlarmsAdapter(onToggleClick = { alarm, isEnabled ->
+            viewModel.update(alarm.copy(isEnabled = isEnabled))
+        }).also {
+            createItemTouchHelper(it).attachToRecyclerView(binding.recycler)
+
+            binding.recycler.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = it
             }
-        )
 
-        createItemTouchHelper(alarmAdapter).attachToRecyclerView(binding.recycler)
-
-        binding.recycler.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = alarmAdapter
-        }
-
-        viewModel.allAlarms.observe(viewLifecycleOwner) { alarms ->
-            alarmAdapter.submitList(alarms)
+            viewModel.allAlarms.observe(viewLifecycleOwner) { alarms -> it.submitList(alarms) }
         }
 
         val navController = findNavController()
         binding.addAlarmButton.setOnClickListener {
             navController.navigate(
-                R.id.alarmCreationFragment, null,
-                NavOptions.Builder()
-                    .setPopUpTo(R.id.alarmsFragment, inclusive = false)
-                    .build()
+                R.id.alarmCreationFragment,
+                null,
+                NavOptions.Builder().setPopUpTo(R.id.alarmsFragment, inclusive = false).build()
             )
         }
 
@@ -68,31 +63,37 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
     }
 
     private fun createItemTouchHelper(adapter: AlarmsAdapter) =
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+        ItemTouchHelper(TouchHelperCallback(adapter))
+
+    private inner class TouchHelperCallback(val adapter: AlarmsAdapter) :
+        ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                viewModel.delete(adapter.currentList[position])
-                adapter.removeItem(position)
-            }
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return false
+        }
 
-            @Deprecated(message = "Проект не предусматривает перемещение элементов как полезную или обязательную фичу.")
-            private fun moveItem(
-                viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
-            ) {
-                val fromPosition = viewHolder.adapterPosition
-                val toPosition = target.adapterPosition
-                adapter.moveItem(fromPosition, toPosition)
-            }
-        })
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val position = viewHolder.adapterPosition
+            viewModel.delete(adapter.currentList[position])
+            adapter.removeItem(position)
+        }
+
+        @Deprecated(
+            "This project doesn't provide for moving items as a useful or mandatory feature"
+        )
+        private fun moveItem(
+            viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
+        ) {
+            val fromPosition = viewHolder.adapterPosition
+            val toPosition = target.adapterPosition
+            adapter.moveItem(fromPosition, toPosition)
+        }
+    }
 }

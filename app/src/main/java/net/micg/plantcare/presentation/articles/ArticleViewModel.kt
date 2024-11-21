@@ -65,7 +65,7 @@ class ArticleViewModel @Inject constructor(
         }
     }
 
-    @Deprecated(message = "Debug only")
+    @Deprecated("Debug only")
     private fun handleFailure(message: String?) = viewModelScope.launch {
         val cachedArticles = repository.getAll()
         if (cachedArticles.isNotEmpty()) {
