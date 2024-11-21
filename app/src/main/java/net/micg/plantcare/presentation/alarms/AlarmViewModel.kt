@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.micg.plantcare.di.AlarmNotificationModule
 import net.micg.plantcare.data.alarm.AlarmsRepository
+import net.micg.plantcare.data.alarm.TimeStorage
 import net.micg.plantcare.data.models.alarm.Alarm
 import javax.inject.Inject
 
@@ -17,6 +18,7 @@ class AlarmViewModel @Inject constructor(
 ) : ViewModel() {
     private val _allAlarms = MutableLiveData<List<Alarm>>()
     val allAlarms: LiveData<List<Alarm>> get() = _allAlarms
+    val timeStorage: TimeStorage = TimeStorage(0, 0, 0, 0, 0)
 
     fun refreshAlarms() = viewModelScope.launch { _allAlarms.value = repository.getAll() }
 

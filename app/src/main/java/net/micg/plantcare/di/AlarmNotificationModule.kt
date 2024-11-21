@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import dagger.Module
-import net.micg.plantcare.domain.AlarmReceiver
+import net.micg.plantcare.AlarmReceiver
 
 @Module
 class AlarmNotificationModule(private val context: Context) {

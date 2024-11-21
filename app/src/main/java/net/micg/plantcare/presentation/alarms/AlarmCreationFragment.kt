@@ -22,9 +22,7 @@ import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.presentation.utils.AlarmCreationUtils.calculateIntervalInMillis
 import java.util.Calendar.*
 import net.micg.plantcare.presentation.utils.AlarmCreationUtils.getCurrentCalendar
-import net.micg.plantcare.presentation.utils.AlarmCreationUtils.getDateFormated
 import net.micg.plantcare.presentation.utils.AlarmCreationUtils.getSpinnerValue
-import net.micg.plantcare.presentation.utils.AlarmCreationUtils.getTimeFormated
 import javax.inject.Inject
 
 class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
@@ -33,12 +31,6 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
 
     private val binding: FragmentAlarmCreationBinding by viewBinding()
     private val viewModel: AlarmViewModel by viewModels { factory }
-
-    private var year: Int = 0
-    private var month: Int = 0
-    private var dayOfMonth: Int = 0
-    private var hourOfDay: Int = 0
-    private var minute: Int = 0
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -57,22 +49,24 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         setupSpinner(timeMinutesSpinner, 60)
         setupSpinner(timeDaysSpinner, 365)
 
-        with(getCurrentCalendar()) {
-            year = get(YEAR)
-            month = get(MONTH)
-            dayOfMonth = get(DAY_OF_MONTH)
-            hourOfDay = get(HOUR_OF_DAY)
-            minute = get(MINUTE)
-        }
+        with(viewModel.timeStorage) {
+            with(getCurrentCalendar()) {
+                year = get(YEAR)
+                month = get(MONTH)
+                dayOfMonth = get(DAY_OF_MONTH)
+                hourOfDay = get(HOUR_OF_DAY)
+                minute = get(MINUTE)
+            }
 
-        with(dateSelector) {
-            text = getDateFormated(year, month, dayOfMonth)
-            setOnClickListener { pickDate() }
-        }
+            with(dateSelector) {
+                text = dateFormated
+                setOnClickListener { pickDate() }
+            }
 
-        with(timeSelector) {
-            text = getTimeFormated(hourOfDay, minute)
-            setOnClickListener { pickTime() }
+            with(timeSelector) {
+                text = timeFormated
+                setOnClickListener { pickTime() }
+            }
         }
     }
 
@@ -86,8 +80,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     }
 
     private fun setupSpinner(spinner: Spinner, size: Int) = with(
-        ArrayAdapter(
-            requireContext(),
+        ArrayAdapter(requireContext(),
             android.R.layout.simple_spinner_item,
             List(size) { it.toString() })
     ) {
@@ -104,23 +97,22 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         }
     }
 
-    private fun setDate(picker: DatePicker, year: Int, month: Int, day: Int) {
-        binding.dateSelector.text = getDateFormated(year, month, day)
-
-        this.year = year
-        this.month = month
-        dayOfMonth = day
-    }
+    private fun setDate(picker: DatePicker, year: Int, month: Int, day: Int) =
+        with(viewModel.timeStorage) {
+            this.year = year
+            this.month = month
+            dayOfMonth = day
+            binding.dateSelector.text = dateFormated
+        }
 
     private fun pickTime() = with(getCurrentCalendar()) {
         TimePickerDialog(requireContext(), ::setTime, get(HOUR_OF_DAY), get(MINUTE), true).show()
     }
 
-    private fun setTime(picker: TimePicker, hour: Int, minute: Int) {
-        binding.timeSelector.text = getTimeFormated(hour, minute)
-
+    private fun setTime(picker: TimePicker, hour: Int, minute: Int) = with(viewModel.timeStorage) {
         hourOfDay = hour
         this.minute = minute
+        binding.timeSelector.text = timeFormated
     }
 
     private fun saveAlarm() = with(binding) {
@@ -142,10 +134,12 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private val dateInMillis
         get() = getInstance().apply {
             timeInMillis = 0L
-            set(YEAR, year)
-            set(MONTH, month)
-            set(DAY_OF_MONTH, dayOfMonth)
-            set(HOUR_OF_DAY, hourOfDay)
-            set(MINUTE, minute)
+            with(viewModel.timeStorage) {
+                set(YEAR, year)
+                set(MONTH, month)
+                set(DAY_OF_MONTH, dayOfMonth)
+                set(HOUR_OF_DAY, hourOfDay)
+                set(MINUTE, minute)
+            }
         }.timeInMillis
 }

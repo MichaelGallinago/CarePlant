@@ -11,12 +11,5 @@ object AlarmCreationUtils {
         timeInMillis = System.currentTimeMillis()
     }
 
-    fun getDateFormated(year: Int, month: Int, day: Int) =
-        "%02d/%02d/%04d".format(day, month + 1, year)
-
-    fun getTimeFormated(hour: Int, minute: Int) =
-        "%02d:%02d".format(hour, minute)
-
-    fun getSpinnerValue(spinner: Spinner) =
-        spinner.selectedItem.toString().toLong()
+    fun getSpinnerValue(spinner: Spinner) = spinner.selectedItem.toString().toLong()
 }
