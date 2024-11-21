@@ -23,4 +23,12 @@
     <string name="days">Дни</string>
     <string name="hours">Часы</string>
     <string name="minutes">Минуты</string>
+
+    <string name="notification_name_placeholder">Уход за растением</string>
+    <string name="notification_type_placeholder">Ваше растение нуждается в вас</string>
+    <string name="articles_load_error">Ошибка загрузки</string>
+
+    <string name="type_watering">Полив</string>
+    <string name="type_fertilizing">Удобрение</string>
+    <string name="type_unknown">Неизвестно</string>
 </resources>

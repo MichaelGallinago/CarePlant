@@ -1,4 +1,4 @@
-package net.micg.plantcare.presentation.articles
+package net.micg.plantcare.presentation.article
 
 import android.content.Context
 import android.os.Bundle
@@ -6,12 +6,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
-import net.micg.plantcare.data.models.Article
 import net.micg.plantcare.databinding.FragmentArticlesBinding
 import net.micg.plantcare.di.ViewModelFactory
 import net.micg.plantcare.di.appComponent

@@ -1,6 +1,6 @@
-package net.micg.plantcare.data
+package net.micg.plantcare.data.article
 
-import net.micg.plantcare.data.models.Article
+import net.micg.plantcare.data.models.article.Article
 import retrofit2.Call
 import retrofit2.http.GET
 

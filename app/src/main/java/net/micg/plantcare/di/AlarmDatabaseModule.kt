@@ -8,17 +8,13 @@ import net.micg.plantcare.data.models.alarm.AlarmDao
 import net.micg.plantcare.data.models.alarm.AlarmDatabase
 
 @Module
-class DatabaseModule {
+class AlarmDatabaseModule {
     @Provides
-    fun provideDatabase(context: Context): AlarmDatabase {
-        return Room.databaseBuilder(
-            context.applicationContext,
-            AlarmDatabase::class.java,
-            "alarm_database"
-        )
+    fun provideDatabase(context: Context) = Room.databaseBuilder(
+        context.applicationContext, AlarmDatabase::class.java, "alarm_database"
+    )
         .fallbackToDestructiveMigration() //TODO: REMOVE THIS
         .build()
-    }
 
     @Provides
     fun provideAlarmDao(database: AlarmDatabase): AlarmDao = database.alarmDao()

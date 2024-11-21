@@ -1,4 +1,4 @@
-package net.micg.plantcare.presentation.alarms
+package net.micg.plantcare.presentation.alarm
 
 import android.annotation.SuppressLint
 import android.os.Handler
@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import net.micg.plantcare.data.models.alarm.Alarm
+import net.micg.plantcare.data.alarm.Alarm
+import net.micg.plantcare.data.models.alarm.AlarmEntity
 import net.micg.plantcare.databinding.AlarmItemBinding
 
 class AlarmsAdapter(
@@ -24,28 +25,12 @@ class AlarmsAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = AlarmItemBinding.inflate(layoutInflater, parent, false)
-        return AlarmViewHolder(binding)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AlarmViewHolder(
+        AlarmItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    )
 
-    override fun onBindViewHolder(holder: AlarmViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AlarmViewHolder, position: Int) =
         holder.bind(getItem(position))
-    }
-
-    fun removeItem(position: Int) {
-        val currentList = currentList.toMutableList()
-        currentList.removeAt(position)
-        submitList(currentList)
-    }
-
-    fun moveItem(fromPosition: Int, toPosition: Int) {
-        val currentList = currentList.toMutableList()
-        val item = currentList.removeAt(fromPosition)
-        currentList.add(toPosition, item)
-        submitList(currentList)
-    }
 
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
@@ -57,21 +42,30 @@ class AlarmsAdapter(
         handler.post(runnable)
     }
 
+    fun removeItem(position: Int) = with (currentList.toMutableList()) {
+        removeAt(position)
+        submitList(this)
+    }
+
+    fun moveItem(fromPosition: Int, toPosition: Int) = with (currentList.toMutableList()) {
+        val item = removeAt(fromPosition)
+        add(toPosition, item)
+        submitList(this)
+    }
+
     inner class AlarmViewHolder(private val binding: AlarmItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(alarm: Alarm) {
-            with(binding) {
-                name.text = alarm.name
-                type.text = alarm.getTypeLabel()
-                time.text = alarm.getTimeFormatedUntilNextAlarm()
+        fun bind(alarm: Alarm) = with(binding) {
+            name.text = alarm.name
+            type.text = alarm.type
+            time.text = alarm.time
 
-                switchButton.setOnCheckedChangeListener(null)
-                switchButton.isChecked = alarm.isEnabled
+            switchButton.setOnCheckedChangeListener(null)
+            switchButton.isChecked = alarm.isEnabled
 
-                switchButton.setOnCheckedChangeListener { _, isChecked ->
-                    onToggleClick(alarm, isChecked)
-                }
+            switchButton.setOnCheckedChangeListener { _, isChecked ->
+                onToggleClick(alarm, isChecked)
             }
         }
     }

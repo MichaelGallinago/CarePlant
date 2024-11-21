@@ -21,14 +21,10 @@ class PlantCareApplication : Application() {
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
 
-        val channel = NotificationChannel(
-            ALARM_CHANNEL_ID,
-            "Alarm",
-            NotificationManager.IMPORTANCE_HIGH
-        ).apply { description = "Used for the plant alarm notifications" }
-
         with(getSystemService(NOTIFICATION_SERVICE) as NotificationManager) {
-            createNotificationChannel(channel)
+            createNotificationChannel(NotificationChannel(
+                ALARM_CHANNEL_ID, "Alarm", NotificationManager.IMPORTANCE_HIGH
+            ).apply { description = "Used for the plant alarm notifications" })
         }
     }
 }
