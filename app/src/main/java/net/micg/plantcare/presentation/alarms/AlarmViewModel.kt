@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import net.micg.plantcare.data.AlarmNotificationModule
-import net.micg.plantcare.data.AlarmsRepository
+import net.micg.plantcare.di.AlarmNotificationModule
+import net.micg.plantcare.data.alarm.AlarmsRepository
 import net.micg.plantcare.data.models.alarm.Alarm
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class AlarmViewModel @Inject constructor(
     private val _allAlarms = MutableLiveData<List<Alarm>>()
     val allAlarms: LiveData<List<Alarm>> get() = _allAlarms
 
-    fun refreshAlarms() = viewModelScope.launch { _allAlarms.value = repository.getAllAlarms() }
+    fun refreshAlarms() = viewModelScope.launch { _allAlarms.value = repository.getAll() }
 
     fun insert(alarm: Alarm) = runBlocking {
         setAlarm(repository.insert(alarm), alarm)

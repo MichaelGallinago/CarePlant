@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import net.micg.plantcare.data.models.Article
+import net.micg.plantcare.data.models.article.Article
 import net.micg.plantcare.databinding.ArticleItemBinding
 
 class ArticlesAdapter(

@@ -1,4 +1,4 @@
-package net.micg.plantcare.data
+package net.micg.plantcare.data.alarm
 
 import android.app.NotificationManager
 import android.app.PendingIntent

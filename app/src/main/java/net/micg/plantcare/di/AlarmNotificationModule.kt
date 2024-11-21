@@ -1,12 +1,12 @@
-package net.micg.plantcare.data
+package net.micg.plantcare.di
 
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import dagger.Module
+import net.micg.plantcare.data.alarm.AlarmReceiver
 
 @Module
 class AlarmNotificationModule(private val context: Context) {

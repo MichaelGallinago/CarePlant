@@ -4,7 +4,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
-import net.micg.plantcare.data.AlarmReceiver.Companion.ALARM_CHANNEL_ID
+import net.micg.plantcare.data.alarm.AlarmReceiver.Companion.ALARM_CHANNEL_ID
 import net.micg.plantcare.di.AppComponent
 import net.micg.plantcare.di.DaggerAppComponent
 

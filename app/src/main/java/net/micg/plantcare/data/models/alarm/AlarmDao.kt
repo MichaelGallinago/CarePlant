@@ -11,7 +11,7 @@ interface AlarmDao {
     suspend fun delete(alarm: Alarm)
 
     @Query("SELECT * FROM alarms ORDER BY id")
-    suspend fun getAllAlarms(): List<Alarm>
+    suspend fun getAll(): List<Alarm>
 
     @Update
     suspend fun update(alarm: Alarm)
