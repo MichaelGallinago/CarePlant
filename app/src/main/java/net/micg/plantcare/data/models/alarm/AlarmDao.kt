@@ -5,14 +5,14 @@ import androidx.room.*
 @Dao
 interface AlarmDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(alarm: Alarm): Long
+    suspend fun insert(alarm: AlarmEntity): Long
 
-    @Delete
-    suspend fun delete(alarm: Alarm)
+    @Query("DELETE FROM alarms WHERE id = :alarmId")
+    suspend fun deleteById(alarmId: Long)
 
     @Query("SELECT * FROM alarms ORDER BY id")
-    suspend fun getAll(): List<Alarm>
+    suspend fun getAll(): List<AlarmEntity>
 
-    @Update
-    suspend fun update(alarm: Alarm)
+    @Query("UPDATE alarms SET isEnabled = :isEnabled WHERE id = :id")
+    suspend fun update(isEnabled: Boolean, id: Long)
 }

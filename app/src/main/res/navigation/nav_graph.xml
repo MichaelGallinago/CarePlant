@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/alarmsFragment"
-        android:name="net.micg.plantcare.presentation.alarms.AlarmsFragment"
+        android:name="net.micg.plantcare.presentation.alarm.AlarmsFragment"
         android:label="AlarmsFragment"
         tools:layout="@layout/fragment_alarms">
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/articlesFragment"
-        android:name="net.micg.plantcare.presentation.articles.ArticlesFragment"
+        android:name="net.micg.plantcare.presentation.article.ArticlesFragment"
         android:label="ArticlesFragment"
         tools:layout="@layout/fragment_articles">
         <action
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/articleFragment"
-        android:name="net.micg.plantcare.presentation.articles.ArticleFragment"
+        android:name="net.micg.plantcare.presentation.article.ArticleFragment"
         android:label="ArticleFragment"
         tools:layout="@layout/fragment_article">
         <argument
@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/alarmCreationFragment"
-        android:name="net.micg.plantcare.presentation.alarms.AlarmCreationFragment"
+        android:name="net.micg.plantcare.presentation.alarm.AlarmCreationFragment"
         android:label="AlarmCreationFragment"
         tools:layout="@layout/fragment_alarm_creation" />
 </navigation>

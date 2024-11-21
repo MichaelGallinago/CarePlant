@@ -1,4 +1,4 @@
-package net.micg.plantcare.presentation.alarms
+package net.micg.plantcare.presentation.alarm
 
 import android.content.Context
 import android.os.Bundle
@@ -38,7 +38,7 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
         super.onViewCreated(view, savedInstanceState)
 
         AlarmsAdapter(onToggleClick = { alarm, isEnabled ->
-            viewModel.update(alarm.copy(isEnabled = isEnabled))
+            viewModel.update(isEnabled, alarm)
         }).also {
             createItemTouchHelper(it).attachToRecyclerView(binding.recycler)
 
@@ -71,29 +71,24 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
 
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = with(adapter) {
+            with(viewHolder.adapterPosition) {
+                viewModel.delete(currentList[this])
+                removeItem(this)
+            }
+        }
+
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
-        ): Boolean {
-            return false
-        }
-
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            val position = viewHolder.adapterPosition
-            viewModel.delete(adapter.currentList[position])
-            adapter.removeItem(position)
-        }
+            target: RecyclerView.ViewHolder,
+        ) = false
 
         @Deprecated(
             "This project doesn't provide for moving items as a useful or mandatory feature"
         )
-        private fun moveItem(
-            viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder
-        ) {
-            val fromPosition = viewHolder.adapterPosition
-            val toPosition = target.adapterPosition
-            adapter.moveItem(fromPosition, toPosition)
+        private fun moveItem(viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder) {
+            adapter.moveItem(viewHolder.adapterPosition, target.adapterPosition)
         }
     }
 }

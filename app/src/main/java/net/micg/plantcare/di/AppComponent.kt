@@ -3,9 +3,9 @@ package net.micg.plantcare.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
-import net.micg.plantcare.presentation.alarms.AlarmCreationFragment
-import net.micg.plantcare.presentation.alarms.AlarmsFragment
-import net.micg.plantcare.presentation.articles.ArticlesFragment
+import net.micg.plantcare.presentation.alarm.AlarmCreationFragment
+import net.micg.plantcare.presentation.alarm.AlarmsFragment
+import net.micg.plantcare.presentation.article.ArticlesFragment
 
 @Component(modules = [AppModule::class])
 interface AppComponent {

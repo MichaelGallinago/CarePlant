@@ -1,4 +1,4 @@
-package net.micg.plantcare.presentation.articles
+package net.micg.plantcare.presentation.article
 
 import android.content.Context
 import android.os.Bundle

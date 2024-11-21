@@ -1,4 +1,4 @@
-package net.micg.plantcare.presentation.alarms
+package net.micg.plantcare.presentation.alarm
 
 import android.annotation.SuppressLint
 import android.os.Handler
@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import net.micg.plantcare.data.models.alarm.Alarm
+import net.micg.plantcare.data.alarm.Alarm
+import net.micg.plantcare.data.models.alarm.AlarmEntity
 import net.micg.plantcare.databinding.AlarmItemBinding
 
 class AlarmsAdapter(
@@ -57,8 +58,8 @@ class AlarmsAdapter(
 
         fun bind(alarm: Alarm) = with(binding) {
             name.text = alarm.name
-            type.text = alarm.getTypeLabel()
-            time.text = alarm.getTimeFormatedUntilNextAlarm()
+            type.text = alarm.type
+            time.text = alarm.time
 
             switchButton.setOnCheckedChangeListener(null)
             switchButton.isChecked = alarm.isEnabled

@@ -1,10 +1,10 @@
 package net.micg.plantcare.data.alarm
 
-import net.micg.plantcare.data.models.alarm.Alarm
+import net.micg.plantcare.data.models.alarm.AlarmEntity
 
 interface AlarmsRepository {
-    suspend fun getAll(): List<Alarm>
-    suspend fun insert(alarm: Alarm): Long
-    suspend fun delete(alarm: Alarm)
-    suspend fun update(alarm: Alarm)
+    suspend fun getAll(): List<AlarmEntity>
+    suspend fun insert(alarm: AlarmEntity): Long
+    suspend fun deleteById(id: Long)
+    suspend fun update(isEnabled: Boolean, id: Long)
 }

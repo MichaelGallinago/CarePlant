@@ -1,4 +1,4 @@
-package net.micg.plantcare.presentation.alarms
+package net.micg.plantcare.presentation.alarm
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -15,7 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
-import net.micg.plantcare.data.models.alarm.Alarm
+import net.micg.plantcare.data.models.alarm.AlarmEntity
 import net.micg.plantcare.databinding.FragmentAlarmCreationBinding
 import net.micg.plantcare.di.ViewModelFactory
 import net.micg.plantcare.di.appComponent
@@ -117,16 +117,13 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
 
     private fun saveAlarm() = with(binding) {
         viewModel.insert(
-            Alarm(
-                name = nameEditText.text.toString(),
-                type = if (radioWatering.isChecked) 0.toByte() else 1.toByte(),
-                dateInMillis = dateInMillis,
-                intervalInMillis = calculateIntervalInMillis(
-                    getSpinnerValue(timeDaysSpinner),
-                    getSpinnerValue(timeHoursSpinner),
-                    getSpinnerValue(timeMinutesSpinner)
-                ),
-                isEnabled = true
+            nameEditText.text.toString(),
+            if (radioWatering.isChecked) 0.toByte() else 1.toByte(),
+            dateInMillis,
+            calculateIntervalInMillis(
+                getSpinnerValue(timeDaysSpinner),
+                getSpinnerValue(timeHoursSpinner),
+                getSpinnerValue(timeMinutesSpinner)
             )
         )
     }

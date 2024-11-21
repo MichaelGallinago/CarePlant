@@ -1,4 +1,4 @@
-package net.micg.plantcare.presentation.articles
+package net.micg.plantcare.presentation.article
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -24,9 +24,9 @@ class ArticlesAdapter(
     inner class ArticleViewHolder(private val binding: ArticleItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun onBind(item: Article) {
-            binding.name.text = item.title
-            binding.root.setOnClickListener { onArticleClick(item) }
+        fun onBind(item: Article) = with (binding) {
+            name.text = item.title
+            root.setOnClickListener { onArticleClick(item) }
         }
     }
 
