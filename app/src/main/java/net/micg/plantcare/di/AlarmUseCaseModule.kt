@@ -1,6 +1,5 @@
 package net.micg.plantcare.di
 
-import android.content.Context
 import dagger.Module
 import dagger.Provides
 import net.micg.plantcare.data.alarm.AlarmsRepository

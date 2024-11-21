@@ -26,8 +26,21 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField(
+                "String",
+                "SERVER_URL",
+                "\"https://michaelgallinago.github.io/plant-app-web-storage/\""
+            )
+        }
+        debug {
+            buildConfigField(
+                "String",
+                "SERVER_URL",
+                "\"https://michaelgallinago.github.io/plant-app-web-storage/\""
+            )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -38,6 +51,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = false
+        buildConfig = true
     }
 }
 

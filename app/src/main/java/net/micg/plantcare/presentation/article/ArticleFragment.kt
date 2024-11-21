@@ -6,6 +6,7 @@ import android.webkit.WebSettings
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import net.micg.plantcare.BuildConfig
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentArticleBinding
 
@@ -25,7 +26,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         }?.let { url ->
             with(binding.webView) {
                 settings.cacheMode = WebSettings.LOAD_DEFAULT
-                loadUrl(ArticleViewModel.URL + url)
+                loadUrl(BuildConfig.SERVER_URL + url)
             }
         }
     }
