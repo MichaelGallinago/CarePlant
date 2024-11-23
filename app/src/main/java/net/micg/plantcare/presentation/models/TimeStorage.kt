@@ -1,4 +1,4 @@
-package net.micg.plantcare.data.alarm
+package net.micg.plantcare.presentation.models
 
 data class TimeStorage(
     var year: Int,

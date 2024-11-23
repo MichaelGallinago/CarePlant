@@ -1,6 +1,6 @@
 package net.micg.plantcare.domain.alarm
 
-import net.micg.plantcare.data.alarm.Alarm
+import net.micg.plantcare.presentation.models.Alarm
 import net.micg.plantcare.data.alarm.AlarmsRepository
 import net.micg.plantcare.data.models.alarm.AlarmEntity
 import net.micg.plantcare.service.TypeLabelService

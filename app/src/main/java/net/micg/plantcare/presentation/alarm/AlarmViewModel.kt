@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import net.micg.plantcare.data.alarm.Alarm
-import net.micg.plantcare.data.alarm.TimeStorage
+import net.micg.plantcare.presentation.models.Alarm
+import net.micg.plantcare.presentation.models.TimeStorage
 import net.micg.plantcare.domain.alarm.CancelAlarmUseCase
 import net.micg.plantcare.domain.alarm.DeleteAlarmByIdUseCase
 import net.micg.plantcare.domain.alarm.GetAllAlarmsUseCase

@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import net.micg.plantcare.data.alarm.Alarm
-import net.micg.plantcare.data.models.alarm.AlarmEntity
+import net.micg.plantcare.presentation.models.Alarm
 import net.micg.plantcare.databinding.AlarmItemBinding
 
 class AlarmsAdapter(
