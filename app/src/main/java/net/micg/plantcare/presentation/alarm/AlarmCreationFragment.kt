@@ -22,6 +22,7 @@ import net.micg.plantcare.presentation.utils.AlarmCreationUtils.calculateInterva
 import java.util.Calendar.*
 import net.micg.plantcare.presentation.utils.AlarmCreationUtils.getCurrentCalendar
 import net.micg.plantcare.presentation.utils.AlarmCreationUtils.getSpinnerValue
+import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsMarginToCurrentView
 import javax.inject.Inject
 
 class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
@@ -38,15 +39,20 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupListeners(findNavController())
-        setupFragment()
+        setUpEdgeToEdgeForCurrentFragment()
+        setUpListeners(findNavController())
+        setUpFragment()
     }
 
-    private fun setupFragment() = with(binding) {
-        setupSpinner(timeHoursSpinner, 24)
-        setupSpinner(timeMinutesSpinner, 60)
-        setupSpinner(timeDaysSpinner, 365)
+    private fun setUpEdgeToEdgeForCurrentFragment() {
+        addTopInsetsMarginToCurrentView(binding.confirmButton)
+        addTopInsetsMarginToCurrentView(binding.cancelButton)
+    }
+
+    private fun setUpFragment() = with(binding) {
+        setUpSpinner(timeHoursSpinner, 24)
+        setUpSpinner(timeMinutesSpinner, 60)
+        setUpSpinner(timeDaysSpinner, 365)
 
         with(viewModel.timeStorage) {
             with(getCurrentCalendar()) {
@@ -69,7 +75,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         }
     }
 
-    private fun setupListeners(navController: NavController) = with(binding) {
+    private fun setUpListeners(navController: NavController) = with(binding) {
         cancelButton.setOnClickListener { navController.popBackStack() }
 
         confirmButton.setOnClickListener {
@@ -78,7 +84,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         }
     }
 
-    private fun setupSpinner(spinner: Spinner, size: Int) = with(
+    private fun setUpSpinner(spinner: Spinner, size: Int) = with(
         ArrayAdapter(requireContext(),
             android.R.layout.simple_spinner_item,
             List(size) { it.toString() })

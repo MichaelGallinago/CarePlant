@@ -15,6 +15,7 @@ import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmsBinding
 import net.micg.plantcare.di.ViewModelFactory
 import net.micg.plantcare.di.appComponent
+import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsPaddingToCurrentView
 import javax.inject.Inject
 
 class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
@@ -36,34 +37,37 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpEdgeToEdgeForCurrentFragment()
+        setUpAdapter()
+        setUpNavigation()
+        viewModel.refreshAlarms()
+    }
 
-        AlarmsAdapter(onToggleClick = { alarm, isEnabled ->
-            viewModel.update(isEnabled, alarm)
-        }).also {
-            createItemTouchHelper(it).attachToRecyclerView(binding.recycler)
+    private fun setUpEdgeToEdgeForCurrentFragment() =
+        addTopInsetsPaddingToCurrentView(binding.recycler)
 
-            binding.recycler.apply {
-                layoutManager = LinearLayoutManager(requireContext())
-                adapter = it
-            }
+    private fun setUpAdapter() = AlarmsAdapter(onToggleClick = { alarm, isEnabled ->
+        viewModel.update(isEnabled, alarm)
+    }).also {
+        ItemTouchHelper(TouchHelperCallback(it)).attachToRecyclerView(binding.recycler)
 
-            viewModel.allAlarms.observe(viewLifecycleOwner) { alarms -> it.submitList(alarms) }
+        binding.recycler.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = it
         }
 
-        val navController = findNavController()
+        viewModel.allAlarms.observe(viewLifecycleOwner) { alarms -> it.submitList(alarms) }
+    }
+
+    private fun setUpNavigation() = with(findNavController()) {
         binding.addAlarmButton.setOnClickListener {
-            navController.navigate(
+            navigate(
                 R.id.alarmCreationFragment,
                 null,
                 NavOptions.Builder().setPopUpTo(R.id.alarmsFragment, inclusive = false).build()
             )
         }
-
-        viewModel.refreshAlarms()
     }
-
-    private fun createItemTouchHelper(adapter: AlarmsAdapter) =
-        ItemTouchHelper(TouchHelperCallback(adapter))
 
     private inner class TouchHelperCallback(val adapter: AlarmsAdapter) :
         ItemTouchHelper.SimpleCallback(

@@ -13,6 +13,7 @@ import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentArticlesBinding
 import net.micg.plantcare.di.ViewModelFactory
 import net.micg.plantcare.di.appComponent
+import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsPaddingToCurrentView
 import javax.inject.Inject
 
 class ArticlesFragment : Fragment(R.layout.fragment_articles) {
@@ -21,9 +22,13 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
 
     private val binding: FragmentArticlesBinding by viewBinding()
     private val viewModel: ArticlesViewModel by viewModels { factory }
+
     private val articlesAdapter = ArticlesAdapter { article ->
-        val action = ArticlesFragmentDirections.Companion.actionArticlesFragmentToArticleFragment(article.url)
-        findNavController().navigate(action)
+        findNavController().navigate(
+            ArticlesFragmentDirections.Companion.actionArticlesFragmentToArticleFragment(
+                article.url
+            )
+        )
     }
 
     override fun onAttach(context: Context) {
@@ -33,22 +38,30 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpEdgeToEdgeForCurrentFragment()
+        setUpViewModel()
+        setUpRecyclerView()
+    }
 
-        viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+    private fun setUpEdgeToEdgeForCurrentFragment() =
+        addTopInsetsPaddingToCurrentView(binding.recycler)
+
+    private fun setUpViewModel() = with(viewModel) {
+        errorMessage.observe(viewLifecycleOwner) { error ->
             error?.let {
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
             }
         }
 
-        viewModel.articles.observe(viewLifecycleOwner) { articles ->
+        articles.observe(viewLifecycleOwner) { articles ->
             articlesAdapter.submitList(articles)
         }
 
-        viewModel.loadArticles()
+        loadArticles()
+    }
 
-        with(binding.recycler) {
-            layoutManager = LinearLayoutManager(context)
-            adapter = articlesAdapter
-        }
+    private fun setUpRecyclerView() = with(binding.recycler) {
+        layoutManager = LinearLayoutManager(context)
+        adapter = articlesAdapter
     }
 }
