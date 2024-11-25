@@ -1,10 +1,10 @@
-package net.micg.plantcare.service
+package net.micg.plantcare.domain.utils
 
 import android.content.Context
 import net.micg.plantcare.R
 
-class TypeLabelService(private val context: Context) {
-    fun getTypeLabel(type: Byte) = context.getString(
+object TypeLabelUtils {
+    fun getTypeLabel(context: Context, type: Byte) = context.getString(
         when (type) {
             0.toByte() -> R.string.type_watering
             1.toByte() -> R.string.type_fertilizing

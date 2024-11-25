@@ -1,4 +1,4 @@
-package net.micg.plantcare.presentation.alarm
+package net.micg.plantcare.presentation.alarms
 
 import android.annotation.SuppressLint
 import android.os.Handler
@@ -12,14 +12,14 @@ import net.micg.plantcare.presentation.models.Alarm
 import net.micg.plantcare.databinding.AlarmItemBinding
 
 class AlarmsAdapter(
-    private val onToggleClick: (Alarm, Boolean) -> Unit
+    private val onToggleClick: (Alarm, Boolean) -> Unit,
 ) : ListAdapter<Alarm, AlarmsAdapter.AlarmViewHolder>(AlarmDiffUtil()) {
 
     private val handler = Handler(Looper.getMainLooper())
     private var runnable: Runnable = object : Runnable {
         @SuppressLint("NotifyDataSetChanged")
         override fun run() {
-            notifyDataSetChanged()
+            notifyDataSetChanged() // TODO: submitList ?
             handler.postDelayed(this, 60000)
         }
     }
@@ -41,12 +41,12 @@ class AlarmsAdapter(
         handler.post(runnable)
     }
 
-    fun removeItem(position: Int) = with (currentList.toMutableList()) {
+    fun removeItem(position: Int) = with(currentList.toMutableList()) {
         removeAt(position)
         submitList(this)
     }
 
-    fun moveItem(fromPosition: Int, toPosition: Int) = with (currentList.toMutableList()) {
+    fun moveItem(fromPosition: Int, toPosition: Int) = with(currentList.toMutableList()) {
         val item = removeAt(fromPosition)
         add(toPosition, item)
         submitList(this)
@@ -60,11 +60,11 @@ class AlarmsAdapter(
             type.text = alarm.type
             time.text = alarm.time
 
-            switchButton.setOnCheckedChangeListener(null)
-            switchButton.isChecked = alarm.isEnabled
+            with(switchButton) {
+                setOnCheckedChangeListener(null)
+                isChecked = alarm.isEnabled
 
-            switchButton.setOnCheckedChangeListener { _, isChecked ->
-                onToggleClick(alarm, isChecked)
+                setOnCheckedChangeListener { _, isChecked -> onToggleClick(alarm, isChecked) }
             }
         }
     }

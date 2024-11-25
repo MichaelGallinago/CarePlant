@@ -1,4 +1,4 @@
-package net.micg.plantcare.presentation.alarm
+package net.micg.plantcare.presentation.alarms
 
 import android.content.Context
 import android.os.Bundle
@@ -15,6 +15,7 @@ import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmsBinding
 import net.micg.plantcare.di.ViewModelFactory
 import net.micg.plantcare.di.appComponent
+import net.micg.plantcare.presentation.alarm.AlarmCreationViewModel
 import javax.inject.Inject
 
 class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
@@ -22,7 +23,7 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
     lateinit var factory: ViewModelFactory
 
     private val binding: FragmentAlarmsBinding by viewBinding()
-    private val viewModel: AlarmViewModel by viewModels { factory }
+    private val viewModel: AlarmsViewModel by viewModels { factory }
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)

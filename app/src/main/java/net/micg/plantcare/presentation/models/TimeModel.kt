@@ -1,6 +1,6 @@
 package net.micg.plantcare.presentation.models
 
-data class TimeStorage(
+data class TimeModel(
     var year: Int,
     var month: Int,
     var dayOfMonth: Int,

@@ -1,26 +1,27 @@
-package net.micg.plantcare.presentation.article
+package net.micg.plantcare.presentation.articles
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.micg.plantcare.data.models.article.Article
-import net.micg.plantcare.domain.GetErrorMessageUseCase
-import net.micg.plantcare.domain.article.GetAllArticlesUseCase
-import net.micg.plantcare.domain.article.LoadArticlesUseCase
-import net.micg.plantcare.domain.article.SaveCurrentArticlesUseCase
-import net.micg.plantcare.service.ErrorMessageService.*
+import net.micg.plantcare.domain.implementations.GetErrorMessageUseCaseImpl
+import net.micg.plantcare.domain.implementations.GetAllArticlesUseCaseImpl
+import net.micg.plantcare.domain.implementations.LoadArticlesUseCaseImpl
+import net.micg.plantcare.domain.implementations.SaveCurrentArticlesUseCaseImpl
+import net.micg.plantcare.utils.ErrorMessageService.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-class ArticleViewModel @Inject constructor(
-    private val getAllArticlesUseCase: GetAllArticlesUseCase,
-    private val saveCurrentArticlesUseCase: SaveCurrentArticlesUseCase,
-    private val loadArticlesUseCase: LoadArticlesUseCase,
-    private val getErrorMessageUseCase: GetErrorMessageUseCase,
+class ArticlesViewModel @Inject constructor(
+    private val getAllArticlesUseCase: GetAllArticlesUseCaseImpl,
+    private val saveCurrentArticlesUseCase: SaveCurrentArticlesUseCaseImpl,
+    private val loadArticlesUseCase: LoadArticlesUseCaseImpl,
+    private val getErrorMessageUseCase: GetErrorMessageUseCaseImpl,
 ) : ViewModel() {
     private val _articles = MutableLiveData<List<Article>>()
     val articles: LiveData<List<Article>> get() = _articles
@@ -28,9 +29,10 @@ class ArticleViewModel @Inject constructor(
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
 
+    //TODO: не прокидывай сукаа
     fun loadArticles() = loadArticlesUseCase(object : Callback<List<Article>> {
         override fun onResponse(call: Call<List<Article>>, response: Response<List<Article>>) {
-            viewModelScope.launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 if (!response.isSuccessful) {
                     handleFailure()
                     return@launch
@@ -48,7 +50,7 @@ class ArticleViewModel @Inject constructor(
         }
     })
 
-    private fun handleFailure() = viewModelScope.launch {
+    private fun handleFailure() = viewModelScope.launch(Dispatchers.IO) {
         with(getAllArticlesUseCase()) {
             if (isNotEmpty()) {
                 _articles.value = this
@@ -59,7 +61,7 @@ class ArticleViewModel @Inject constructor(
     }
 
     @Deprecated("Debug only")
-    private fun handleFailure(message: String?) = viewModelScope.launch {
+    private fun handleFailure(message: String?) = viewModelScope.launch(Dispatchers.IO) {
         with(getAllArticlesUseCase()) {
             if (isNotEmpty()) {
                 _articles.value = this

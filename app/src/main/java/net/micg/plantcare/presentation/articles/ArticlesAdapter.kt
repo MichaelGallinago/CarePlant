@@ -1,4 +1,4 @@
-package net.micg.plantcare.presentation.article
+package net.micg.plantcare.presentation.articles
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

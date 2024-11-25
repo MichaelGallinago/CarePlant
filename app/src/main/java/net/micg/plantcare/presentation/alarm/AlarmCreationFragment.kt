@@ -29,7 +29,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     lateinit var factory: ViewModelFactory
 
     private val binding: FragmentAlarmCreationBinding by viewBinding()
-    private val viewModel: AlarmViewModel by viewModels { factory }
+    private val viewModel: AlarmCreationViewModel by viewModels { factory }
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)

@@ -1,12 +1,12 @@
-package net.micg.plantcare.service
+package net.micg.plantcare.domain.utils
 
 import android.content.Context
 import net.micg.plantcare.R
 
-class ErrorMessageService(private val context: Context) {
+object ErrorMessageUtils {
     enum class Type { LoadingError, ExtendedLoadingError }
 
-    fun getMessage(type: Type) = when (type) {
+    fun getMessage(context: Context, type: Type) = when (type) {
         Type.LoadingError -> context.getString(R.string.error_loading)
         Type.ExtendedLoadingError -> context.getString(R.string.error_loading_extended)
         else -> ""

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/alarmsFragment"
-        android:name="net.micg.plantcare.presentation.alarm.AlarmsFragment"
+        android:name="net.micg.plantcare.presentation.alarms.AlarmsFragment"
         android:label="AlarmsFragment"
         tools:layout="@layout/fragment_alarms">
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/articlesFragment"
-        android:name="net.micg.plantcare.presentation.article.ArticlesFragment"
+        android:name="net.micg.plantcare.presentation.articles.ArticlesFragment"
         android:label="ArticlesFragment"
         tools:layout="@layout/fragment_articles">
         <action

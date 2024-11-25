@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -26,18 +28,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField(
-                "String",
-                "SERVER_URL",
-                "\"https://michaelgallinago.github.io/plant-app-web-storage/\""
-            )
+            buildConfigField("String", "BASE_URL", getLocalProperties().getProperty("server_url"))
         }
         debug {
-            buildConfigField(
-                "String",
-                "SERVER_URL",
-                "\"https://michaelgallinago.github.io/plant-app-web-storage/\""
-            )
+            buildConfigField("String", "BASE_URL", getLocalProperties().getProperty("server_url"))
         }
     }
 
@@ -50,7 +44,6 @@ android {
     }
     buildFeatures {
         viewBinding = true
-        dataBinding = false
         buildConfig = true
     }
 }
@@ -98,12 +91,13 @@ dependencies {
     // ViewModel and LiveData
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
-
-    // WorkManager
-    implementation("androidx.work:work-runtime-ktx:2.10.0")
 }
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
+}
+
+fun getLocalProperties() = Properties().apply {
+    load(project.rootProject.file("local.properties").inputStream())
 }
