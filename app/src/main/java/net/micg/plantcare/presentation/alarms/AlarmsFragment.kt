@@ -3,10 +3,12 @@ package net.micg.plantcare.presentation.alarms
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -51,9 +53,16 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
     }).also {
         ItemTouchHelper(TouchHelperCallback(it)).attachToRecyclerView(binding.recycler)
 
-        binding.recycler.apply {
-            layoutManager = LinearLayoutManager(requireContext())
+        with(binding.recycler) {
+            layoutManager = LinearLayoutManager(context)
             adapter = it
+
+            ContextCompat.getDrawable(context, R.drawable.divider_shape)?.also {
+                with(DividerItemDecoration(context, DividerItemDecoration.VERTICAL)) {
+                    setDrawable(it)
+                    addItemDecoration(this)
+                }
+            }
         }
 
         viewModel.allAlarms.observe(viewLifecycleOwner) { alarms -> it.submitList(alarms) }
