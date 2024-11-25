@@ -2,7 +2,6 @@ package net.micg.plantcare.di
 
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import net.micg.plantcare.data.alarm.AlarmsRepository
 import net.micg.plantcare.data.alarm.AlarmsRepositoryImpl
 import net.micg.plantcare.data.article.ArticlesRepository
@@ -21,6 +20,7 @@ import net.micg.plantcare.domain.usecase.CancelAlarmUseCase
 import net.micg.plantcare.domain.usecase.DeleteAlarmByIdUseCase
 import net.micg.plantcare.domain.usecase.GetAllAlarmsUseCase
 import net.micg.plantcare.domain.usecase.GetAllArticlesUseCase
+import net.micg.plantcare.domain.usecase.GetErrorMessageUseCase
 import net.micg.plantcare.domain.usecase.InsertAlarmUseCase
 import net.micg.plantcare.domain.usecase.LoadArticlesUseCase
 import net.micg.plantcare.domain.usecase.SaveCurrentArticlesUseCase
@@ -49,43 +49,20 @@ interface AppBindsModule {
     fun bindGetAllArticlesUseCase(useCase: GetAllArticlesUseCaseImpl): GetAllArticlesUseCase
 
     @Binds
-    fun bindGetErrorMessageUseCaseImpl(useCase: GetErrorMessageUseCaseImpl): GetErrorMessageUseCaseImpl
+    fun bindGetErrorMessageUseCaseImpl(useCase: GetErrorMessageUseCaseImpl): GetErrorMessageUseCase
 
     @Binds
-    fun bindCancelAlarmUseCase(useCase: InsertAlarmUseCaseImpl): InsertAlarmUseCase
+    fun bindInsertAlarmUseCase(useCase: InsertAlarmUseCaseImpl): InsertAlarmUseCase
 
     @Binds
-    fun bindCancelAlarmUseCase(useCase: LoadArticlesUseCaseImpl): LoadArticlesUseCase
+    fun bindLoadArticlesUseCase(useCase: LoadArticlesUseCaseImpl): LoadArticlesUseCase
 
     @Binds
-    fun bindCancelAlarmUseCase(useCase: SaveCurrentArticlesUseCaseImpl): SaveCurrentArticlesUseCase
+    fun bindSaveCurrentArticlesUseCase(useCase: SaveCurrentArticlesUseCaseImpl): SaveCurrentArticlesUseCase
 
     @Binds
-    fun bindCancelAlarmUseCase(useCase: SetAlarmUseCaseImpl): SetAlarmUseCase
+    fun bindSetAlarmUseCase(useCase: SetAlarmUseCaseImpl): SetAlarmUseCase
 
     @Binds
-    fun bindCancelAlarmUseCase(useCase: UpdateAlarmUseCaseImpl): UpdateAlarmUseCase
-
-    /*@Provides
-    fun provideGetAllArticlesUseCase(repository: ArticlesRepository): GetAllArticlesUseCase =
-        GetAllArticlesUseCaseImpl(repository)
-
-    @Provides
-    fun provideSaveCurrentArticlesUseCase(repository: ArticlesRepository) =
-        SaveCurrentArticlesUseCaseImpl(repository)*/
-
-    /*@Provides
-    fun provideGetAllAlarmsUseCase(repository: AlarmsRepository, service: TypeLabelUtils) =
-        GetAllAlarmsUseCaseImpl(repository, service)
-
-    @Provides
-    fun provideUpdateAlarmUseCase(repository: AlarmsRepository) = UpdateAlarmUseCaseImpl(repository)
-
-    @Provides
-    fun provideInsertAlarmUseCase(repository: AlarmsRepository, service: TypeLabelUtils) =
-        InsertAlarmUseCaseImpl(repository, service)
-
-    @Provides
-    fun provideDeleteAlarmUseCase(repository: AlarmsRepository) =
-        DeleteAlarmByIdUseCaseImpl(repository)*/
+    fun bindUpdateAlarmUseCase(useCase: UpdateAlarmUseCaseImpl): UpdateAlarmUseCase
 }

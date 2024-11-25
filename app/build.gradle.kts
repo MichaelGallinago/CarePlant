@@ -28,10 +28,18 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "BASE_URL", getLocalProperties().getProperty("server_url"))
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                getLocalProperties().getProperty("base_url")
+            )
         }
         debug {
-            buildConfigField("String", "BASE_URL", getLocalProperties().getProperty("server_url"))
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                getLocalProperties().getProperty("base_url")
+            )
         }
     }
 

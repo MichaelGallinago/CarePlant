@@ -1,19 +1,14 @@
 package net.micg.plantcare.domain.implementations
 
-import net.micg.plantcare.BuildConfig
 import net.micg.plantcare.data.article.ArticlesApi
 import net.micg.plantcare.data.models.article.Article
 import net.micg.plantcare.domain.usecase.LoadArticlesUseCase
 import retrofit2.Callback
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
-class LoadArticlesUseCaseImpl : LoadArticlesUseCase {
-    private val api =
-        Retrofit.Builder().baseUrl(BuildConfig.SERVER_URL)
-            .addConverterFactory(GsonConverterFactory.create()).build()
-            .create(ArticlesApi::class.java)
-
+class LoadArticlesUseCaseImpl @Inject constructor(
+    private val api: ArticlesApi
+) : LoadArticlesUseCase {
     override operator fun invoke(callback: Callback<List<Article>>) =
         api.getArticles().enqueue(callback)
 }

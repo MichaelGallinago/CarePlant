@@ -7,7 +7,8 @@ import dagger.Module
         AppBindsModule::class,
         ViewModelModule::class,
         AlarmDatabaseModule::class,
-        ArticleDatabaseModule::class
+        ArticleDatabaseModule::class,
+        ApiModule::class
     ]
 )
 class AppModule
