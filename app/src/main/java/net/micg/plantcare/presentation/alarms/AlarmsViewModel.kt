@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 import net.micg.plantcare.domain.implementations.CancelAlarmUseCaseImpl
 import net.micg.plantcare.domain.implementations.DeleteAlarmByIdUseCaseImpl
 import net.micg.plantcare.domain.implementations.GetAllAlarmsUseCaseImpl
-import net.micg.plantcare.domain.implementations.InsertAlarmUseCaseImpl
 import net.micg.plantcare.domain.implementations.SetAlarmUseCaseImpl
 import net.micg.plantcare.domain.implementations.UpdateAlarmUseCaseImpl
 import net.micg.plantcare.presentation.models.Alarm
@@ -26,7 +25,7 @@ class AlarmsViewModel @Inject constructor(
     val allAlarms: LiveData<List<Alarm>> get() = _allAlarms
 
     fun refreshAlarms() = viewModelScope.launch(Dispatchers.IO) {
-        _allAlarms.value = getAllAlarmsUseCase()
+        _allAlarms.postValue(getAllAlarmsUseCase())
     }
 
     fun delete(alarm: Alarm) = viewModelScope.launch(Dispatchers.IO) {

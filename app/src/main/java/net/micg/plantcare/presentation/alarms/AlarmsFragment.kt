@@ -15,7 +15,6 @@ import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmsBinding
 import net.micg.plantcare.di.ViewModelFactory
 import net.micg.plantcare.di.appComponent
-import net.micg.plantcare.presentation.alarm.AlarmCreationViewModel
 import javax.inject.Inject
 
 class AlarmsFragment : Fragment(R.layout.fragment_alarms) {

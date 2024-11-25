@@ -11,7 +11,7 @@ import net.micg.plantcare.domain.implementations.GetErrorMessageUseCaseImpl
 import net.micg.plantcare.domain.implementations.GetAllArticlesUseCaseImpl
 import net.micg.plantcare.domain.implementations.LoadArticlesUseCaseImpl
 import net.micg.plantcare.domain.implementations.SaveCurrentArticlesUseCaseImpl
-import net.micg.plantcare.utils.ErrorMessageService.*
+import net.micg.plantcare.domain.utils.ErrorMessageUtils.Type
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,7 +39,7 @@ class ArticlesViewModel @Inject constructor(
                 }
 
                 (response.body() ?: emptyList()).sortedBy { it.title }.also {
-                    _articles.value = it
+                    _articles.postValue(it)
                     saveCurrentArticlesUseCase(it)
                 }
             }
@@ -53,9 +53,9 @@ class ArticlesViewModel @Inject constructor(
     private fun handleFailure() = viewModelScope.launch(Dispatchers.IO) {
         with(getAllArticlesUseCase()) {
             if (isNotEmpty()) {
-                _articles.value = this
+                _articles.postValue(this)
             } else {
-                _errorMessage.value = getErrorMessageUseCase(Type.LoadingError)
+                _errorMessage.postValue(getErrorMessageUseCase(Type.LoadingError))
             }
         }
     }
@@ -64,11 +64,11 @@ class ArticlesViewModel @Inject constructor(
     private fun handleFailure(message: String?) = viewModelScope.launch(Dispatchers.IO) {
         with(getAllArticlesUseCase()) {
             if (isNotEmpty()) {
-                _articles.value = this
-                _errorMessage.value = "${getErrorMessageUseCase(Type.LoadingError)}: $message"
+                _articles.postValue(this)
+                _errorMessage.postValue("${getErrorMessageUseCase(Type.LoadingError)}: $message")
             } else {
-                _errorMessage.value =
-                    "${getErrorMessageUseCase(Type.ExtendedLoadingError)}: $message"
+                _errorMessage.postValue(
+                    "${getErrorMessageUseCase(Type.ExtendedLoadingError)}: $message")
             }
         }
     }

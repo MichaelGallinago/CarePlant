@@ -8,17 +8,11 @@ import net.micg.plantcare.AlarmReceiver
 import net.micg.plantcare.presentation.models.Alarm
 
 object AlarmNotificationUtils {
-    private lateinit var alarmManager: AlarmManager
-
-    fun init(context: Context) {
-        alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    }
-
     fun cancelAlarm(context: Context, id: Long) =
-        alarmManager.cancel(createPendingIntent(context, id, "", ""))
+        AlarmManagerUtils.getManager(context)?.cancel(createPendingIntent(context, id, "", ""))
 
     fun setAlarm(context: Context, alarm: Alarm) = with(alarm) {
-        alarmManager.setRepeating(
+        AlarmManagerUtils.getManager(context)?.setRepeating(
             AlarmManager.RTC_WAKEUP,
             dateInMillis,
             intervalInMillis,
