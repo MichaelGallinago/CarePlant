@@ -14,6 +14,7 @@ class AlarmCreationViewModel @Inject constructor(
     private val setAlarmUseCase: SetAlarmUseCaseImpl,
 ) : ViewModel() {
     val timeStorage: TimeModel = TimeModel(0, 0, 0, 0, 0)
+    var interval: Long = 1L
 
     fun insert(name: String, type: Byte, dateInMillis: Long, intervalInMillis: Long) =
         viewModelScope.launch(Dispatchers.IO) {

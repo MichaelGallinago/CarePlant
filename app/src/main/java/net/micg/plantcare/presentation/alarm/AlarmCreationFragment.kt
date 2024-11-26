@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
+import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
@@ -50,9 +51,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     }
 
     private fun setUpFragment() = with(binding) {
-        setUpSpinner(timeHoursSpinner, 24)
-        setUpSpinner(timeMinutesSpinner, 60)
-        setUpSpinner(timeDaysSpinner, 365)
+        intervalBar.setOnSeekBarChangeListener(IntervalBarChangeListener())
 
         with(viewModel.timeStorage) {
             with(getCurrentCalendar()) {
@@ -82,15 +81,6 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
             saveAlarm()
             navController.popBackStack()
         }
-    }
-
-    private fun setUpSpinner(spinner: Spinner, size: Int) = with(
-        ArrayAdapter(requireContext(),
-            android.R.layout.simple_spinner_item,
-            List(size) { it.toString() })
-    ) {
-        setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = this
     }
 
     private fun pickDate() = with(getCurrentCalendar()) {
@@ -144,4 +134,13 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
                 set(MINUTE, minute)
             }
         }.timeInMillis
+
+    private class IntervalBarChangeListener : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar) {}
+        override fun onStopTrackingTouch(seekBar: SeekBar) {}
+    }
 }
