@@ -55,12 +55,6 @@ interface AppBindsModule {
     fun bindInsertAlarmUseCase(useCase: InsertAlarmUseCaseImpl): InsertAlarmUseCase
 
     @Binds
-    fun bindLoadArticlesUseCase(useCase: LoadArticlesUseCaseImpl): LoadArticlesUseCase
-
-    @Binds
-    fun bindSaveCurrentArticlesUseCase(useCase: SaveCurrentArticlesUseCaseImpl): SaveCurrentArticlesUseCase
-
-    @Binds
     fun bindSetAlarmUseCase(useCase: SetAlarmUseCaseImpl): SetAlarmUseCase
 
     @Binds
