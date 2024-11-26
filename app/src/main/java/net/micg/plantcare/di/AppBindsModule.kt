@@ -6,14 +6,16 @@ import net.micg.plantcare.data.alarm.AlarmsRepository
 import net.micg.plantcare.data.alarm.AlarmsRepositoryImpl
 import net.micg.plantcare.data.article.ArticlesRepository
 import net.micg.plantcare.data.article.ArticlesRepositoryImpl
+import net.micg.plantcare.data.article.LocalArticlesDataSource
+import net.micg.plantcare.data.article.LocalArticlesDataSourceImpl
+import net.micg.plantcare.data.article.RemoteArticlesDataSource
+import net.micg.plantcare.data.article.RemoteArticlesDataSourceImpl
 import net.micg.plantcare.domain.implementations.CancelAlarmUseCaseImpl
 import net.micg.plantcare.domain.implementations.DeleteAlarmByIdUseCaseImpl
 import net.micg.plantcare.domain.implementations.GetAllAlarmsUseCaseImpl
 import net.micg.plantcare.domain.implementations.GetAllArticlesUseCaseImpl
 import net.micg.plantcare.domain.implementations.GetErrorMessageUseCaseImpl
 import net.micg.plantcare.domain.implementations.InsertAlarmUseCaseImpl
-import net.micg.plantcare.domain.implementations.LoadArticlesUseCaseImpl
-import net.micg.plantcare.domain.implementations.SaveCurrentArticlesUseCaseImpl
 import net.micg.plantcare.domain.implementations.SetAlarmUseCaseImpl
 import net.micg.plantcare.domain.implementations.UpdateAlarmUseCaseImpl
 import net.micg.plantcare.domain.usecase.CancelAlarmUseCase
@@ -22,8 +24,6 @@ import net.micg.plantcare.domain.usecase.GetAllAlarmsUseCase
 import net.micg.plantcare.domain.usecase.GetAllArticlesUseCase
 import net.micg.plantcare.domain.usecase.GetErrorMessageUseCase
 import net.micg.plantcare.domain.usecase.InsertAlarmUseCase
-import net.micg.plantcare.domain.usecase.LoadArticlesUseCase
-import net.micg.plantcare.domain.usecase.SaveCurrentArticlesUseCase
 import net.micg.plantcare.domain.usecase.SetAlarmUseCase
 import net.micg.plantcare.domain.usecase.UpdateAlarmUseCase
 import net.micg.plantcare.domain.utils.TypeLabelUtils
@@ -65,4 +65,10 @@ interface AppBindsModule {
 
     @Binds
     fun bindUpdateAlarmUseCase(useCase: UpdateAlarmUseCaseImpl): UpdateAlarmUseCase
+
+    @Binds
+    fun bindLocalArticlesDataSource(dataSource: LocalArticlesDataSourceImpl): LocalArticlesDataSource
+
+    @Binds
+    fun bindRemoteArticlesDataSource(dataSource: RemoteArticlesDataSourceImpl): RemoteArticlesDataSource
 }
