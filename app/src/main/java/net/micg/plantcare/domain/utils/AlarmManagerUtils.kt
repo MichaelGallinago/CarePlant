@@ -4,11 +4,10 @@ import android.app.AlarmManager
 import android.content.Context
 
 object AlarmManagerUtils {
-    private var alarmManagerField: AlarmManager? = null
+    private lateinit var _alarmManager: AlarmManager
+    val alarmManager get() = _alarmManager
 
-    fun getManager(context: Context): AlarmManager? {
-        if (alarmManagerField != null) return alarmManagerField
-        alarmManagerField = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        return alarmManagerField
+    fun init(context: Context) {
+        _alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     }
 }

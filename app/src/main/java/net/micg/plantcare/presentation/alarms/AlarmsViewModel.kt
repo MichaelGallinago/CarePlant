@@ -34,13 +34,16 @@ class AlarmsViewModel @Inject constructor(
         refreshAlarms()
     }
 
-    fun update(isEnabled: Boolean, alarm: Alarm) = viewModelScope.launch(Dispatchers.IO) {
-        updateAlarmUseCase(isEnabled, alarm.id)
+    fun update(isEnabled: Boolean, alarm: Alarm) {
+        viewModelScope.launch(Dispatchers.IO) {
+            updateAlarmUseCase(isEnabled, alarm.id)
+            refreshAlarms()
+        }
+
         if (isEnabled) {
             setAlarmUseCase(alarm)
         } else {
             cancelAlarmUseCase(alarm.id)
         }
-        refreshAlarms()
     }
 }

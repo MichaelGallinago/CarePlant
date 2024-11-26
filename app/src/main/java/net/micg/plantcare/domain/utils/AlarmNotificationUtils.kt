@@ -4,15 +4,19 @@ import android.app.AlarmManager
 import android.app.PendingIntent.*
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import net.micg.plantcare.AlarmReceiver
 import net.micg.plantcare.presentation.models.Alarm
 
 object AlarmNotificationUtils {
-    fun cancelAlarm(context: Context, id: Long) =
-        AlarmManagerUtils.getManager(context)?.cancel(createPendingIntent(context, id, "", ""))
+    fun cancelAlarm(context: Context, id: Long) {
+        Toast.makeText(context, "Выключен: $id", Toast.LENGTH_SHORT).show() //TODO: remove
+        AlarmManagerUtils.alarmManager.cancel(createPendingIntent(context, id, "", ""))
+    }
 
     fun setAlarm(context: Context, alarm: Alarm) = with(alarm) {
-        AlarmManagerUtils.getManager(context)?.setRepeating(
+        Toast.makeText(context, "${alarm.id}: ${alarm.name} ${alarm.isEnabled}", Toast.LENGTH_SHORT).show() //TODO: remove
+        AlarmManagerUtils.alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             dateInMillis,
             intervalInMillis,
