@@ -3,6 +3,7 @@ package net.micg.plantcare.presentation.articles
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -43,6 +44,7 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
         setUpEdgeToEdgeForCurrentFragment()
         setUpViewModel()
         setUpRecyclerView()
+        setUpSearchView()
     }
 
     private fun setUpEdgeToEdgeForCurrentFragment() =
@@ -72,5 +74,19 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
                 addItemDecoration(this)
             }
         }
+    }
+
+    private fun setUpSearchView() = with(binding.searchView) {
+        setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { viewModel.filterArticles(it) }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.filterArticles(newText.orEmpty())
+                return true
+            }
+        })
     }
 }

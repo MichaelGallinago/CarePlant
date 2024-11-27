@@ -5,14 +5,14 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.micg.plantcare.presentation.models.TimeModel
-import net.micg.plantcare.domain.implementations.InsertAlarmUseCaseImpl
-import net.micg.plantcare.domain.implementations.SetAlarmUseCaseImpl
+import net.micg.plantcare.domain.usecase.InsertAlarmUseCase
+import net.micg.plantcare.domain.usecase.SetAlarmUseCase
 import net.micg.plantcare.presentation.utils.AlarmCreationUtils
 import javax.inject.Inject
 
 class AlarmCreationViewModel @Inject constructor(
-    private val insertAlarmUseCase: InsertAlarmUseCaseImpl,
-    private val setAlarmUseCase: SetAlarmUseCaseImpl,
+    private val insertAlarmUseCase: InsertAlarmUseCase,
+    private val setAlarmUseCase: SetAlarmUseCase,
 ) : ViewModel() {
     val timeStorage: TimeModel = TimeModel(0, 0, 0, 0, 0)
     var interval: Long = 0L

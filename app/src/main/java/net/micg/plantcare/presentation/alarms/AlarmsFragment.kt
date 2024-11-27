@@ -34,7 +34,6 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
 
     override fun onResume() {
         super.onResume()
-        viewModel.refreshAlarms()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,7 +41,6 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
         setUpEdgeToEdgeForCurrentFragment()
         setUpAdapter()
         setUpNavigation()
-        viewModel.refreshAlarms()
     }
 
     private fun setUpEdgeToEdgeForCurrentFragment() =
