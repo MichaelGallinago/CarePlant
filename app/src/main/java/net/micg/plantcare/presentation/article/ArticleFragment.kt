@@ -26,7 +26,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         }?.let { url ->
             with(binding.webView) {
                 settings.cacheMode = WebSettings.LOAD_DEFAULT
-                loadUrl(BuildConfig.SERVER_URL + url)
+                loadUrl(BuildConfig.BASE_URL + url)
             }
         }
     }

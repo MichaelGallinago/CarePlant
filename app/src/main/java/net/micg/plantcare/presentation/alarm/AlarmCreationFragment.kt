@@ -5,9 +5,8 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.DatePicker
-import android.widget.Spinner
+import android.widget.SeekBar
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -21,7 +20,7 @@ import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.presentation.utils.AlarmCreationUtils.calculateIntervalInMillis
 import java.util.Calendar.*
 import net.micg.plantcare.presentation.utils.AlarmCreationUtils.getCurrentCalendar
-import net.micg.plantcare.presentation.utils.AlarmCreationUtils.getSpinnerValue
+import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsMarginToCurrentView
 import javax.inject.Inject
 
 class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
@@ -29,7 +28,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     lateinit var factory: ViewModelFactory
 
     private val binding: FragmentAlarmCreationBinding by viewBinding()
-    private val viewModel: AlarmViewModel by viewModels { factory }
+    private val viewModel: AlarmCreationViewModel by viewModels { factory }
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -38,15 +37,22 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupListeners(findNavController())
-        setupFragment()
+        setUpEdgeToEdgeForCurrentFragment()
+        setUpListeners(findNavController())
+        setUpFragment()
     }
 
-    private fun setupFragment() = with(binding) {
-        setupSpinner(timeHoursSpinner, 24)
-        setupSpinner(timeMinutesSpinner, 60)
-        setupSpinner(timeDaysSpinner, 365)
+    private fun setUpEdgeToEdgeForCurrentFragment() {
+        addTopInsetsMarginToCurrentView(binding.confirmButton)
+        addTopInsetsMarginToCurrentView(binding.cancelButton)
+    }
+
+    private fun setUpFragment() = with(binding) {
+        with(intervalBar) {
+            setOnSeekBarChangeListener(IntervalBarChangeListener())
+            max = 364
+        }
+        updateIntervalValue(0L)
 
         with(viewModel.timeStorage) {
             with(getCurrentCalendar()) {
@@ -69,22 +75,21 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         }
     }
 
-    private fun setupListeners(navController: NavController) = with(binding) {
-        cancelButton.setOnClickListener { navController.popBackStack() }
-
-        confirmButton.setOnClickListener {
-            saveAlarm()
+    private fun setUpListeners(navController: NavController) = with(binding) {
+        cancelButton.setOnClickListener {
+            if (viewModel.isCreationStarted) return@setOnClickListener
             navController.popBackStack()
         }
-    }
 
-    private fun setupSpinner(spinner: Spinner, size: Int) = with(
-        ArrayAdapter(requireContext(),
-            android.R.layout.simple_spinner_item,
-            List(size) { it.toString() })
-    ) {
-        setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = this
+        viewModel.isCreationFinished.observe(viewLifecycleOwner) { isFinished ->
+            if (!isFinished) return@observe
+            navController.popBackStack()
+        }
+
+        confirmButton.setOnClickListener {
+            viewModel.isCreationStarted = true
+            saveAlarm()
+        }
     }
 
     private fun pickDate() = with(getCurrentCalendar()) {
@@ -119,12 +124,13 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
             nameEditText.text.toString(),
             if (radioWatering.isChecked) 0.toByte() else 1.toByte(),
             dateInMillis,
-            calculateIntervalInMillis(
-                getSpinnerValue(timeDaysSpinner),
-                getSpinnerValue(timeHoursSpinner),
-                getSpinnerValue(timeMinutesSpinner)
-            )
+            calculateIntervalInMillis(viewModel.interval)
         )
+    }
+
+    private fun updateIntervalValue(value: Long) {
+        viewModel.interval = value + 1L
+        binding.intervalValue.text = "${viewModel.interval}"
     }
 
     private val dateInMillis
@@ -138,4 +144,12 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
                 set(MINUTE, minute)
             }
         }.timeInMillis
+
+    private inner class IntervalBarChangeListener : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) =
+            updateIntervalValue(progress.toLong())
+
+        override fun onStartTrackingTouch(seekBar: SeekBar) {}
+        override fun onStopTrackingTouch(seekBar: SeekBar) {}
+    }
 }

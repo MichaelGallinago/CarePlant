@@ -31,10 +31,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:drawableEnd="@drawable/ic_edit_date"
+        android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@id/time_selector"
         app:layout_constraintStart_toStartOf="@id/cancelButton"
         app:layout_constraintTop_toBottomOf="@id/cancelButton"
-        tools:text="Выбор даты" />
+        tools:text="04.04.2024" />
 
     <Button
         android:id="@+id/time_selector"
@@ -42,10 +44,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:drawableEnd="@drawable/ic_edit_time"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/confirmButton"
         app:layout_constraintStart_toEndOf="@id/date_selector"
         app:layout_constraintTop_toBottomOf="@id/confirmButton"
-        tools:text="Выбор времени" />
+        tools:text="04:04" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -64,63 +68,25 @@
         android:layout_marginTop="16dp"
         android:text="@string/select_interval"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@id/confirmButton"
         app:layout_constraintStart_toStartOf="@id/date_selector"
         app:layout_constraintTop_toBottomOf="@id/date_selector" />
 
-    <Spinner
-        android:id="@+id/timeDaysSpinner"
-        android:layout_width="120dp"
-        android:layout_height="48dp"
+    <TextView
+        android:id="@+id/interval_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@id/interval_label"
+        app:layout_constraintTop_toTopOf="@id/interval_label"
+        tools:text="404" />
+
+    <SeekBar
+        android:id="@+id/interval_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/interval_label" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/days"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/timeDaysSpinner"
-        app:layout_constraintStart_toEndOf="@id/timeDaysSpinner"
-        app:layout_constraintTop_toTopOf="@id/timeDaysSpinner" />
-
-    <Spinner
-        android:id="@+id/timeHoursSpinner"
-        android:layout_width="120dp"
-        android:layout_height="48dp"
-        android:layout_margin="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timeDaysSpinner" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/hours"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/timeHoursSpinner"
-        app:layout_constraintStart_toEndOf="@id/timeHoursSpinner"
-        app:layout_constraintTop_toTopOf="@id/timeHoursSpinner" />
-
-    <Spinner
-        android:id="@+id/timeMinutesSpinner"
-        android:layout_width="120dp"
-        android:layout_height="48dp"
-        android:layout_margin="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/timeHoursSpinner" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/minutes"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/timeMinutesSpinner"
-        app:layout_constraintStart_toEndOf="@id/timeMinutesSpinner"
-        app:layout_constraintTop_toTopOf="@id/timeMinutesSpinner" />
 
     <EditText
         android:id="@+id/nameEditText"
@@ -133,7 +99,7 @@
         android:maxLength="128"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        app:layout_constraintTop_toBottomOf="@id/timeMinutesSpinner" />
+        app:layout_constraintTop_toBottomOf="@id/interval_bar" />
 
     <RadioGroup
         android:id="@+id/actionRadioGroup"

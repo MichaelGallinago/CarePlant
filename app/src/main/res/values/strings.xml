@@ -19,7 +19,7 @@
     <string name="friday">Пятница</string>
     <string name="saturday">Суббота</string>
     <string name="sunday">Воскресенье</string>
-    <string name="select_interval">Выберите интервал напоминания</string>
+    <string name="select_interval">Напоминать раз в … дней:</string>
     <string name="days">Дни</string>
     <string name="hours">Часы</string>
     <string name="minutes">Минуты</string>
