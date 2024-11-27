@@ -72,11 +72,10 @@
         app:layout_constraintTop_toBottomOf="@id/date_selector" />
 
     <TextView
-        android:id="@+id/f"
+        android:id="@+id/interval_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="@string/select_interval"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@id/interval_label"
         app:layout_constraintTop_toTopOf="@id/interval_label"

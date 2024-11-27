@@ -5,10 +5,8 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.SeekBar
-import android.widget.Spinner
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,7 +20,6 @@ import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.presentation.utils.AlarmCreationUtils.calculateIntervalInMillis
 import java.util.Calendar.*
 import net.micg.plantcare.presentation.utils.AlarmCreationUtils.getCurrentCalendar
-import net.micg.plantcare.presentation.utils.AlarmCreationUtils.getSpinnerValue
 import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsMarginToCurrentView
 import javax.inject.Inject
 
@@ -51,7 +48,11 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     }
 
     private fun setUpFragment() = with(binding) {
-        intervalBar.setOnSeekBarChangeListener(IntervalBarChangeListener())
+        with(intervalBar) {
+            setOnSeekBarChangeListener(IntervalBarChangeListener())
+            max = 364
+        }
+        updateIntervalValue(0L)
 
         with(viewModel.timeStorage) {
             with(getCurrentCalendar()) {
@@ -115,12 +116,13 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
             nameEditText.text.toString(),
             if (radioWatering.isChecked) 0.toByte() else 1.toByte(),
             dateInMillis,
-            calculateIntervalInMillis(
-                getSpinnerValue(timeDaysSpinner),
-                getSpinnerValue(timeHoursSpinner),
-                getSpinnerValue(timeMinutesSpinner)
-            )
+            calculateIntervalInMillis(viewModel.interval)
         )
+    }
+
+    private fun updateIntervalValue(value: Long) {
+        viewModel.interval = value + 1L
+        binding.intervalValue.text = "${viewModel.interval}"
     }
 
     private val dateInMillis
@@ -135,10 +137,9 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
             }
         }.timeInMillis
 
-    private class IntervalBarChangeListener : SeekBar.OnSeekBarChangeListener {
-        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-
-        }
+    private inner class IntervalBarChangeListener : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) =
+            updateIntervalValue(progress.toLong())
 
         override fun onStartTrackingTouch(seekBar: SeekBar) {}
         override fun onStopTrackingTouch(seekBar: SeekBar) {}
