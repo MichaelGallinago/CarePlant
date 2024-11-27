@@ -79,12 +79,12 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
     private fun setUpSearchView() = with(binding.searchView) {
         setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                query?.let { viewModel.filterArticles(it) }
+                query?.let { viewModel.filter = it }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.filterArticles(newText.orEmpty())
+                viewModel.filter = newText.orEmpty()
                 return true
             }
         })

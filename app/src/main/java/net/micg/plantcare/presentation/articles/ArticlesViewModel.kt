@@ -23,11 +23,17 @@ class ArticlesViewModel @Inject constructor(
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
 
-    fun filterArticles(query: String) = _articles.postValue(
-        if (query.isEmpty()) {
+    var filter: String = ""
+        set(query) {
+            field = query
+            filterArticles()
+        }
+
+    private fun filterArticles() = _articles.postValue(
+        if (filter.isEmpty()) {
             allArticles
         } else {
-            allArticles.filter { it.title.contains(query, ignoreCase = true) }
+            allArticles.filter { it.title.contains(filter, ignoreCase = true) }
         }
     )
 
@@ -36,7 +42,7 @@ class ArticlesViewModel @Inject constructor(
             when (this) {
                 is HttpResponseState.Success -> {
                     allArticles = this.value
-                    _articles.postValue(allArticles)
+                    filterArticles()
                 }
                 is HttpResponseState.Failure -> _errorMessage.postValue(
                     getErrorMessageUseCase(this.type)
