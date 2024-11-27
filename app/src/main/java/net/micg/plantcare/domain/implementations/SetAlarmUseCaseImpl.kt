@@ -1,7 +1,6 @@
 package net.micg.plantcare.domain.implementations
 
 import android.content.Context
-import android.widget.Toast
 import net.micg.plantcare.domain.usecase.SetAlarmUseCase
 import net.micg.plantcare.domain.utils.AlarmNotificationUtils
 import net.micg.plantcare.presentation.models.Alarm

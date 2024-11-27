@@ -20,14 +20,32 @@ class ArticlesViewModel @Inject constructor(
     private val _articles = MutableLiveData<List<Article>>()
     val articles: LiveData<List<Article>> get() = _articles
 
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String> get() = _errorMessage
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> get() = _errorMessage
 
     var filter: String = ""
         set(query) {
             field = query
             filterArticles()
         }
+
+    fun loadArticles() = viewModelScope.launch(Dispatchers.IO) {
+        with(getAllArticlesUseCase()) {
+            when (this) {
+                is HttpResponseState.Success -> {
+                    _errorMessage.postValue(null)
+                    allArticles = this.value
+                    filterArticles()
+                }
+
+                is HttpResponseState.Failure -> {
+                    _errorMessage.postValue(getErrorMessageUseCase(this.type))
+                }
+            }
+        }
+    }
+
+    fun onDestroyArticlesFragment() = _errorMessage.postValue(null)
 
     private fun filterArticles() = _articles.postValue(
         if (filter.isEmpty()) {
@@ -36,18 +54,4 @@ class ArticlesViewModel @Inject constructor(
             allArticles.filter { it.title.contains(filter, ignoreCase = true) }
         }
     )
-
-    fun loadArticles() = viewModelScope.launch(Dispatchers.IO) {
-        with(getAllArticlesUseCase()) {
-            when (this) {
-                is HttpResponseState.Success -> {
-                    allArticles = this.value
-                    filterArticles()
-                }
-                is HttpResponseState.Failure -> _errorMessage.postValue(
-                    getErrorMessageUseCase(this.type)
-                )
-            }
-        }
-    }
 }

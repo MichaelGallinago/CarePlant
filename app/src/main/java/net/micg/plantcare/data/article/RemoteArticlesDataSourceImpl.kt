@@ -17,9 +17,7 @@ class RemoteArticlesDataSourceImpl @Inject constructor(
                 response.message(), ErrorMessageUtils.Type.LoadingError
             )
 
-            return HttpResponseState.Success(
-                response.body()?.toList() ?: emptyList()
-            )
+            return HttpResponseState.Success(response.body()?.toList() ?: emptyList())
         },
         onFailure = { throwable ->
             return HttpResponseState.Failure(

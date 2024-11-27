@@ -2,6 +2,7 @@ package net.micg.plantcare.presentation.articles
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
@@ -42,9 +43,14 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpEdgeToEdgeForCurrentFragment()
-        setUpViewModel()
         setUpRecyclerView()
+        setUpViewModel()
         setUpSearchView()
+    }
+
+    override fun onDestroyView() {
+        viewModel.onDestroyArticlesFragment()
+        super.onDestroyView()
     }
 
     private fun setUpEdgeToEdgeForCurrentFragment() =

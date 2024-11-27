@@ -12,7 +12,7 @@ class AlarmsRepositoryImpl @Inject constructor(private val alarmDao: AlarmDao) :
     private val _allAlarmEntities = MutableLiveData<List<AlarmEntity>>()
     override val allAlarmEntities: LiveData<List<AlarmEntity>> get() = _allAlarmEntities
 
-    init { runBlocking { updateAll() } }
+    init { runBlocking { updateAll() } } // TODO: are you serious?
 
     override suspend fun update(isEnabled: Boolean, id: Long) {
         alarmDao.update(isEnabled, id)
