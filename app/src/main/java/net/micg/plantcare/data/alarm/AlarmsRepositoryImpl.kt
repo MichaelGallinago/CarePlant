@@ -1,34 +1,29 @@
 package net.micg.plantcare.data.alarm
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.runBlocking
+import android.util.Log
+import androidx.annotation.WorkerThread
+import kotlinx.coroutines.flow.Flow
 import net.micg.plantcare.data.models.alarm.AlarmEntity
 import net.micg.plantcare.data.models.alarm.AlarmDao
-import net.micg.plantcare.presentation.models.Alarm
 import javax.inject.Inject
 
 class AlarmsRepositoryImpl @Inject constructor(private val alarmDao: AlarmDao) : AlarmsRepository {
-    private val _allAlarmEntities = MutableLiveData<List<AlarmEntity>>()
-    override val allAlarmEntities: LiveData<List<AlarmEntity>> get() = _allAlarmEntities
+    override val allAlarmEntities: Flow<List<AlarmEntity>> = alarmDao.getAll()
 
-    init { runBlocking { updateAll() } } // TODO: are you serious?
-
+    @WorkerThread
     override suspend fun update(isEnabled: Boolean, id: Long) {
         alarmDao.update(isEnabled, id)
-        updateAll()
     }
 
+    @WorkerThread
     override suspend fun insert(alarm: AlarmEntity): Long {
         val id = alarmDao.insert(alarm)
-        updateAll()
+        Log.d("alarm_debug", "Inserted $id")
         return id
     }
 
+    @WorkerThread
     override suspend fun deleteById(id: Long) {
         alarmDao.deleteById(id)
-        updateAll()
     }
-
-    private suspend fun updateAll() = _allAlarmEntities.postValue(alarmDao.getAll())
 }

@@ -1,10 +1,10 @@
 package net.micg.plantcare.data.alarm
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 import net.micg.plantcare.data.models.alarm.AlarmEntity
 
 interface AlarmsRepository {
-    val allAlarmEntities: LiveData<List<AlarmEntity>>
+    val allAlarmEntities: Flow<List<AlarmEntity>>
 
     suspend fun insert(alarm: AlarmEntity): Long
     suspend fun deleteById(id: Long)

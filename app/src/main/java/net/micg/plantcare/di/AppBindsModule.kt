@@ -12,7 +12,7 @@ import net.micg.plantcare.data.article.RemoteArticlesDataSource
 import net.micg.plantcare.data.article.RemoteArticlesDataSourceImpl
 import net.micg.plantcare.domain.implementations.CancelAlarmUseCaseImpl
 import net.micg.plantcare.domain.implementations.DeleteAlarmByIdUseCaseImpl
-import net.micg.plantcare.domain.implementations.GetAllAlarmsUseCaseImpl
+import net.micg.plantcare.domain.implementations.SetAlarmsObserverUseCaseImpl
 import net.micg.plantcare.domain.implementations.GetAllArticlesUseCaseImpl
 import net.micg.plantcare.domain.implementations.GetErrorMessageUseCaseImpl
 import net.micg.plantcare.domain.implementations.InsertAlarmUseCaseImpl
@@ -20,13 +20,12 @@ import net.micg.plantcare.domain.implementations.SetAlarmUseCaseImpl
 import net.micg.plantcare.domain.implementations.UpdateAlarmUseCaseImpl
 import net.micg.plantcare.domain.usecase.CancelAlarmUseCase
 import net.micg.plantcare.domain.usecase.DeleteAlarmByIdUseCase
-import net.micg.plantcare.domain.usecase.GetAllAlarmsUseCase
+import net.micg.plantcare.domain.usecase.SetAlarmsObserverUseCase
 import net.micg.plantcare.domain.usecase.GetAllArticlesUseCase
 import net.micg.plantcare.domain.usecase.GetErrorMessageUseCase
 import net.micg.plantcare.domain.usecase.InsertAlarmUseCase
 import net.micg.plantcare.domain.usecase.SetAlarmUseCase
 import net.micg.plantcare.domain.usecase.UpdateAlarmUseCase
-import net.micg.plantcare.domain.utils.TypeLabelUtils
 
 @Module
 interface AppBindsModule {
@@ -43,7 +42,7 @@ interface AppBindsModule {
     fun bindDeleteAlarmByIdUseCase(useCase: DeleteAlarmByIdUseCaseImpl): DeleteAlarmByIdUseCase
 
     @Binds
-    fun bindGetAllAlarmsUseCase(useCase: GetAllAlarmsUseCaseImpl): GetAllAlarmsUseCase
+    fun bindGetAllAlarmsUseCase(useCase: SetAlarmsObserverUseCaseImpl): SetAlarmsObserverUseCase
 
     @Binds
     fun bindGetAllArticlesUseCase(useCase: GetAllArticlesUseCaseImpl): GetAllArticlesUseCase

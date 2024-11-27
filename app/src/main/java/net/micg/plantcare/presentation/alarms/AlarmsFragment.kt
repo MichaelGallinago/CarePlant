@@ -2,6 +2,7 @@ package net.micg.plantcare.presentation.alarms
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -32,10 +33,6 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
         super.onAttach(context)
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpEdgeToEdgeForCurrentFragment()
@@ -63,7 +60,10 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
             }
         }
 
-        viewModel.allAlarms.observe(viewLifecycleOwner) { alarms -> it.submitList(alarms) }
+        viewModel.allAlarms.observe(viewLifecycleOwner) { alarms ->
+            Log.d("alarm_debug", "Submit List")
+            it.submitList(alarms)
+        }
     }
 
     private fun setUpNavigation() = with(findNavController()) {

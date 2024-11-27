@@ -76,11 +76,19 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     }
 
     private fun setUpListeners(navController: NavController) = with(binding) {
-        cancelButton.setOnClickListener { navController.popBackStack() }
+        cancelButton.setOnClickListener {
+            if (viewModel.isCreationStarted) return@setOnClickListener
+            navController.popBackStack()
+        }
+
+        viewModel.isCreationFinished.observe(viewLifecycleOwner) { isFinished ->
+            if (!isFinished) return@observe
+            navController.popBackStack()
+        }
 
         confirmButton.setOnClickListener {
+            viewModel.isCreationStarted = true
             saveAlarm()
-            navController.popBackStack()
         }
     }
 
