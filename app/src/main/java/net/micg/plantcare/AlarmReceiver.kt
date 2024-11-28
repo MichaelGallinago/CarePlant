@@ -5,12 +5,14 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import net.micg.plantcare.presentation.MainActivity
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val alarmId = intent.getIntExtra(ALARM_ID, 0)
+        Log.d("alarm_debug", alarmId.toString())
 
         val alarmName = intent.getStringExtra(ALARM_NAME).takeUnless {
             it.isNullOrBlank()

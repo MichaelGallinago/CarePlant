@@ -9,21 +9,27 @@ import net.micg.plantcare.presentation.models.Alarm
 
 object AlarmNotificationUtils {
     fun cancelAlarm(context: Context, id: Long) = AlarmManagerUtils.alarmManager.cancel(
-        createPendingIntent(context, id, createIntent(context))
+        createPendingIntent(context, id.toInt(), createIntent(context))
     )
 
     fun setAlarm(context: Context, alarm: Alarm) = with(alarm) {
+        val intId = id.toInt()
         AlarmManagerUtils.alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             dateInMillis,
             intervalInMillis,
-            createPendingIntent(context, id, createExtraIntent(context, id, name, type))
+            createPendingIntent(context, intId, createExtraIntent(context, intId, name, type))
         )
+        /*AlarmManagerUtils.alarmManager.setExact(
+            AlarmManager.RTC_WAKEUP,
+            dateInMillis,
+            createPendingIntent(context, intId, createExtraIntent(context, intId, name, type))
+        )*/
     }
 
-    private fun createPendingIntent(context: Context, id: Long, intent: Intent) = getBroadcast(
+    private fun createPendingIntent(context: Context, id: Int, intent: Intent) = getBroadcast(
         context,
-        id.toInt(),
+        id,
         intent,
         FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
     )
@@ -31,7 +37,7 @@ object AlarmNotificationUtils {
     private fun createIntent(context: Context) = Intent(context, AlarmReceiver::class.java)
 
     private fun createExtraIntent(
-        context: Context, id: Long, name: String, type: String,
+        context: Context, id: Int, name: String, type: String,
     ) = createIntent(context).apply {
         putExtra(AlarmReceiver.ALARM_ID, id)
         putExtra(AlarmReceiver.ALARM_NAME, name)

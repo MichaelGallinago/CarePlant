@@ -22,9 +22,10 @@ class AlarmCreationViewModel @Inject constructor(
     val isCreationFinished: LiveData<Boolean> get() = _isCreationFinished
     var isCreationStarted: Boolean = false
 
-    fun insert(name: String, type: Byte, dateInMillis: Long, intervalInMillis: Long) =
-        viewModelScope.launch(Dispatchers.IO) {
-            setAlarmUseCase(insertAlarmUseCase(name, type, dateInMillis, intervalInMillis))
-            _isCreationFinished.postValue(true)
-        }
+    fun insert(
+        name: String, type: Byte, dateInMillis: Long, intervalInMillis: Long
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        setAlarmUseCase(insertAlarmUseCase(name, type, dateInMillis, intervalInMillis))
+        _isCreationFinished.postValue(true)
+    }
 }

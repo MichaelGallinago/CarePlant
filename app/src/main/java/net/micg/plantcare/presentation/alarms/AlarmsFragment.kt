@@ -60,10 +60,7 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
             }
         }
 
-        viewModel.allAlarms.observe(viewLifecycleOwner) { alarms ->
-            Log.d("alarm_debug", "Submit List")
-            it.submitList(alarms)
-        }
+        viewModel.allAlarms.observe(viewLifecycleOwner) { alarms -> it.submitList(alarms) }
     }
 
     private fun setUpNavigation() = with(findNavController()) {
