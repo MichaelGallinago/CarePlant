@@ -7,5 +7,14 @@ import net.micg.plantcare.presentation.models.Alarm
 import javax.inject.Inject
 
 class SetAlarmUseCaseImpl @Inject constructor(private val context: Context) : SetAlarmUseCase {
-    override operator fun invoke(alarm: Alarm) = AlarmNotificationUtils.setAlarm(context, alarm)
+    override operator fun invoke(alarm: Alarm) = with(alarm) {
+        AlarmNotificationUtils.setAlarm(
+            context,
+            id.toInt(),
+            name,
+            type,
+            AlarmNotificationUtils.getValidDate(dateInMillis, intervalInMillis),
+            intervalInMillis
+        )
+    }
 }

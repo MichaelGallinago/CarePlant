@@ -7,7 +7,6 @@ import android.os.Build
 import net.micg.plantcare.AlarmReceiver.Companion.ALARM_CHANNEL_ID
 import net.micg.plantcare.di.AppComponent
 import net.micg.plantcare.di.DaggerAppComponent
-import net.micg.plantcare.domain.utils.AlarmManagerUtils
 
 class PlantCareApplication : Application() {
     lateinit var appComponent: AppComponent
@@ -15,7 +14,6 @@ class PlantCareApplication : Application() {
 
     override fun onCreate() {
         appComponent = DaggerAppComponent.factory().create(applicationContext)
-        AlarmManagerUtils.init(applicationContext)
         createNotificationChannel()
         super.onCreate()
     }
