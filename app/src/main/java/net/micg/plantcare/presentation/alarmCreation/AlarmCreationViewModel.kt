@@ -5,8 +5,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.micg.plantcare.presentation.models.TimeModel
-import net.micg.plantcare.domain.usecase.InsertAlarmUseCase
-import net.micg.plantcare.domain.usecase.SetAlarmUseCase
+import net.micg.plantcare.domain.useCase.InsertAlarmUseCase
+import net.micg.plantcare.domain.useCase.SetAlarmUseCase
 import javax.inject.Inject
 
 class AlarmCreationViewModel @Inject constructor(

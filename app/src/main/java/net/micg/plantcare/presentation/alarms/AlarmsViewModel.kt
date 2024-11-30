@@ -5,22 +5,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import net.micg.plantcare.domain.usecase.CancelAlarmUseCase
-import net.micg.plantcare.domain.usecase.DeleteAlarmByIdUseCase
-import net.micg.plantcare.domain.usecase.SetAlarmsObserverUseCase
-import net.micg.plantcare.domain.usecase.SetAlarmUseCase
-import net.micg.plantcare.domain.usecase.UpdateAlarmUseCase
+import net.micg.plantcare.domain.useCase.CancelAlarmUseCase
+import net.micg.plantcare.domain.useCase.DeleteAlarmByIdUseCase
+import net.micg.plantcare.domain.useCase.GetAllAlarmsUseCase
+import net.micg.plantcare.domain.useCase.SetAlarmUseCase
+import net.micg.plantcare.domain.useCase.UpdateAlarmUseCase
 import net.micg.plantcare.presentation.models.Alarm
 import javax.inject.Inject
 
 class AlarmsViewModel @Inject constructor(
     private val deleteAlarmUseCase: DeleteAlarmByIdUseCase,
-    private val setAlarmsObserverUseCase: SetAlarmsObserverUseCase,
+    private val getAllAlarmsUseCase: GetAllAlarmsUseCase,
     private val updateAlarmUseCase: UpdateAlarmUseCase,
     private val setAlarmUseCase: SetAlarmUseCase,
     private val cancelAlarmUseCase: CancelAlarmUseCase,
 ) : ViewModel() {
-    val allAlarms: LiveData<List<Alarm>> get() = setAlarmsObserverUseCase()
+    val allAlarms: LiveData<List<Alarm>> get() = getAllAlarmsUseCase()
 
     fun delete(alarm: Alarm) = viewModelScope.launch(Dispatchers.IO) {
         deleteAlarmUseCase(alarm.id)

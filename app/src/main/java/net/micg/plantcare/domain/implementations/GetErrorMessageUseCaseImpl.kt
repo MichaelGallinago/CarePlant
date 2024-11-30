@@ -1,7 +1,7 @@
 package net.micg.plantcare.domain.implementations
 
 import android.content.Context
-import net.micg.plantcare.domain.usecase.GetErrorMessageUseCase
+import net.micg.plantcare.domain.useCase.GetErrorMessageUseCase
 import net.micg.plantcare.domain.utils.ErrorMessageUtils
 import javax.inject.Inject
 

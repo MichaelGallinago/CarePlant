@@ -1,4 +1,4 @@
-package net.micg.plantcare.domain.usecase
+package net.micg.plantcare.domain.useCase
 
 import net.micg.plantcare.data.models.HttpResponseState
 import net.micg.plantcare.data.models.article.Article

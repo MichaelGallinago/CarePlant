@@ -8,8 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.micg.plantcare.data.models.HttpResponseState
 import net.micg.plantcare.data.models.article.Article
-import net.micg.plantcare.domain.usecase.GetAllArticlesUseCase
-import net.micg.plantcare.domain.usecase.GetErrorMessageUseCase
+import net.micg.plantcare.domain.useCase.GetAllArticlesUseCase
+import net.micg.plantcare.domain.useCase.GetErrorMessageUseCase
 import javax.inject.Inject
 
 class ArticlesViewModel @Inject constructor(

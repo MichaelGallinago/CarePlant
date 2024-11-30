@@ -4,7 +4,7 @@ import android.content.Context
 import net.micg.plantcare.presentation.models.Alarm
 import net.micg.plantcare.data.alarm.AlarmsRepository
 import net.micg.plantcare.data.models.alarm.AlarmEntity
-import net.micg.plantcare.domain.usecase.InsertAlarmUseCase
+import net.micg.plantcare.domain.useCase.InsertAlarmUseCase
 import net.micg.plantcare.domain.utils.TypeLabelUtils
 import javax.inject.Inject
 

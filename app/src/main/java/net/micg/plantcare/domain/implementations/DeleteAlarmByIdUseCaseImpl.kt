@@ -1,7 +1,7 @@
 package net.micg.plantcare.domain.implementations
 
 import net.micg.plantcare.data.alarm.AlarmsRepository
-import net.micg.plantcare.domain.usecase.DeleteAlarmByIdUseCase
+import net.micg.plantcare.domain.useCase.DeleteAlarmByIdUseCase
 import javax.inject.Inject
 
 class DeleteAlarmByIdUseCaseImpl @Inject constructor(

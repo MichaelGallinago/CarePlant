@@ -1,7 +1,7 @@
 package net.micg.plantcare.domain.implementations
 
 import net.micg.plantcare.data.article.ArticlesRepository
-import net.micg.plantcare.domain.usecase.GetAllArticlesUseCase
+import net.micg.plantcare.domain.useCase.GetAllArticlesUseCase
 import javax.inject.Inject
 
 class GetAllArticlesUseCaseImpl @Inject constructor(
