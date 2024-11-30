@@ -1,4 +1,4 @@
-package net.micg.plantcare.di
+package net.micg.plantcare.di.viewModel
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

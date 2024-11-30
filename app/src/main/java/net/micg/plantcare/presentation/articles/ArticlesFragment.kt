@@ -2,7 +2,6 @@ package net.micg.plantcare.presentation.articles
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentArticlesBinding
-import net.micg.plantcare.di.ViewModelFactory
+import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsPaddingToCurrentView
 import javax.inject.Inject

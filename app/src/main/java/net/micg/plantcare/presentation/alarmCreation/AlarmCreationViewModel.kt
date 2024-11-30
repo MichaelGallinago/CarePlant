@@ -1,9 +1,7 @@
-package net.micg.plantcare.presentation.alarm
+package net.micg.plantcare.presentation.alarmCreation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.micg.plantcare.presentation.models.TimeModel
@@ -17,15 +15,11 @@ class AlarmCreationViewModel @Inject constructor(
 ) : ViewModel() {
     val timeStorage: TimeModel = TimeModel(0, 0, 0, 0, 0)
     var interval: Long = 0L
-
-    private val _isCreationFinished = MutableLiveData<Boolean>()
-    val isCreationFinished: LiveData<Boolean> get() = _isCreationFinished
-    var isCreationStarted: Boolean = false
+    var isUpdating = false
 
     fun insert(
-        name: String, type: Byte, dateInMillis: Long, intervalInMillis: Long
-    ) = viewModelScope.launch(Dispatchers.IO) {
+        name: String, type: Byte, dateInMillis: Long, intervalInMillis: Long,
+    ) = CoroutineScope(Dispatchers.IO).launch {
         setAlarmUseCase(insertAlarmUseCase(name, type, dateInMillis, intervalInMillis))
-        _isCreationFinished.postValue(true)
     }
 }

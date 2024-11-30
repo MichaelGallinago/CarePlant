@@ -2,7 +2,6 @@ package net.micg.plantcare.presentation.alarms
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -16,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmsBinding
-import net.micg.plantcare.di.ViewModelFactory
+import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsPaddingToCurrentView
 import javax.inject.Inject

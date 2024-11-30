@@ -1,7 +1,8 @@
-package net.micg.plantcare.data.models.alarm
+package net.micg.plantcare.data.db.alarm
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import net.micg.plantcare.data.models.alarm.AlarmEntity
 
 @Dao
 interface AlarmDao {

@@ -4,8 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import net.micg.plantcare.data.models.alarm.AlarmDao
-import net.micg.plantcare.data.models.alarm.AlarmDatabase
+import net.micg.plantcare.data.db.alarm.AlarmDatabase
 
 @Module
 class AlarmDatabaseModule {
@@ -17,5 +16,5 @@ class AlarmDatabaseModule {
         .build()
 
     @Provides
-    fun provideAlarmDao(database: AlarmDatabase): AlarmDao = database.alarmDao()
+    fun provideAlarmDao(database: AlarmDatabase) = database.alarmDao()
 }

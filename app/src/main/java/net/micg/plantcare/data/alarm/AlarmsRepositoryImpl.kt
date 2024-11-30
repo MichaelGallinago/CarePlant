@@ -3,7 +3,7 @@ package net.micg.plantcare.data.alarm
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.flow.Flow
 import net.micg.plantcare.data.models.alarm.AlarmEntity
-import net.micg.plantcare.data.models.alarm.AlarmDao
+import net.micg.plantcare.data.db.alarm.AlarmDao
 import javax.inject.Inject
 
 class AlarmsRepositoryImpl @Inject constructor(private val alarmDao: AlarmDao) : AlarmsRepository {

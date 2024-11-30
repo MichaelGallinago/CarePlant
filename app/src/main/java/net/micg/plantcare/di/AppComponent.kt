@@ -3,7 +3,7 @@ package net.micg.plantcare.di
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
-import net.micg.plantcare.presentation.alarm.AlarmCreationFragment
+import net.micg.plantcare.presentation.alarmCreation.AlarmCreationFragment
 import net.micg.plantcare.presentation.alarms.AlarmsFragment
 import net.micg.plantcare.presentation.articles.ArticlesFragment
 

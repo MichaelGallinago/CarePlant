@@ -4,11 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import net.micg.plantcare.data.article.ArticlesApi
-import net.micg.plantcare.data.models.article.ArticleDao
-import net.micg.plantcare.data.models.article.ArticleDatabase
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import net.micg.plantcare.data.db.article.ArticleDatabase
 
 @Module
 class ArticleDatabaseModule {
@@ -26,4 +22,3 @@ class ArticleDatabaseModule {
     @Provides
     fun provideDao(database: ArticleDatabase) = database.articleDao()
 }
-

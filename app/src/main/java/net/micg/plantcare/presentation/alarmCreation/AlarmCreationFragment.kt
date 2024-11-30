@@ -1,9 +1,11 @@
-package net.micg.plantcare.presentation.alarm
+package net.micg.plantcare.presentation.alarmCreation
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.DatePicker
 import android.widget.SeekBar
@@ -15,7 +17,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmCreationBinding
-import net.micg.plantcare.di.ViewModelFactory
+import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.presentation.utils.AlarmCreationUtils.calculateIntervalInMillis
 import java.util.Calendar.*
@@ -50,9 +52,11 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private fun setUpFragment() = with(binding) {
         with(intervalBar) {
             setOnSeekBarChangeListener(IntervalBarChangeListener())
-            max = 364
+            max = 29
+            progress = 0
         }
-        updateIntervalValue(0L)
+
+        intervalValue.addTextChangedListener(IntervalValueTextWatcher())
 
         with(viewModel.timeStorage) {
             with(getCurrentCalendar()) {
@@ -77,18 +81,12 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
 
     private fun setUpListeners(navController: NavController) = with(binding) {
         cancelButton.setOnClickListener {
-            if (viewModel.isCreationStarted) return@setOnClickListener
-            navController.popBackStack()
-        }
-
-        viewModel.isCreationFinished.observe(viewLifecycleOwner) { isFinished ->
-            if (!isFinished) return@observe
             navController.popBackStack()
         }
 
         confirmButton.setOnClickListener {
-            viewModel.isCreationStarted = true
             saveAlarm()
+            navController.popBackStack()
         }
     }
 
@@ -128,11 +126,6 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         )
     }
 
-    private fun updateIntervalValue(value: Long) {
-        viewModel.interval = value + 1L
-        binding.intervalValue.text = "${viewModel.interval}"
-    }
-
     private val dateInMillis
         get() = getInstance().apply {
             timeInMillis = 0L
@@ -146,10 +139,58 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         }.timeInMillis
 
     private inner class IntervalBarChangeListener : SeekBar.OnSeekBarChangeListener {
-        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) =
-            updateIntervalValue(progress.toLong())
+        override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+            with(viewModel) {
+                if (isUpdating) return
+
+                isUpdating = true
+                interval = progress.toLong() + SEEK_BAR_MIN
+                binding.intervalValue.setText("$interval")
+                isUpdating = false
+            }
+        }
 
         override fun onStartTrackingTouch(seekBar: SeekBar) {}
         override fun onStopTrackingTouch(seekBar: SeekBar) {}
+    }
+
+    private inner class IntervalValueTextWatcher() : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            with(viewModel) {
+                if (isUpdating) return
+
+                isUpdating = true
+                val value = s.toString().toIntOrNull() ?: 0
+                if (value in SEEK_BAR_MIN..binding.intervalBar.max) {
+                    binding.intervalBar.progress = value
+                }
+                isUpdating = false
+            }
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            if (viewModel.isUpdating) return
+
+            var interval = s.toString().toIntOrNull().run {
+                if (this == null) return
+                coerceAtLeast(1)
+            }
+
+            with(binding.intervalBar) { progress = (interval - SEEK_BAR_MIN).coerceAtMost(max) }
+
+            viewModel.isUpdating = true
+            val intervalText = "$interval"
+            with (binding.intervalValue) {
+                setText(intervalText)
+                setSelection(intervalText.length)
+            }
+            viewModel.isUpdating = false
+            viewModel.interval = interval.toLong()
+        }
+    }
+
+    companion object {
+        private const val SEEK_BAR_MIN: Int = 1
     }
 }

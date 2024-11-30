@@ -9,7 +9,7 @@
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="new_alarm">Новое напоминание</string>
-    <string name="alarm_name_hint">Имя напоминания</string>
+    <string name="alarm_name_hint">Название растения</string>
     <string name="watering">Полив</string>
     <string name="fertilize">Удобрение</string>
     <string name="monday">Понеделник</string>
@@ -19,7 +19,7 @@
     <string name="friday">Пятница</string>
     <string name="saturday">Суббота</string>
     <string name="sunday">Воскресенье</string>
-    <string name="select_interval">Напоминать раз в … дней:</string>
+    <string name="select_interval">Выбрать интервал напоминания раз в … дней:</string>
     <string name="days">Дни</string>
     <string name="hours">Часы</string>
     <string name="minutes">Минуты</string>
@@ -33,4 +33,5 @@
 
     <string name="error_loading">Ошибка загрузки</string>
     <string name="error_loading_extended">Ошибка загрузки и нет данных в кеше</string>
+    <string name="select_date_and_time">Выбрать дату и время:</string>
 </resources>

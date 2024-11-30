@@ -1,6 +1,7 @@
 package net.micg.plantcare.di
 
 import dagger.Module
+import net.micg.plantcare.di.viewModel.ViewModelModule
 
 @Module(
     includes = [

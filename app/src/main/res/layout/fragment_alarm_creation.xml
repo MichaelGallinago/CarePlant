@@ -25,6 +25,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/select_date_and_time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/select_date_and_time"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/cancelButton"
+        app:layout_constraintTop_toBottomOf="@id/cancelButton" />
+
     <Button
         android:id="@+id/date_selector"
         android:layout_width="0dp"
@@ -32,10 +43,11 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:drawableEnd="@drawable/ic_edit_date"
+        android:lines="1"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@id/time_selector"
         app:layout_constraintStart_toStartOf="@id/cancelButton"
-        app:layout_constraintTop_toBottomOf="@id/cancelButton"
+        app:layout_constraintTop_toBottomOf="@id/select_date_and_time_label"
         tools:text="04.04.2024" />
 
     <Button
@@ -45,10 +57,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:drawableEnd="@drawable/ic_edit_time"
+        android:lines="1"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/confirmButton"
         app:layout_constraintStart_toEndOf="@id/date_selector"
-        app:layout_constraintTop_toBottomOf="@id/confirmButton"
+        app:layout_constraintTop_toBottomOf="@id/select_date_and_time_label"
         tools:text="04:04" />
 
     <TextView
@@ -63,22 +76,32 @@
 
     <TextView
         android:id="@+id/interval_label"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/select_interval"
-        android:textSize="20sp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/interval_value"
         app:layout_constraintStart_toStartOf="@id/date_selector"
         app:layout_constraintTop_toBottomOf="@id/date_selector" />
 
-    <TextView
+    <EditText
         android:id="@+id/interval_value"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:textSize="20sp"
+        android:layout_marginEnd="16dp"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:maxLength="3"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/interval_label"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/interval_label"
         app:layout_constraintTop_toTopOf="@id/interval_label"
+        tools:ignore="LabelFor"
         tools:text="404" />
 
     <SeekBar
@@ -99,13 +122,16 @@
         android:maxLength="128"
         android:scrollHorizontally="true"
         android:singleLine="true"
+        android:textSize="20sp"
         app:layout_constraintTop_toBottomOf="@id/interval_bar" />
 
     <RadioGroup
         android:id="@+id/actionRadioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameEditText">
@@ -115,13 +141,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="@string/watering" />
+            android:gravity="start"
+            android:text="@string/watering"
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/radioFertilizing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fertilize" />
+            android:text="@string/fertilize"
+            android:textSize="20sp" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

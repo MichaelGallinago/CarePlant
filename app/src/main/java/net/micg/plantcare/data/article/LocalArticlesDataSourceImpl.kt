@@ -1,7 +1,7 @@
 package net.micg.plantcare.data.article
 
+import net.micg.plantcare.data.db.article.ArticleDao
 import net.micg.plantcare.data.models.article.Article
-import net.micg.plantcare.data.models.article.ArticleDao
 import javax.inject.Inject
 
 class LocalArticlesDataSourceImpl @Inject constructor(

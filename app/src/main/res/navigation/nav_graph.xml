@@ -37,7 +37,7 @@
 
     <fragment
         android:id="@+id/alarmCreationFragment"
-        android:name="net.micg.plantcare.presentation.alarm.AlarmCreationFragment"
+        android:name="net.micg.plantcare.presentation.alarmCreation.AlarmCreationFragment"
         android:label="AlarmCreationFragment"
         tools:layout="@layout/fragment_alarm_creation" />
 </navigation>
