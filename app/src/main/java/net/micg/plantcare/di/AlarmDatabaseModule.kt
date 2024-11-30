@@ -9,6 +9,7 @@ import net.micg.plantcare.data.db.alarm.AlarmDatabase
 @Module
 class AlarmDatabaseModule {
     @Provides
+    @AppComponentScope
     fun provideDatabase(context: Context) = Room.databaseBuilder(
         context.applicationContext, AlarmDatabase::class.java, "alarm_database"
     )
@@ -16,5 +17,6 @@ class AlarmDatabaseModule {
         .build()
 
     @Provides
+    @AppComponentScope
     fun provideAlarmDao(database: AlarmDatabase) = database.alarmDao()
 }

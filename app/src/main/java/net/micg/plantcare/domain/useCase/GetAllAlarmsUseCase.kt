@@ -1,8 +1,8 @@
 package net.micg.plantcare.domain.useCase
 
-import kotlinx.coroutines.flow.Flow
+import androidx.lifecycle.LiveData
 import net.micg.plantcare.presentation.models.Alarm
 
 interface GetAllAlarmsUseCase {
-    operator fun invoke(): Flow<List<Alarm>>
+    operator fun invoke(): LiveData<List<Alarm>>
 }

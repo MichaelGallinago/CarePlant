@@ -30,38 +30,50 @@ import net.micg.plantcare.domain.useCase.UpdateAlarmUseCase
 @Module
 interface AppBindsModule {
     @Binds
+    @AppComponentScope
     fun bindAlarmsRepository(repository: AlarmsRepositoryImpl): AlarmsRepository
 
     @Binds
+    @AppComponentScope
     fun bindArticlesRepository(repository: ArticlesRepositoryImpl): ArticlesRepository
 
     @Binds
+    @AppComponentScope
     fun bindCancelAlarmUseCase(useCase: CancelAlarmUseCaseImpl): CancelAlarmUseCase
 
     @Binds
+    @AppComponentScope
     fun bindDeleteAlarmByIdUseCase(useCase: DeleteAlarmByIdUseCaseImpl): DeleteAlarmByIdUseCase
 
     @Binds
+    @AppComponentScope
     fun bindGetAllAlarmsUseCase(useCase: GetAllAlarmsUseCaseImpl): GetAllAlarmsUseCase
 
     @Binds
+    @AppComponentScope
     fun bindGetAllArticlesUseCase(useCase: GetAllArticlesUseCaseImpl): GetAllArticlesUseCase
 
     @Binds
+    @AppComponentScope
     fun bindGetErrorMessageUseCaseImpl(useCase: GetErrorMessageUseCaseImpl): GetErrorMessageUseCase
 
     @Binds
+    @AppComponentScope
     fun bindInsertAlarmUseCase(useCase: InsertAlarmUseCaseImpl): InsertAlarmUseCase
 
     @Binds
+    @AppComponentScope
     fun bindSetAlarmUseCase(useCase: SetAlarmUseCaseImpl): SetAlarmUseCase
 
     @Binds
+    @AppComponentScope
     fun bindUpdateAlarmUseCase(useCase: UpdateAlarmUseCaseImpl): UpdateAlarmUseCase
 
     @Binds
+    @AppComponentScope
     fun bindLocalArticlesDataSource(dataSource: LocalArticlesDataSourceImpl): LocalArticlesDataSource
 
     @Binds
+    @AppComponentScope
     fun bindRemoteArticlesDataSource(dataSource: RemoteArticlesDataSourceImpl): RemoteArticlesDataSource
 }

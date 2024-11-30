@@ -9,6 +9,7 @@ import net.micg.plantcare.data.db.article.ArticleDatabase
 @Module
 class ArticleDatabaseModule {
     @Provides
+    @AppComponentScope
     fun provideDatabase(context: Context): ArticleDatabase {
         return Room.databaseBuilder(
             context.applicationContext,
@@ -20,5 +21,6 @@ class ArticleDatabaseModule {
     }
 
     @Provides
+    @AppComponentScope
     fun provideDao(database: ArticleDatabase) = database.articleDao()
 }

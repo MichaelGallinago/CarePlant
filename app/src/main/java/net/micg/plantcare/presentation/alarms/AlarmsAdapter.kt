@@ -63,7 +63,6 @@ class AlarmsAdapter(
             with(switchButton) {
                 setOnCheckedChangeListener(null)
                 isChecked = alarm.isEnabled
-
                 setOnCheckedChangeListener { _, isChecked -> onToggleClick(alarm, isChecked) }
             }
         }

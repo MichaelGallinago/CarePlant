@@ -1,6 +1,7 @@
 package net.micg.plantcare.domain.implementations
 
 import android.content.Context
+import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.flow.map
 import net.micg.plantcare.data.alarm.AlarmsRepository
 import net.micg.plantcare.data.models.alarm.AlarmEntity
@@ -16,7 +17,7 @@ class GetAllAlarmsUseCaseImpl @Inject constructor(
 ) : GetAllAlarmsUseCase {
     override operator fun invoke() = repository.allAlarmEntities.map {
         it.map { it.toPresentationModel() }
-    }
+    }.asLiveData()
 
     private fun AlarmEntity.toPresentationModel(): Alarm = Alarm(
         id,
