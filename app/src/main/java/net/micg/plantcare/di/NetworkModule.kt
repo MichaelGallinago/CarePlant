@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
-class ApiModule {
+class NetworkModule {
     @Provides
     @AppComponentScope
     fun provideArticlesApi(): ArticlesApi = Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)

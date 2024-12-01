@@ -9,7 +9,7 @@ import net.micg.plantcare.di.viewModel.ViewModelModule
         ViewModelModule::class,
         AlarmDatabaseModule::class,
         ArticleDatabaseModule::class,
-        ApiModule::class
+        NetworkModule::class
     ]
 )
 class AppModule
