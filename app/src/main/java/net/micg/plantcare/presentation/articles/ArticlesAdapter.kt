@@ -25,7 +25,8 @@ class ArticlesAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(item: Article) = with (binding) {
-            name.text = item.title
+            title.text = item.title
+            icon.text = item.icon
             root.setOnClickListener { onArticleClick(item) }
         }
     }

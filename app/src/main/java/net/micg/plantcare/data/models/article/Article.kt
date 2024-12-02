@@ -6,5 +6,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "articles")
 data class Article(
     val title: String,
-    @PrimaryKey var url: String
+    @PrimaryKey var url: String,
+    val icon: String
 )

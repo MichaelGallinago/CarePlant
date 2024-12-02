@@ -10,7 +10,7 @@ data class Alarm(
 ) {
     val time: String
         get() {
-            var currentTime = System.currentTimeMillis()
+            val currentTime = System.currentTimeMillis()
 
             if (currentTime >= dateInMillis) {
                 if (intervalInMillis == 0L) return convertMillisToDateTime(0L)
@@ -31,7 +31,7 @@ data class Alarm(
         minutes %= 60
         hours %= 24
 
-        return buildString {
+        return buildString { //TODO: change to Russian somehow
             if (days > 0) append("$days d ")
             if (hours > 0) append("$hours h ")
             if (minutes > 0 || isEmpty()) append("$minutes min ")
