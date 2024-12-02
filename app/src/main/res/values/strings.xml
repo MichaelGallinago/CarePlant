@@ -36,4 +36,8 @@
     <string name="select_date_and_time">Выбрать дату и время:</string>
     <string name="right_arrow_description">Открыть статью</string>
     <string name="alarms_label">Напоминания</string>
+
+    <string name="time_days">%d д</string>
+    <string name="time_hours">%d ч</string>
+    <string name="time_minutes">%d мин</string>
 </resources>

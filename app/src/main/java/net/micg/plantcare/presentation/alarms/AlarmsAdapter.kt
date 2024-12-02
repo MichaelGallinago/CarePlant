@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import net.micg.plantcare.presentation.models.Alarm
 import net.micg.plantcare.databinding.AlarmItemBinding
+import net.micg.plantcare.presentation.models.TimeConverter
 
 class AlarmsAdapter(
     private val onToggleClick: (Alarm, Boolean) -> Unit,
+    private val timeConverter: TimeConverter,
 ) : ListAdapter<Alarm, AlarmsAdapter.AlarmViewHolder>(AlarmDiffUtil()) {
 
     private val handler = Handler(Looper.getMainLooper())
@@ -52,13 +54,13 @@ class AlarmsAdapter(
         submitList(this)
     }
 
-    inner class AlarmViewHolder(private val binding: AlarmItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
+    inner class AlarmViewHolder(
+        private val binding: AlarmItemBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(alarm: Alarm) = with(binding) {
             name.text = alarm.name
             type.text = alarm.type
-            time.text = alarm.time
+            time.text = alarm.getFormattedTime(timeConverter)
 
             with(switchButton) {
                 setOnCheckedChangeListener(null)

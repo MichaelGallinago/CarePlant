@@ -17,8 +17,9 @@ import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmsBinding
 import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.di.appComponent
+import net.micg.plantcare.presentation.models.TimeConverter
+import net.micg.plantcare.presentation.models.TimeLocalization
 import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsMarginToCurrentView
-import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsPaddingToCurrentView
 import javax.inject.Inject
 
 class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
@@ -40,12 +41,12 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
         setUpNavigation()
     }
 
-    private fun setUpEdgeToEdgeForCurrentFragment() =
-        addTopInsetsPaddingToCurrentView(binding.label)
+    private fun setUpEdgeToEdgeForCurrentFragment() = addTopInsetsMarginToCurrentView(binding.label)
 
-    private fun setUpAdapter() = AlarmsAdapter(onToggleClick = { alarm, isEnabled ->
-        viewModel.update(isEnabled, alarm)
-    }).also {
+    private fun setUpAdapter() = AlarmsAdapter(
+        onToggleClick = { alarm, isEnabled -> viewModel.update(isEnabled, alarm) },
+        TimeConverter(TimeLocalization(requireContext())),
+    ).also {
         ItemTouchHelper(TouchHelperCallback(it)).attachToRecyclerView(binding.recycler)
 
         with(binding.recycler) {

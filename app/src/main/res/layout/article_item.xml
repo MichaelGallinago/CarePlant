@@ -39,10 +39,10 @@
         android:contentDescription="@string/right_arrow_description"
         android:scaleX="3"
         android:scaleY="3"
-        app:tint="?android:textColor"
         android:src="@drawable/ic_right_arrow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/border" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
