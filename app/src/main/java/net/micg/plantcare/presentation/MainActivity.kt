@@ -3,7 +3,6 @@ package net.micg.plantcare.presentation
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.ActivityMainBinding
