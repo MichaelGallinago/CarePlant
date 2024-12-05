@@ -66,11 +66,7 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
 
     private fun setUpNavigation() = with(findNavController()) {
         binding.addAlarmButton.setOnClickListener {
-            navigate(
-                R.id.alarmCreationFragment,
-                null,
-                NavOptions.Builder().setPopUpTo(R.id.alarmsFragment, inclusive = false).build()
-            )
+            navigate(AlarmsFragmentDirections.actionAlarmsFragmentToAlarmCreationFragment())
         }
     }
 

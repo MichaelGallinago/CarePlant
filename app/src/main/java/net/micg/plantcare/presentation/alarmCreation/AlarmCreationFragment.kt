@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.webkit.WebSettings
 import android.widget.DatePicker
 import android.widget.SeekBar
 import android.widget.TimePicker
@@ -15,10 +16,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
+import net.micg.plantcare.BuildConfig
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmCreationBinding
 import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.di.appComponent
+import net.micg.plantcare.presentation.article.ArticleFragmentArgs
 import net.micg.plantcare.presentation.utils.AlarmCreationUtils.calculateIntervalInMillis
 import java.util.Calendar.*
 import net.micg.plantcare.presentation.utils.AlarmCreationUtils.getCurrentCalendar
@@ -42,6 +45,13 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         setUpEdgeToEdgeForCurrentFragment()
         setUpListeners(findNavController())
         setUpFragment()
+
+        arguments?.let {
+            AlarmCreationFragmentArgs.fromBundle(it)
+        }?.let { args ->
+            binding.intervalBar.progress = args.interval - 1
+            binding.nameEditText.setText(args.plantName)
+        }
     }
 
     private fun setUpEdgeToEdgeForCurrentFragment() {
@@ -86,7 +96,9 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
 
         confirmButton.setOnClickListener {
             saveAlarm()
-            navController.popBackStack()
+            navController.navigate(
+                AlarmCreationFragmentDirections.actionAlarmCreationFragmentToAlarmsFragment()
+            )
         }
     }
 
@@ -181,7 +193,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
 
             viewModel.isUpdating = true
             val intervalText = "$interval"
-            with (binding.intervalValue) {
+            with(binding.intervalValue) {
                 setText(intervalText)
                 setSelection(intervalText.length)
             }

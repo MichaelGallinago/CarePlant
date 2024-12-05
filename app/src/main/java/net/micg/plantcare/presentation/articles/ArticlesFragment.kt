@@ -29,7 +29,7 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
     private val articlesAdapter = ArticlesAdapter { article ->
         findNavController().navigate(
             ArticlesFragmentDirections.Companion.actionArticlesFragmentToArticleFragment(
-                article.url
+                article.name
             )
         )
     }

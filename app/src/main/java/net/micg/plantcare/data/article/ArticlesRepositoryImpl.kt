@@ -19,4 +19,7 @@ class ArticlesRepositoryImpl @Inject constructor(
             return HttpResponseState.Success(this)
         }
     }
+
+    override suspend fun getAlarmCreationData(fileName: String) =
+        remoteDataSource.getAlarmCreationData(fileName)
 }
