@@ -37,7 +37,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             setUpCreateAlarmButton(data)
         }
 
-        setUpFragment()
+        setUpArguments()
     }
 
     private fun setUpCreateAlarmButton(data: AlarmCreationModel) = with(binding.createAlarmButton) {
@@ -53,19 +53,13 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         }
     }
 
-    private fun setUpFragment() = with(binding) {
-        with(findNavController()) {
-            backButton.setOnClickListener { popBackStack() }
-        }
-
-        arguments?.let {
-            ArticleFragmentArgs.fromBundle(it).articleName
-        }?.let { name ->
-            viewModel.getAlarmCreationData("$name.json")
-            with(webView) {
-                settings.cacheMode = WebSettings.LOAD_DEFAULT
-                loadUrl("${BuildConfig.BASE_URL}articles/$name.html")
-            }
+    private fun setUpArguments() = arguments?.let {
+        ArticleFragmentArgs.fromBundle(it).articleName
+    }?.let { name ->
+        viewModel.getAlarmCreationData("$name.json")
+        with(binding.webView) {
+            settings.cacheMode = WebSettings.LOAD_DEFAULT
+            loadUrl("${BuildConfig.BASE_URL}articles/$name.html")
         }
     }
 }
