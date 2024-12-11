@@ -31,7 +31,7 @@
     <string name="type_fertilizing">Удобрение</string>
     <string name="type_unknown">Неизвестно</string>
 
-    <string name="error_loading">Ошибка загрузки</string>
+    <string name="error_loading">Требуется подключение к интернету</string>
     <string name="error_loading_extended">Ошибка загрузки и нет данных в кеше</string>
     <string name="select_date_and_time">Выбрать дату и время:</string>
     <string name="right_arrow_description">Открыть статью</string>

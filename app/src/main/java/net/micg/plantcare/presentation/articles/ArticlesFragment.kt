@@ -57,6 +57,7 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
 
     private fun setUpViewModel() = with(viewModel) {
         errorMessage.observe(viewLifecycleOwner) { error ->
+            binding.progressBar.visibility = View.GONE
             error?.let {
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
             }
