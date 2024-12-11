@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentArticlesBinding
@@ -72,7 +71,7 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
     }
 
     private fun setUpRecyclerView() = with(binding.recycler) {
-        layoutManager = GridLayoutManager(context, 2)
+        layoutManager = GridLayoutManager(context, GRID_COLUMNS)
         adapter = articlesAdapter
 
         ContextCompat.getDrawable(context, R.drawable.divider_shape)?.also {
@@ -106,5 +105,9 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
                 return true
             }
         })
+    }
+
+    companion object {
+        const val GRID_COLUMNS = 2
     }
 }

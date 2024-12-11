@@ -1,7 +1,9 @@
 package net.micg.plantcare.presentation.articles
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +13,6 @@ import coil3.request.crossfade
 import coil3.request.error
 import coil3.request.placeholder
 import coil3.request.transformations
-import coil3.transform.CircleCropTransformation
 import net.micg.plantcare.BuildConfig
 import net.micg.plantcare.data.models.article.Article
 import net.micg.plantcare.databinding.ArticleGridItemBinding
@@ -19,7 +20,10 @@ import net.micg.plantcare.databinding.ArticleGridItemBinding
 class ArticlesAdapter(
     private val onArticleClick: (Article) -> Unit,
 ) : ListAdapter<Article, ArticlesAdapter.ArticleViewHolder>(ArticleDiffUtil()) {
+    private lateinit var parentContext: Context
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
+        parentContext = parent.context
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ArticleGridItemBinding.inflate(layoutInflater, parent, false)
         return ArticleViewHolder(binding)
@@ -39,7 +43,12 @@ class ArticlesAdapter(
                 crossfade(true)
                 error(R.drawable.ic_no_image)
                 placeholder(R.drawable.ic_flower_placeholder)
-                transformations(CircleCropTransformation())
+                transformations(TopRoundedCornersTransformation(parentContext, 16f))
+                listener(
+                    onStart = { image.scaleType = ImageView.ScaleType.CENTER_INSIDE },
+                    onSuccess = { _, _ -> image.scaleType = ImageView.ScaleType.FIT_START },
+                    onError = { _, _ -> image.scaleType = ImageView.ScaleType.CENTER_INSIDE }
+                )
             }
         }
     }
