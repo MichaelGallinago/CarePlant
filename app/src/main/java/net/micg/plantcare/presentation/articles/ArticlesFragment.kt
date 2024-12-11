@@ -82,6 +82,17 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
     }
 
     private fun setUpSearchView() = with(binding.searchView) {
+        setOnQueryTextFocusChangeListener { _, hasFocus ->
+            if (hasFocus && isIconified) {
+                isIconified = false
+            }
+        }
+
+        setOnClickListener {
+            isIconified = false
+            true
+        }
+
         setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let { viewModel.filter = it }

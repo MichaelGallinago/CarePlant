@@ -8,7 +8,7 @@ interface ArticleDao {
     @Upsert
     suspend fun insertAll(articles: List<Article>)
 
-    @Query("SELECT * FROM articles ORDER BY title")
+    @Query("SELECT * FROM articles")
     suspend fun getAll(): List<Article>
 
     @Query("DELETE FROM articles")
