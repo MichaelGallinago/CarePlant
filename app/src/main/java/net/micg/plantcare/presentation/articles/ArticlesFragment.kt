@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
@@ -71,7 +72,7 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
     }
 
     private fun setUpRecyclerView() = with(binding.recycler) {
-        layoutManager = LinearLayoutManager(context)
+        layoutManager = GridLayoutManager(context, 2)
         adapter = articlesAdapter
 
         ContextCompat.getDrawable(context, R.drawable.divider_shape)?.also {

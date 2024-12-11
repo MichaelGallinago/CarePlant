@@ -81,6 +81,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
 
+    // Coil
     implementation(libs.coil)
     implementation(libs.coil.network.okhttp)
 

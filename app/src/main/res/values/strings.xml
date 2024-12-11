@@ -42,4 +42,5 @@
     <string name="time_minutes">%d мин</string>
     <string name="search_articles">Поиск статей…</string>
     <string name="create_alarm_description">Создать напоминание</string>
+    <string name="article_grid_item_image_description">Изображение статьи</string>
 </resources>
