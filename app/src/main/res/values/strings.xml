@@ -40,6 +40,6 @@
     <string name="time_days">%d д</string>
     <string name="time_hours">%d ч</string>
     <string name="time_minutes">%d мин</string>
-    <string name="search_articles">Поиск статей...</string>
+    <string name="search_articles">Поиск статей…</string>
     <string name="create_alarm_description">Создать напоминание</string>
 </resources>
