@@ -46,7 +46,7 @@ class ArticlesAdapter(
                 transformations(TopRoundedCornersTransformation(parentContext, 16f))
                 listener(
                     onStart = { image.scaleType = ImageView.ScaleType.CENTER_INSIDE },
-                    onSuccess = { _, _ -> image.scaleType = ImageView.ScaleType.FIT_START },
+                    onSuccess = { _, _ -> image.scaleType = ImageView.ScaleType.CENTER },
                     onError = { _, _ -> image.scaleType = ImageView.ScaleType.CENTER_INSIDE }
                 )
             }
