@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PlantCare</string>
+    <string name="app_name">CarePlant</string>
     <string name="articles">Статьи</string>
     <string name="alarms">Напоминания</string>
     <string name="article_name_placeholder">Название</string>

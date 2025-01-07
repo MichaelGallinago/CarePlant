@@ -33,6 +33,7 @@ android {
                 "BASE_URL",
                 getLocalProperties().getProperty("base_url")
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
         debug {
             buildConfigField(
