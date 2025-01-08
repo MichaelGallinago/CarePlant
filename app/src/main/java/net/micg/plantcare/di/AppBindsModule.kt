@@ -12,6 +12,7 @@ import net.micg.plantcare.data.article.RemoteArticlesDataSource
 import net.micg.plantcare.data.article.RemoteArticlesDataSourceImpl
 import net.micg.plantcare.domain.implementations.CancelAlarmUseCaseImpl
 import net.micg.plantcare.domain.implementations.DeleteAlarmByIdUseCaseImpl
+import net.micg.plantcare.domain.implementations.GetAlarmCreationDataUseCaseImpl
 import net.micg.plantcare.domain.implementations.GetAllAlarmsUseCaseImpl
 import net.micg.plantcare.domain.implementations.GetAllArticlesUseCaseImpl
 import net.micg.plantcare.domain.implementations.GetErrorMessageUseCaseImpl
@@ -20,6 +21,7 @@ import net.micg.plantcare.domain.implementations.SetAlarmUseCaseImpl
 import net.micg.plantcare.domain.implementations.UpdateAlarmUseCaseImpl
 import net.micg.plantcare.domain.useCase.CancelAlarmUseCase
 import net.micg.plantcare.domain.useCase.DeleteAlarmByIdUseCase
+import net.micg.plantcare.domain.useCase.GetAlarmCreationDataUseCase
 import net.micg.plantcare.domain.useCase.GetAllAlarmsUseCase
 import net.micg.plantcare.domain.useCase.GetAllArticlesUseCase
 import net.micg.plantcare.domain.useCase.GetErrorMessageUseCase
@@ -68,6 +70,10 @@ interface AppBindsModule {
     @Binds
     @AppComponentScope
     fun bindUpdateAlarmUseCase(useCase: UpdateAlarmUseCaseImpl): UpdateAlarmUseCase
+
+    @Binds
+    @AppComponentScope
+    fun bindGetAlarmCreationDataUseCase(useCase: GetAlarmCreationDataUseCaseImpl): GetAlarmCreationDataUseCase
 
     @Binds
     @AppComponentScope

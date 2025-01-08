@@ -15,8 +15,8 @@ android {
         applicationId = "net.micg.plantcare"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.11"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,6 +33,7 @@ android {
                 "BASE_URL",
                 getLocalProperties().getProperty("base_url")
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
         debug {
             buildConfigField(
@@ -81,6 +82,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
 
+    // Coil
     implementation(libs.coil)
     implementation(libs.coil.network.okhttp)
 

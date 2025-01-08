@@ -8,6 +8,7 @@ import dagger.multibindings.IntoMap
 import net.micg.plantcare.di.AppComponentScope
 import net.micg.plantcare.presentation.alarmCreation.AlarmCreationViewModel
 import net.micg.plantcare.presentation.alarms.AlarmsViewModel
+import net.micg.plantcare.presentation.article.ArticleViewModel
 import net.micg.plantcare.presentation.articles.ArticlesViewModel
 
 @Module
@@ -29,5 +30,10 @@ interface ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(ArticlesViewModel::class)
-    fun bindArticleViewModel(vm: ArticlesViewModel): ViewModel
+    fun bindArticlesViewModel(vm: ArticlesViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ArticleViewModel::class)
+    fun bindArticleViewModel(vm: ArticleViewModel): ViewModel
 }

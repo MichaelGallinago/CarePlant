@@ -5,6 +5,7 @@ import dagger.BindsInstance
 import dagger.Component
 import net.micg.plantcare.presentation.alarmCreation.AlarmCreationFragment
 import net.micg.plantcare.presentation.alarms.AlarmsFragment
+import net.micg.plantcare.presentation.article.ArticleFragment
 import net.micg.plantcare.presentation.articles.ArticlesFragment
 
 @AppComponentScope
@@ -16,6 +17,7 @@ interface AppComponent {
     }
 
     fun inject(fragment: AlarmsFragment)
+    fun inject(fragment: ArticleFragment)
     fun inject(fragment: AlarmCreationFragment)
     fun inject(fragment: ArticlesFragment)
 }

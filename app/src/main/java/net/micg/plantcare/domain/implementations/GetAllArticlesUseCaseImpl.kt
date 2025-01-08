@@ -5,7 +5,7 @@ import net.micg.plantcare.domain.useCase.GetAllArticlesUseCase
 import javax.inject.Inject
 
 class GetAllArticlesUseCaseImpl @Inject constructor(
-    private val repository: ArticlesRepository
+    private val repository: ArticlesRepository,
 ) : GetAllArticlesUseCase {
     override suspend operator fun invoke() = repository.getAll()
 }

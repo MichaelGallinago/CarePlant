@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PlantCare</string>
+    <string name="app_name">CarePlant</string>
     <string name="articles">Статьи</string>
     <string name="alarms">Напоминания</string>
     <string name="article_name_placeholder">Название</string>
@@ -31,7 +31,16 @@
     <string name="type_fertilizing">Удобрение</string>
     <string name="type_unknown">Неизвестно</string>
 
-    <string name="error_loading">Ошибка загрузки</string>
+    <string name="error_loading">Требуется подключение к интернету</string>
     <string name="error_loading_extended">Ошибка загрузки и нет данных в кеше</string>
     <string name="select_date_and_time">Выбрать дату и время:</string>
+    <string name="right_arrow_description">Открыть статью</string>
+    <string name="alarms_label">Напоминания</string>
+
+    <string name="time_days">%d д</string>
+    <string name="time_hours">%d ч</string>
+    <string name="time_minutes">%d мин</string>
+    <string name="search_articles">Поиск статей…</string>
+    <string name="create_alarm_description">Создать напоминание</string>
+    <string name="article_grid_item_image_description">Изображение статьи</string>
 </resources>

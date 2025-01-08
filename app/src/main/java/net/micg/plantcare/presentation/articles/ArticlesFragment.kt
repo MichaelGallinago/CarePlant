@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentArticlesBinding
@@ -29,7 +29,7 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
     private val articlesAdapter = ArticlesAdapter { article ->
         findNavController().navigate(
             ArticlesFragmentDirections.Companion.actionArticlesFragmentToArticleFragment(
-                article.url
+                article.name
             )
         )
     }
@@ -57,6 +57,7 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
 
     private fun setUpViewModel() = with(viewModel) {
         errorMessage.observe(viewLifecycleOwner) { error ->
+            binding.progressBar.visibility = View.GONE
             error?.let {
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
             }
@@ -70,7 +71,7 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
     }
 
     private fun setUpRecyclerView() = with(binding.recycler) {
-        layoutManager = LinearLayoutManager(context)
+        layoutManager = GridLayoutManager(context, GRID_COLUMNS)
         adapter = articlesAdapter
 
         ContextCompat.getDrawable(context, R.drawable.divider_shape)?.also {
@@ -82,6 +83,17 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
     }
 
     private fun setUpSearchView() = with(binding.searchView) {
+        setOnQueryTextFocusChangeListener { _, hasFocus ->
+            if (hasFocus && isIconified) {
+                isIconified = false
+            }
+        }
+
+        setOnClickListener {
+            isIconified = false
+            true
+        }
+
         setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let { viewModel.filter = it }
@@ -93,5 +105,9 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
                 return true
             }
         })
+    }
+
+    companion object {
+        const val GRID_COLUMNS = 2
     }
 }

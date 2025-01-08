@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/alarmsFragment">
+    app:startDestination="@id/articlesFragment">
 
     <fragment
         android:id="@+id/alarmsFragment"
@@ -31,13 +31,28 @@
         android:label="ArticleFragment"
         tools:layout="@layout/fragment_article">
         <argument
-            android:name="articleUrl"
+            android:name="articleName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_articleFragment_to_alarmCreationFragment"
+            app:destination="@id/alarmCreationFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/alarmCreationFragment"
         android:name="net.micg.plantcare.presentation.alarmCreation.AlarmCreationFragment"
         android:label="AlarmCreationFragment"
-        tools:layout="@layout/fragment_alarm_creation" />
+        tools:layout="@layout/fragment_alarm_creation">
+        <argument
+            android:name="plantName"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="interval"
+            android:defaultValue="1"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_alarmCreationFragment_to_alarmsFragment"
+            app:destination="@id/alarmsFragment" />
+    </fragment>
 </navigation>

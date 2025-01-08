@@ -48,11 +48,15 @@ class AlarmReceiver : BroadcastReceiver() {
         id,
         Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra(FRAGMENT_TAG, ALARMS_FRAGMENT_TAG)
         },
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     )
 
     companion object {
+        const val FRAGMENT_TAG = "fragment_tag"
+        const val ALARMS_FRAGMENT_TAG = "fragment_tag"
+
         const val ALARM_CHANNEL_ID = "flowers_alarm_channel_id"
         const val ALARM_ID = "ALARM_ID"
         const val ALARM_NAME = "ALARM_NAME"

@@ -6,7 +6,6 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -17,7 +16,9 @@ import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmsBinding
 import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.di.appComponent
-import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsPaddingToCurrentView
+import net.micg.plantcare.presentation.models.TimeConverter
+import net.micg.plantcare.presentation.models.TimeLocalization
+import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsMarginToCurrentView
 import javax.inject.Inject
 
 class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
@@ -39,12 +40,12 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
         setUpNavigation()
     }
 
-    private fun setUpEdgeToEdgeForCurrentFragment() =
-        addTopInsetsPaddingToCurrentView(binding.recycler)
+    private fun setUpEdgeToEdgeForCurrentFragment() = addTopInsetsMarginToCurrentView(binding.label)
 
-    private fun setUpAdapter() = AlarmsAdapter(onToggleClick = { alarm, isEnabled ->
-        viewModel.update(isEnabled, alarm)
-    }).also {
+    private fun setUpAdapter() = AlarmsAdapter(
+        onToggleClick = { alarm, isEnabled -> viewModel.update(isEnabled, alarm) },
+        TimeConverter(TimeLocalization(requireContext())),
+    ).also {
         ItemTouchHelper(TouchHelperCallback(it)).attachToRecyclerView(binding.recycler)
 
         with(binding.recycler) {
@@ -64,11 +65,7 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
 
     private fun setUpNavigation() = with(findNavController()) {
         binding.addAlarmButton.setOnClickListener {
-            navigate(
-                R.id.alarmCreationFragment,
-                null,
-                NavOptions.Builder().setPopUpTo(R.id.alarmsFragment, inclusive = false).build()
-            )
+            navigate(AlarmsFragmentDirections.actionAlarmsFragmentToAlarmCreationFragment())
         }
     }
 
