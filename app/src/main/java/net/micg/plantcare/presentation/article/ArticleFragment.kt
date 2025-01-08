@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.BuildConfig
 import net.micg.plantcare.R
-import net.micg.plantcare.data.models.alarm.AlarmCreationModel
+import net.micg.plantcare.data.alarm.models.AlarmCreationModel
 import net.micg.plantcare.databinding.FragmentArticleBinding
 import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.di.viewModel.ViewModelFactory

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.micg.plantcare.data.models.HttpResponseState
-import net.micg.plantcare.data.models.article.Article
+import net.micg.plantcare.data.article.models.Article
 import net.micg.plantcare.domain.useCase.GetAllArticlesUseCase
 import net.micg.plantcare.domain.useCase.GetErrorMessageUseCase
 import javax.inject.Inject

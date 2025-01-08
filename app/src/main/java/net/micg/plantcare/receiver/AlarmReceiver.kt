@@ -1,15 +1,14 @@
-package net.micg.plantcare
+package net.micg.plantcare.receiver
 
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.core.app.NotificationCompat
-import net.micg.plantcare.domain.utils.AlarmNotificationUtils
+import net.micg.plantcare.R
 import net.micg.plantcare.presentation.MainActivity
-import net.micg.plantcare.presentation.utils.AlarmCreationUtils
+import net.micg.plantcare.utils.AlarmCreationUtils
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {

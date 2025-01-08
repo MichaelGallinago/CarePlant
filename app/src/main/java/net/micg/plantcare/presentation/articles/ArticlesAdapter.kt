@@ -14,7 +14,7 @@ import coil3.request.error
 import coil3.request.placeholder
 import coil3.request.transformations
 import net.micg.plantcare.BuildConfig
-import net.micg.plantcare.data.models.article.Article
+import net.micg.plantcare.data.article.models.Article
 import net.micg.plantcare.databinding.ArticleGridItemBinding
 
 class ArticlesAdapter(
@@ -39,7 +39,7 @@ class ArticlesAdapter(
         fun onBind(item: Article) = with(binding) {
             title.text = item.title
             root.setOnClickListener { onArticleClick(item) }
-            image.load("${BuildConfig.BASE_URL}images/${item.icon}") {
+            image.load("$IMAGES_FOLDER${item.icon}") {
                 crossfade(true)
                 error(R.drawable.ic_no_image)
                 placeholder(R.drawable.ic_flower_placeholder)
@@ -59,5 +59,9 @@ class ArticlesAdapter(
 
         override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean =
             oldItem == newItem
+    }
+
+    companion object {
+        private const val IMAGES_FOLDER = "${BuildConfig.BASE_URL}images/"
     }
 }

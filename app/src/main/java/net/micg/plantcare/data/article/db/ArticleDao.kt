@@ -1,7 +1,7 @@
-package net.micg.plantcare.data.db.article
+package net.micg.plantcare.data.article.db
 
 import androidx.room.*
-import net.micg.plantcare.data.models.article.Article
+import net.micg.plantcare.data.article.models.Article
 
 @Dao
 interface ArticleDao {

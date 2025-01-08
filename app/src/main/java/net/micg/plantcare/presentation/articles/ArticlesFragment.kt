@@ -16,7 +16,7 @@ import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentArticlesBinding
 import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.di.appComponent
-import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsPaddingToCurrentView
+import net.micg.plantcare.utils.InsetsUtils.addTopInsetsPaddingToCurrentView
 import javax.inject.Inject
 
 class ArticlesFragment : Fragment(R.layout.fragment_articles) {

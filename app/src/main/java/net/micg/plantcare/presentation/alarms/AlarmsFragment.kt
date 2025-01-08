@@ -18,7 +18,7 @@ import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.presentation.models.TimeConverter
 import net.micg.plantcare.presentation.models.TimeLocalization
-import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsMarginToCurrentView
+import net.micg.plantcare.utils.InsetsUtils.addTopInsetsMarginToCurrentView
 import javax.inject.Inject
 
 class AlarmsFragment : Fragment(R.layout.fragment_alarms) {

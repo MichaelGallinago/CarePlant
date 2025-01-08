@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import net.micg.plantcare.AlarmReceiver
+import net.micg.plantcare.receiver.AlarmReceiver
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.ActivityMainBinding
 
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private fun setUpActivity() = with(ActivityMainBinding.inflate(layoutInflater)) {
         setContentView(root)
 
-        var fragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        val fragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         with((fragment as NavHostFragment).navController) {
             bottomNavView.setOnItemSelectedListener { item ->
                 when (item.itemId) {
@@ -38,8 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleIntent() {
-        val fragmentTag = intent.getStringExtra(AlarmReceiver.FRAGMENT_TAG)
-        if (fragmentTag == null) return
+        val fragmentTag = intent.getStringExtra(AlarmReceiver.FRAGMENT_TAG) ?: return
 
         val fragmentId = when (fragmentTag) {
             AlarmReceiver.ALARMS_FRAGMENT_TAG -> R.id.alarmsFragment

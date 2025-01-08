@@ -1,8 +1,8 @@
-package net.micg.plantcare.data.db.article
+package net.micg.plantcare.data.article.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import net.micg.plantcare.data.models.article.Article
+import net.micg.plantcare.data.article.models.Article
 
 @Database(entities = [Article::class], version = 4, exportSchema = false)
 abstract class ArticleDatabase : RoomDatabase() {

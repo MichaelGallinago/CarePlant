@@ -2,10 +2,10 @@ package net.micg.plantcare.domain.implementations
 
 import android.content.Context
 import net.micg.plantcare.presentation.models.Alarm
-import net.micg.plantcare.data.alarm.AlarmsRepository
-import net.micg.plantcare.data.models.alarm.AlarmEntity
+import net.micg.plantcare.data.alarm.repository.AlarmsRepository
+import net.micg.plantcare.data.alarm.models.AlarmEntity
 import net.micg.plantcare.domain.useCase.InsertAlarmUseCase
-import net.micg.plantcare.domain.utils.TypeLabelUtils
+import net.micg.plantcare.utils.TypeLabelUtils
 import javax.inject.Inject
 
 class InsertAlarmUseCaseImpl @Inject constructor(

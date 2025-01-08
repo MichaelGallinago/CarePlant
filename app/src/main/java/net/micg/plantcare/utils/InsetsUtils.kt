@@ -1,4 +1,4 @@
-package net.micg.plantcare.presentation.utils
+package net.micg.plantcare.utils
 
 import android.view.View
 import android.view.ViewGroup

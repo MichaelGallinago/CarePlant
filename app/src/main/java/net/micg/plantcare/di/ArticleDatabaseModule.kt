@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import net.micg.plantcare.data.db.article.ArticleDatabase
+import net.micg.plantcare.data.article.db.ArticleDatabase
 
 @Module
 class ArticleDatabaseModule {
@@ -15,9 +15,7 @@ class ArticleDatabaseModule {
             context.applicationContext,
             ArticleDatabase::class.java,
             "article_database"
-        )
-            .fallbackToDestructiveMigration() //TODO: REMOVE THIS
-            .build()
+        ).build()
     }
 
     @Provides

@@ -1,6 +1,6 @@
 package net.micg.plantcare.data.models
 
-import net.micg.plantcare.domain.utils.ErrorMessageUtils
+import net.micg.plantcare.utils.ErrorMessageUtils
 
 sealed class HttpResponseState<out T> {
     data class Success<out T>(val value: T) : HttpResponseState<T>()

@@ -1,5 +1,7 @@
-package net.micg.plantcare.data.article
+package net.micg.plantcare.data.article.repository
 
+import net.micg.plantcare.data.article.datasource.local.LocalArticlesDataSource
+import net.micg.plantcare.data.article.datasource.remote.RemoteArticlesDataSource
 import net.micg.plantcare.data.models.HttpResponseState
 import javax.inject.Inject
 

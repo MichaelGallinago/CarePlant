@@ -2,14 +2,14 @@ package net.micg.plantcare.di
 
 import dagger.Binds
 import dagger.Module
-import net.micg.plantcare.data.alarm.AlarmsRepository
-import net.micg.plantcare.data.alarm.AlarmsRepositoryImpl
-import net.micg.plantcare.data.article.ArticlesRepository
-import net.micg.plantcare.data.article.ArticlesRepositoryImpl
-import net.micg.plantcare.data.article.LocalArticlesDataSource
-import net.micg.plantcare.data.article.LocalArticlesDataSourceImpl
-import net.micg.plantcare.data.article.RemoteArticlesDataSource
-import net.micg.plantcare.data.article.RemoteArticlesDataSourceImpl
+import net.micg.plantcare.data.alarm.repository.AlarmsRepository
+import net.micg.plantcare.data.alarm.repository.AlarmsRepositoryImpl
+import net.micg.plantcare.data.article.repository.ArticlesRepository
+import net.micg.plantcare.data.article.repository.ArticlesRepositoryImpl
+import net.micg.plantcare.data.article.datasource.local.LocalArticlesDataSource
+import net.micg.plantcare.data.article.datasource.local.LocalArticlesDataSourceImpl
+import net.micg.plantcare.data.article.datasource.remote.RemoteArticlesDataSource
+import net.micg.plantcare.data.article.datasource.remote.RemoteArticlesDataSourceImpl
 import net.micg.plantcare.domain.implementations.CancelAlarmUseCaseImpl
 import net.micg.plantcare.domain.implementations.DeleteAlarmByIdUseCaseImpl
 import net.micg.plantcare.domain.implementations.GetAlarmCreationDataUseCaseImpl

@@ -1,10 +1,9 @@
-package net.micg.plantcare.domain.utils
+package net.micg.plantcare.receiver
 
 import android.app.AlarmManager
 import android.app.PendingIntent.*
 import android.content.Context
 import android.content.Intent
-import net.micg.plantcare.AlarmReceiver
 
 object AlarmNotificationUtils {
     private const val HALF_MINUTE_IN_MILLIS = 1000L * 30L
@@ -56,11 +55,11 @@ object AlarmNotificationUtils {
         dateInMillis: Long,
         intervalInMillis: Long,
     ) = createIntent(context).apply {
-        putExtra(AlarmReceiver.ALARM_ID, id)
-        putExtra(AlarmReceiver.ALARM_NAME, name)
-        putExtra(AlarmReceiver.ALARM_TYPE, type)
-        putExtra(AlarmReceiver.ALARM_DATE, dateInMillis)
-        putExtra(AlarmReceiver.ALARM_INTERVAL, intervalInMillis)
+        putExtra(AlarmReceiver.Companion.ALARM_ID, id)
+        putExtra(AlarmReceiver.Companion.ALARM_NAME, name)
+        putExtra(AlarmReceiver.Companion.ALARM_TYPE, type)
+        putExtra(AlarmReceiver.Companion.ALARM_DATE, dateInMillis)
+        putExtra(AlarmReceiver.Companion.ALARM_INTERVAL, intervalInMillis)
     }
 
     private fun getAlarmManager(context: Context) =

@@ -1,16 +1,17 @@
-package net.micg.plantcare.data.article
+package net.micg.plantcare.data.article.datasource.remote
 
+import net.micg.plantcare.data.article.api.ArticlesApi
 import net.micg.plantcare.data.models.HttpResponseState
-import net.micg.plantcare.data.models.alarm.AlarmCreationModel
-import net.micg.plantcare.data.models.article.Article
-import net.micg.plantcare.domain.utils.ErrorMessageUtils
+import net.micg.plantcare.data.alarm.models.AlarmCreationModel
+import net.micg.plantcare.data.article.models.Article
+import net.micg.plantcare.utils.ErrorMessageUtils
 import retrofit2.awaitResponse
 import javax.inject.Inject
 
 class RemoteArticlesDataSourceImpl @Inject constructor(
     private val api: ArticlesApi,
 ) : RemoteArticlesDataSource {
-    override suspend fun getAll(): HttpResponseState<List<Article>> = kotlin.runCatching {
+    override suspend fun getAll(): HttpResponseState<List<Article>> = runCatching {
         api.getArticles().awaitResponse()
     }.fold(
         onSuccess = { response ->
@@ -25,7 +26,7 @@ class RemoteArticlesDataSourceImpl @Inject constructor(
 
     override suspend fun getAlarmCreationData(
         fileName: String,
-    ): HttpResponseState<AlarmCreationModel> = kotlin.runCatching {
+    ): HttpResponseState<AlarmCreationModel> = runCatching {
         api.getAlarmCreationData(fileName).awaitResponse()
     }.fold(
         onSuccess = { response ->

@@ -1,4 +1,4 @@
-package net.micg.plantcare.data.models.article
+package net.micg.plantcare.data.article.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

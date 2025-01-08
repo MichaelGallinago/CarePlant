@@ -1,7 +1,7 @@
-package net.micg.plantcare.data.alarm
+package net.micg.plantcare.data.alarm.repository
 
 import kotlinx.coroutines.flow.Flow
-import net.micg.plantcare.data.models.alarm.AlarmEntity
+import net.micg.plantcare.data.alarm.models.AlarmEntity
 
 interface AlarmsRepository {
     val allAlarmEntities: Flow<List<AlarmEntity>>

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import net.micg.plantcare.data.models.HttpResponseState
-import net.micg.plantcare.data.models.alarm.AlarmCreationModel
+import net.micg.plantcare.data.alarm.models.AlarmCreationModel
 import net.micg.plantcare.domain.useCase.GetAlarmCreationDataUseCase
 import javax.inject.Inject
 

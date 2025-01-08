@@ -27,7 +27,9 @@ class AlarmsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = AlarmViewHolder(
-        AlarmItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        AlarmItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+        onToggleClick,
+        timeConverter
     )
 
     override fun onBindViewHolder(holder: AlarmViewHolder, position: Int) =
@@ -54,8 +56,10 @@ class AlarmsAdapter(
         submitList(this)
     }
 
-    inner class AlarmViewHolder(
+    class AlarmViewHolder(
         private val binding: AlarmItemBinding,
+        private val onToggleClick: (Alarm, Boolean) -> Unit,
+        private val timeConverter: TimeConverter
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(alarm: Alarm) = with(binding) {
             name.text = alarm.name

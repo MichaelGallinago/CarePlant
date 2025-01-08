@@ -1,7 +1,7 @@
-package net.micg.plantcare.data.article
+package net.micg.plantcare.data.article.api
 
-import net.micg.plantcare.data.models.alarm.AlarmCreationModel
-import net.micg.plantcare.data.models.article.Article
+import net.micg.plantcare.data.alarm.models.AlarmCreationModel
+import net.micg.plantcare.data.article.models.Article
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

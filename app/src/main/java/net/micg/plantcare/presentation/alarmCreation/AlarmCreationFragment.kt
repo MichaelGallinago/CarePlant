@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.webkit.WebSettings
 import android.widget.DatePicker
 import android.widget.SeekBar
 import android.widget.TimePicker
@@ -16,16 +15,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
-import net.micg.plantcare.BuildConfig
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmCreationBinding
 import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.di.appComponent
-import net.micg.plantcare.presentation.article.ArticleFragmentArgs
-import net.micg.plantcare.presentation.utils.AlarmCreationUtils.calculateIntervalInMillis
+import net.micg.plantcare.utils.AlarmCreationUtils.calculateIntervalInMillis
 import java.util.Calendar.*
-import net.micg.plantcare.presentation.utils.AlarmCreationUtils.getCurrentCalendar
-import net.micg.plantcare.presentation.utils.InsetsUtils.addTopInsetsMarginToCurrentView
+import net.micg.plantcare.utils.AlarmCreationUtils.getCurrentCalendar
+import net.micg.plantcare.utils.InsetsUtils.addTopInsetsMarginToCurrentView
 import javax.inject.Inject
 
 class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {

@@ -1,4 +1,4 @@
-package net.micg.plantcare.domain.utils
+package net.micg.plantcare.utils
 
 import android.content.Context
 import net.micg.plantcare.R

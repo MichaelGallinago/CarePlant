@@ -1,6 +1,6 @@
-package net.micg.plantcare.data.article
+package net.micg.plantcare.data.article.datasource.local
 
-import net.micg.plantcare.data.models.article.Article
+import net.micg.plantcare.data.article.models.Article
 
 interface LocalArticlesDataSource {
     suspend fun insertAll(articles: List<Article>)
