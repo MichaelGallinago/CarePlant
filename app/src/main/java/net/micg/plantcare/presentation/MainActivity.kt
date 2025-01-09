@@ -3,6 +3,8 @@ package net.micg.plantcare.presentation
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import net.micg.plantcare.receiver.AlarmReceiver
 import net.micg.plantcare.R
@@ -22,20 +24,23 @@ class MainActivity : AppCompatActivity() {
         val fragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         with((fragment as NavHostFragment).navController) {
             bottomNavView.setOnItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.alarmsFragment -> {
-                        navigate(R.id.alarmsFragment)
-                        true
+                navigateWithSetPopUpTo(
+                    this,
+                    when (item.itemId) {
+                        R.id.alarmsFragment -> R.id.alarmsFragment
+                        R.id.articlesFragment -> R.id.articlesFragment
+                        else -> R.id.alarmsFragment
                     }
-                    R.id.articlesFragment -> {
-                        navigate(R.id.articlesFragment)
-                        true
-                    }
-                    else -> false
-                }
+                )
+                true
             }
         }
     }
+
+    private fun navigateWithSetPopUpTo(navController: NavController, fragmentId: Int) =
+        navController.navigate(
+            fragmentId, null, NavOptions.Builder().setPopUpTo(fragmentId, true).build()
+        )
 
     private fun handleIntent() {
         val fragmentTag = intent.getStringExtra(AlarmReceiver.FRAGMENT_TAG) ?: return

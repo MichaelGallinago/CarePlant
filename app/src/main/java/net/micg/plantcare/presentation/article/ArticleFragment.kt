@@ -59,7 +59,11 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         viewModel.getAlarmCreationData("$name.json")
         with(binding.webView) {
             settings.cacheMode = WebSettings.LOAD_DEFAULT
-            loadUrl("${BuildConfig.BASE_URL}articles/$name.html")
+            loadUrl("$ARTICLE_FOLDER$name.html")
         }
+    }
+
+    companion object {
+        private const val ARTICLE_FOLDER = "${BuildConfig.BASE_URL}articles/"
     }
 }
