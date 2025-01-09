@@ -19,9 +19,11 @@ class AlarmsAdapter(
 
     private val handler = Handler(Looper.getMainLooper())
     private var runnable: Runnable = object : Runnable {
+        // I know about "submitList()", but I still need to update all the items at the same time.
+        // Also, I don't like the blinking of list items when updating.
         @SuppressLint("NotifyDataSetChanged")
         override fun run() {
-            notifyDataSetChanged() // TODO: submitList ?
+            notifyDataSetChanged()
             handler.postDelayed(this, 60000)
         }
     }
