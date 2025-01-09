@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_articlesFragment_to_articleFragment"
             app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_articlesFragment_to_alarmsFragment"
+            app:destination="@id/alarmsFragment" />
     </fragment>
 
     <fragment
@@ -55,4 +58,12 @@
             android:id="@+id/action_alarmCreationFragment_to_alarmsFragment"
             app:destination="@id/alarmsFragment" />
     </fragment>
+
+    <action
+        android:id="@+id/action_global_alarmsFragment"
+        app:destination="@id/alarmsFragment" />
+
+    <action
+        android:id="@+id/action_global_articlesFragment"
+        app:destination="@id/articlesFragment" />
 </navigation>
