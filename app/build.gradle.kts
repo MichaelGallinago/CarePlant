@@ -30,16 +30,26 @@ android {
             )
             buildConfigField(
                 "String",
-                "BASE_URL",
-                getLocalProperties().getProperty("base_url")
+                "WEB_STORAGE_URL",
+                getLocalProperties().getProperty("web_storage_url")
+            )
+            buildConfigField(
+                "String",
+                "ANALYTICS_URL",
+                getLocalProperties().getProperty("analytics_url")
             )
             signingConfig = signingConfigs.getByName("debug")
         }
         debug {
             buildConfigField(
                 "String",
-                "BASE_URL",
-                getLocalProperties().getProperty("base_url")
+                "WEB_STORAGE_URL",
+                getLocalProperties().getProperty("web_storage_url")
+            )
+            buildConfigField(
+                "String",
+                "ANALYTICS_URL",
+                getLocalProperties().getProperty("analytics_url")
             )
         }
     }

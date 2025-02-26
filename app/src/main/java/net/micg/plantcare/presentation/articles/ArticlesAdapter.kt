@@ -62,6 +62,6 @@ class ArticlesAdapter(
     }
 
     companion object {
-        private const val IMAGES_FOLDER = "${BuildConfig.BASE_URL}images/"
+        private const val IMAGES_FOLDER = "${BuildConfig.WEB_STORAGE_URL}images/"
     }
 }

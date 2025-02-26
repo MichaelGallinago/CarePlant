@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class NetworkModule {
     @Provides
     @AppComponentScope
-    fun provideArticlesApi(): ArticlesApi = Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)
+    fun provideArticlesApi(): ArticlesApi = Retrofit.Builder().baseUrl(BuildConfig.WEB_STORAGE_URL)
         .addConverterFactory(GsonConverterFactory.create()).build()
         .create(ArticlesApi::class.java)
 }

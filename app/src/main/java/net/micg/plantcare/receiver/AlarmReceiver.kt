@@ -17,7 +17,10 @@ class AlarmReceiver : BroadcastReceiver() {
         val name = getString(context, intent, ALARM_NAME, R.string.notification_name_placeholder)
         val type = getString(context, intent, ALARM_TYPE, R.string.notification_type_placeholder)
 
-        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        notificationManager.notify(
             id,
             NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_flower)
@@ -25,8 +28,26 @@ class AlarmReceiver : BroadcastReceiver() {
                 .setContentText(type)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(createPendingIntent(context, id))
-                .setAutoCancel(true).build()
+                .setContentIntent(createContentIntent(context, id))
+                .setAutoCancel(false)
+                .setGroup(ALARM_GROUP)
+                .setDeleteIntent(createDeleteIntent(context, id))
+                .build()
+        )
+
+        notificationManager.notify(
+            Int.MIN_VALUE,
+            NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_alarm)
+                .setContentTitle("Напоминания")
+                .setContentText("Вы уделили внимание всем растениям")
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setOngoing(true)
+                .setAutoCancel(false)
+                .setGroup(ALARM_GROUP)
+                .setGroupSummary(true)
+                .build()
         )
 
         val dateInMillis = intent.getLongExtra(ALARM_DATE, System.currentTimeMillis())
@@ -42,13 +63,20 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun getString(context: Context, intent: Intent, name: String, resId: Int) =
         intent.getStringExtra(name).takeUnless { it.isNullOrBlank() } ?: context.getString(resId)
 
-    private fun createPendingIntent(context: Context, id: Int) = PendingIntent.getActivity(
+    private fun createContentIntent(context: Context, id: Int) = PendingIntent.getActivity(
         context,
         id,
         Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             putExtra(FRAGMENT_TAG, ALARMS_FRAGMENT_TAG)
         },
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
+
+    private fun createDeleteIntent(context: Context, id: Int) = PendingIntent.getBroadcast(
+        context,
+        id,
+        Intent(context, NotificationDismissReceiver::class.java),
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     )
 
@@ -62,5 +90,6 @@ class AlarmReceiver : BroadcastReceiver() {
         const val ALARM_TYPE = "ALARM_TYPE"
         const val ALARM_DATE = "ALARM_DATE"
         const val ALARM_INTERVAL = "ALARM_INTERVAL"
+        const val ALARM_GROUP = "ALARM_GROUP"
     }
 }

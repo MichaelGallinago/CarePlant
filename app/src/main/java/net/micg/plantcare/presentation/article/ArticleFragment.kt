@@ -63,6 +63,6 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
     }
 
     companion object {
-        private const val ARTICLE_FOLDER = "${BuildConfig.BASE_URL}articles/"
+        private const val ARTICLE_FOLDER = "${BuildConfig.WEB_STORAGE_URL}articles/"
     }
 }
