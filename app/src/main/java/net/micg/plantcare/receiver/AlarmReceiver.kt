@@ -1,13 +1,15 @@
 package net.micg.plantcare.receiver
 
+import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import androidx.core.app.NotificationCompat
 import net.micg.plantcare.R
-import net.micg.plantcare.presentation.MainActivity
 import net.micg.plantcare.utils.AlarmCreationUtils
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -20,35 +22,40 @@ class AlarmReceiver : BroadcastReceiver() {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        notificationManager.notify(
-            id,
-            NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_flower)
-                .setContentTitle(name)
-                .setContentText(type)
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(createContentIntent(context, id))
-                .setAutoCancel(false)
-                .setGroup(ALARM_GROUP)
-                .setDeleteIntent(createDeleteIntent(context, id))
-                .build()
-        )
-
-        notificationManager.notify(
-            Int.MIN_VALUE,
-            NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_alarm)
-                .setContentTitle("Напоминания")
-                .setContentText("Вы уделили внимание всем растениям")
-                .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setOngoing(true)
-                .setAutoCancel(false)
-                .setGroup(ALARM_GROUP)
-                .setGroupSummary(true)
-                .build()
-        )
+        when (notificationManager.activeNotifications.count()) {
+            0 -> notificationManager.notify(
+                id,
+                NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_flower)
+                    .setContentTitle(name)
+                    .setContentText(type)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setContentIntent(AlarmNotificationUtils.createContentIntent(context, id))
+                    .setAutoCancel(true)
+                    .setOngoing(true)
+                    .setGroup(ALARM_GROUP)
+                    .setDeleteIntent(createDeleteIntent(context, id))
+                    .build()
+            )
+            1 -> {
+                val existsNotification = notificationManager.activeNotifications[0]
+                val extras = existsNotification.notification.extras
+                notifyAlarm(
+                    context,
+                    notificationManager,
+                    existsNotification.id,
+                    extras.getString(Notification.EXTRA_TITLE) ?: "",
+                    extras.getString(Notification.EXTRA_TEXT) ?: ""
+                )
+                notifyAlarm(context, notificationManager, id, name, type)
+                notifyGroupSummary(context, notificationManager)
+            }
+            else -> {
+                notifyAlarm(context, notificationManager, id, name, type)
+                notifyGroupSummary(context, notificationManager)
+            }
+        }
 
         val dateInMillis = intent.getLongExtra(ALARM_DATE, System.currentTimeMillis())
 
@@ -60,27 +67,54 @@ class AlarmReceiver : BroadcastReceiver() {
         )
     }
 
+    private fun notifyAlarm(
+        context: Context,
+        notificationManager: NotificationManager,
+        id: Int,
+        name: String,
+        type: String
+    ) = notificationManager.notify(
+        id,
+        NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_flower)
+            .setContentTitle(name)
+            .setContentText(type)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(AlarmNotificationUtils.createContentIntent(context, id))
+            .setAutoCancel(false)
+            .setGroup(ALARM_GROUP)
+            .setDeleteIntent(createDeleteIntent(context, id))
+            .build()
+    )
+
+    private fun notifyGroupSummary(
+        context: Context, notificationManager: NotificationManager
+    ) = Handler(Looper.getMainLooper()).postDelayed({
+        notificationManager.notify(
+            GROUP_SUMMARY_ID,
+            AlarmNotificationUtils.getGroupSummaryNotification(
+                context,
+                context.getString(R.string.complete)
+            )
+        )
+    }, GROUP_SUMMARY_DELAY)
+
     private fun getString(context: Context, intent: Intent, name: String, resId: Int) =
         intent.getStringExtra(name).takeUnless { it.isNullOrBlank() } ?: context.getString(resId)
-
-    private fun createContentIntent(context: Context, id: Int) = PendingIntent.getActivity(
-        context,
-        id,
-        Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            putExtra(FRAGMENT_TAG, ALARMS_FRAGMENT_TAG)
-        },
-        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-    )
 
     private fun createDeleteIntent(context: Context, id: Int) = PendingIntent.getBroadcast(
         context,
         id,
-        Intent(context, NotificationDismissReceiver::class.java),
+        Intent(context, NotificationDismissReceiver::class.java).apply {
+            putExtra(ID_EXTRA, id)
+        },
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     )
 
     companion object {
+        const val ID_EXTRA = "id"
+
         const val FRAGMENT_TAG = "fragment_tag"
         const val ALARMS_FRAGMENT_TAG = "fragment_tag"
 
@@ -91,5 +125,8 @@ class AlarmReceiver : BroadcastReceiver() {
         const val ALARM_DATE = "ALARM_DATE"
         const val ALARM_INTERVAL = "ALARM_INTERVAL"
         const val ALARM_GROUP = "ALARM_GROUP"
+
+        const val GROUP_SUMMARY_DELAY = 400L
+        const val GROUP_SUMMARY_ID = Int.MIN_VALUE
     }
 }

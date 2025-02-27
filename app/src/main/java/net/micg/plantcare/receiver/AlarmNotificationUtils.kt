@@ -1,12 +1,17 @@
 package net.micg.plantcare.receiver
 
 import android.app.AlarmManager
+import android.app.PendingIntent
 import android.app.PendingIntent.*
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import android.os.Build
-import android.provider.Settings
+import androidx.core.app.NotificationCompat
+import net.micg.plantcare.R
+import net.micg.plantcare.presentation.MainActivity
+import net.micg.plantcare.receiver.AlarmReceiver.Companion.ALARMS_FRAGMENT_TAG
+import net.micg.plantcare.receiver.AlarmReceiver.Companion.ALARM_CHANNEL_ID
+import net.micg.plantcare.receiver.AlarmReceiver.Companion.ALARM_GROUP
+import net.micg.plantcare.receiver.AlarmReceiver.Companion.FRAGMENT_TAG
 
 object AlarmNotificationUtils {
     private const val HALF_MINUTE_IN_MILLIS = 1000L * 30L
@@ -29,37 +34,40 @@ object AlarmNotificationUtils {
         type: String,
         dateInMillis: Long,
         intervalInMillis: Long,
-    ) {
-        while (!canScheduleExactAlarms(context)) {
-            requestExactAlarmPermission(context)
-        }
-
-        getAlarmManager(context).setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            dateInMillis,
-            createPendingIntent(
-                context,
-                id,
-                createExtraIntent(context, id, name, type, dateInMillis, intervalInMillis)
-            )
+    ) = getAlarmManager(context).setExactAndAllowWhileIdle(
+        AlarmManager.RTC_WAKEUP,
+        dateInMillis,
+        createPendingIntent(
+            context,
+            id,
+            createExtraIntent(context, id, name, type, dateInMillis, intervalInMillis)
         )
-    }
+    )
 
-    private fun canScheduleExactAlarms(context: Context): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return true
+    fun getGroupSummaryNotification(
+        context: Context, complete: String
+    ) = NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_alarm)
+        .setContentTitle(complete)
+        .setDefaults(NotificationCompat.DEFAULT_ALL)
+        .setPriority(NotificationCompat.PRIORITY_HIGH)
+        .setOngoing(true)
+        .setAutoCancel(true)
+        .setOnlyAlertOnce(true)
+        .setContentIntent(getActivity(context, 0, Intent(), FLAG_IMMUTABLE))
+        .setGroup(ALARM_GROUP)
+        .setGroupSummary(true)
+        .build()
 
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        return alarmManager.canScheduleExactAlarms()
-    }
-
-    private fun requestExactAlarmPermission(context: Context) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
-
-        context.startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
-            data = Uri.parse("package:${context.packageName}")
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        })
-    }
+    fun createContentIntent(context: Context, id: Int) = getActivity(
+        context,
+        id,
+        Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra(FRAGMENT_TAG, ALARMS_FRAGMENT_TAG)
+        },
+        FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
+    )
 
     private fun createPendingIntent(context: Context, id: Int, intent: Intent) = getBroadcast(
         context,

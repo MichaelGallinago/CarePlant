@@ -1,8 +1,10 @@
 package net.micg.plantcare.presentation
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
@@ -26,6 +28,12 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setUpActivity()
         handleIntent()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 101
+            )
+        }
     }
 
     private fun setUpActivity() = with(ActivityMainBinding.inflate(layoutInflater)) {
