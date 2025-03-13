@@ -35,7 +35,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setAutoCancel(true)
                     .setOngoing(true)
                     .setGroup(ALARM_GROUP)
-                    .setDeleteIntent(createDeleteIntent(context, id))
+                    .setDeleteIntent(createDeleteIntent(context, id, name, type))
                     .build()
             )
             1 -> {
@@ -84,7 +84,7 @@ class AlarmReceiver : BroadcastReceiver() {
             .setContentIntent(AlarmNotificationUtils.createContentIntent(context, id))
             .setAutoCancel(false)
             .setGroup(ALARM_GROUP)
-            .setDeleteIntent(createDeleteIntent(context, id))
+            .setDeleteIntent(createDeleteIntent(context, id, name, type))
             .build()
     )
 
@@ -103,17 +103,22 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun getString(context: Context, intent: Intent, name: String, resId: Int) =
         intent.getStringExtra(name).takeUnless { it.isNullOrBlank() } ?: context.getString(resId)
 
-    private fun createDeleteIntent(context: Context, id: Int) = PendingIntent.getBroadcast(
-        context,
-        id,
-        Intent(context, NotificationDismissReceiver::class.java).apply {
-            putExtra(ID_EXTRA, id)
-        },
-        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-    )
+    private fun createDeleteIntent(context: Context, id: Int, name: String, type: String)
+        = PendingIntent.getBroadcast(
+            context,
+            id,
+            Intent(context, NotificationDismissReceiver::class.java).apply {
+                putExtra(ID_EXTRA, id)
+                putExtra(NAME_EXTRA, name)
+                putExtra(TYPE_EXTRA, type)
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
     companion object {
         const val ID_EXTRA = "id"
+        const val NAME_EXTRA = "name"
+        const val TYPE_EXTRA = "name"
 
         const val FRAGMENT_TAG = "fragment_tag"
         const val ALARMS_FRAGMENT_TAG = "fragment_tag"

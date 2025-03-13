@@ -54,6 +54,10 @@
             android:name="interval"
             android:defaultValue="1"
             app:argType="integer" />
+        <argument
+            android:name="fragmentName"
+            android:defaultValue=""
+            app:argType="string" />
         <action
             android:id="@+id/action_alarmCreationFragment_to_alarmsFragment"
             app:destination="@id/alarmsFragment" />

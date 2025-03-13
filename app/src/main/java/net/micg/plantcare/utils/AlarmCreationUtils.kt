@@ -1,8 +1,11 @@
 package net.micg.plantcare.utils
 
 import android.widget.Spinner
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Calendar.getInstance
+import java.util.Date
+import java.util.Locale
 
 object AlarmCreationUtils {
     @Deprecated("Now interval only in days",
@@ -19,4 +22,13 @@ object AlarmCreationUtils {
 
     @Deprecated("There are no spinners now")
     fun getSpinnerValue(spinner: Spinner) = spinner.selectedItem.toString().toLong()
+
+    fun convertTimeToString(timeInMillis: Long): String = 
+        SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault()).format(Date(timeInMillis))
+
+    fun getTypeName(type: Int): String = when(type) {
+        0 -> "Watering"
+        1 -> "Fertilizing"
+        else -> ""
+    }
 }

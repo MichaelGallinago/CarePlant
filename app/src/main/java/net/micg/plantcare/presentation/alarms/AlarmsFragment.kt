@@ -18,6 +18,7 @@ import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.presentation.models.TimeConverter
 import net.micg.plantcare.presentation.models.TimeLocalization
+import net.micg.plantcare.utils.FirebaseUtils
 import net.micg.plantcare.utils.InsetsUtils.addTopInsetsMarginToCurrentView
 import javax.inject.Inject
 
@@ -38,6 +39,10 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
         setUpEdgeToEdgeForCurrentFragment()
         setUpAdapter()
         setUpNavigation()
+
+        context?.let { ctx ->
+            FirebaseUtils.logEvent(ctx, FirebaseUtils.ALARMS_ENTERS)
+        }
     }
 
     private fun setUpEdgeToEdgeForCurrentFragment() = addTopInsetsMarginToCurrentView(binding.label)
@@ -65,7 +70,9 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
 
     private fun setUpNavigation() = with(findNavController()) {
         binding.addAlarmButton.setOnClickListener {
-            navigate(AlarmsFragmentDirections.actionAlarmsFragmentToAlarmCreationFragment())
+            navigate(AlarmsFragmentDirections.actionAlarmsFragmentToAlarmCreationFragment(
+                "", 0, "Article"
+            ))
         }
     }
 

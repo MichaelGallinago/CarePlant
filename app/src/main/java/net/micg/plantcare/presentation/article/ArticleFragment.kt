@@ -14,6 +14,7 @@ import net.micg.plantcare.data.alarm.models.AlarmCreationModel
 import net.micg.plantcare.databinding.FragmentArticleBinding
 import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.di.viewModel.ViewModelFactory
+import net.micg.plantcare.utils.FirebaseUtils
 import javax.inject.Inject
 import kotlin.getValue
 
@@ -45,7 +46,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             with(data) {
                 findNavController().navigate(
                     ArticleFragmentDirections.actionArticleFragmentToAlarmCreationFragment(
-                        plantName, interval
+                        plantName, interval, "Article"
                     )
                 )
             }
@@ -59,6 +60,12 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         with(binding.webView) {
             settings.cacheMode = WebSettings.LOAD_DEFAULT
             loadUrl("$ARTICLE_FOLDER$name.html")
+        }
+
+        context?.let { ctx ->
+            FirebaseUtils.logEvent(ctx, FirebaseUtils.ARTICLE_ENTERS, Bundle().apply {
+                putString("name", name)
+            })
         }
     }
 
