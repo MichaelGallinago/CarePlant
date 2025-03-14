@@ -71,7 +71,7 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
     private fun setUpNavigation() = with(findNavController()) {
         binding.addAlarmButton.setOnClickListener {
             navigate(AlarmsFragmentDirections.actionAlarmsFragmentToAlarmCreationFragment(
-                "", 0, "Article"
+                "", 0, "Alarms"
             ))
         }
     }
