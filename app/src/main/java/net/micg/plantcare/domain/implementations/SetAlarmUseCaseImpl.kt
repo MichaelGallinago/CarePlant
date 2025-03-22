@@ -2,7 +2,7 @@ package net.micg.plantcare.domain.implementations
 
 import android.content.Context
 import net.micg.plantcare.domain.useCase.SetAlarmUseCase
-import net.micg.plantcare.receiver.AlarmNotificationUtils
+import net.micg.plantcare.receiver.alarm.AlarmNotificationUtils
 import net.micg.plantcare.presentation.models.Alarm
 import javax.inject.Inject
 

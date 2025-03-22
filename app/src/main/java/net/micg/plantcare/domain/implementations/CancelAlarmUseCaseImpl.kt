@@ -2,7 +2,7 @@ package net.micg.plantcare.domain.implementations
 
 import android.content.Context
 import net.micg.plantcare.domain.useCase.CancelAlarmUseCase
-import net.micg.plantcare.receiver.AlarmNotificationUtils
+import net.micg.plantcare.receiver.alarm.AlarmNotificationUtils
 import javax.inject.Inject
 
 class CancelAlarmUseCaseImpl @Inject constructor(

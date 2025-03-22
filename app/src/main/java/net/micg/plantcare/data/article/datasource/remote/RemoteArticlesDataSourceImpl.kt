@@ -11,6 +11,7 @@ import javax.inject.Inject
 class RemoteArticlesDataSourceImpl @Inject constructor(
     private val api: ArticlesApi,
 ) : RemoteArticlesDataSource {
+
     override suspend fun getAll(): HttpResponseState<List<Article>> = runCatching {
         api.getArticles().awaitResponse()
     }.fold(
@@ -43,4 +44,3 @@ class RemoteArticlesDataSourceImpl @Inject constructor(
         throwable.message ?: "failure", ErrorMessageUtils.Type.LoadingError
     )
 }
-

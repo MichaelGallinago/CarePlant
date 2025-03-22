@@ -1,4 +1,4 @@
-package net.micg.plantcare.receiver
+package net.micg.plantcare.receiver.alarm
 
 import android.app.AlarmManager
 import android.app.PendingIntent.*
@@ -7,10 +7,6 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import net.micg.plantcare.R
 import net.micg.plantcare.presentation.MainActivity
-import net.micg.plantcare.receiver.AlarmReceiver.Companion.ALARMS_FRAGMENT_TAG
-import net.micg.plantcare.receiver.AlarmReceiver.Companion.ALARM_CHANNEL_ID
-import net.micg.plantcare.receiver.AlarmReceiver.Companion.ALARM_GROUP
-import net.micg.plantcare.receiver.AlarmReceiver.Companion.FRAGMENT_TAG
 
 object AlarmNotificationUtils {
     private const val HALF_MINUTE_IN_MILLIS = 1000L * 30L
@@ -45,7 +41,7 @@ object AlarmNotificationUtils {
 
     fun getGroupSummaryNotification(
         context: Context, complete: String
-    ) = NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
+    ) = NotificationCompat.Builder(context, AlarmReceiver.Companion.ALARM_CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_alarm)
         .setContentTitle(complete)
         .setDefaults(NotificationCompat.DEFAULT_ALL)
@@ -54,7 +50,7 @@ object AlarmNotificationUtils {
         .setAutoCancel(true)
         .setOnlyAlertOnce(true)
         .setContentIntent(getActivity(context, 0, Intent(), FLAG_IMMUTABLE))
-        .setGroup(ALARM_GROUP)
+        .setGroup(AlarmReceiver.Companion.ALARM_GROUP)
         .setGroupSummary(true)
         .build()
 
@@ -63,7 +59,10 @@ object AlarmNotificationUtils {
         id,
         Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            putExtra(FRAGMENT_TAG, ALARMS_FRAGMENT_TAG)
+            putExtra(
+                AlarmReceiver.Companion.FRAGMENT_TAG,
+                AlarmReceiver.Companion.ALARMS_FRAGMENT_TAG
+            )
         },
         FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
     )

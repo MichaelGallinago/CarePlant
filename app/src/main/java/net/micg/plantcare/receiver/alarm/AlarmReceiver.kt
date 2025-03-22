@@ -1,4 +1,4 @@
-package net.micg.plantcare.receiver
+package net.micg.plantcare.receiver.alarm
 
 import android.app.Notification
 import android.app.NotificationManager
@@ -35,7 +35,7 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setAutoCancel(true)
                     .setOngoing(true)
                     .setGroup(ALARM_GROUP)
-                    .setDeleteIntent(createDeleteIntent(context, id, name, type))
+//                    .setDeleteIntent(createDeleteIntent(context, id, name, type))
                     .build()
             )
             1 -> {

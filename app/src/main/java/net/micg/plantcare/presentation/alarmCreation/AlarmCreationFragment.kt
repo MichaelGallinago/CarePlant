@@ -47,18 +47,19 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         setUpEdgeToEdgeForCurrentFragment()
         setUpListeners(findNavController())
         setUpFragment()
+        setUpArguments()
+    }
 
-        arguments?.let {
-            AlarmCreationFragmentArgs.fromBundle(it)
-        }?.let { args ->
-            binding.intervalBar.progress = max(args.interval - 1, 0)
-            binding.nameEditText.setText(args.plantName)
+    private fun setUpArguments() = arguments?.let {
+        AlarmCreationFragmentArgs.fromBundle(it)
+    }?.let { args ->
+        binding.intervalBar.progress = max(args.interval - 1, 0)
+        binding.nameEditText.setText(args.plantName)
 
-            context?.let { ctx ->
-                FirebaseUtils.logEvent(ctx, FirebaseUtils.ALARM_CREATION_ENTERS, Bundle().apply {
-                    putString("from_screen", args.fragmentName)
-                })
-            }
+        context?.let { ctx ->
+            FirebaseUtils.logEvent(ctx, FirebaseUtils.ALARM_CREATION_ENTERS, Bundle().apply {
+                putString("from_screen", args.fragmentName)
+            })
         }
     }
 

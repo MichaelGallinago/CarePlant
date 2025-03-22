@@ -16,8 +16,8 @@ android {
         applicationId = "net.micg.plantcare"
         minSdk = 24
         targetSdk = 35
-        versionCode = 5
-        versionName = "1.14"
+        versionCode = 6
+        versionName = "1.15"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -112,6 +112,7 @@ dependencies {
     // Google analytics
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.messaging)
 }
 
 fun getLocalProperties() = Properties().apply {

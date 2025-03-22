@@ -2,7 +2,8 @@
 agp = "8.9.0"
 coil = "3.0.0-rc01"
 dagger = "2.52"
-firebaseBom = "33.10.0"
+firebaseBom = "33.11.0"
+firebaseMessaging = "24.1.1"
 kotlin = "2.1.0"
 coreKtx = "1.15.0"
 appcompat = "1.7.0"
@@ -37,6 +38,7 @@ dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = 
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging", version.ref = "firebaseMessaging" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
@@ -47,4 +49,3 @@ viewbindingpropertydelegate-full = { module = "com.github.kirich1409:viewbinding
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-

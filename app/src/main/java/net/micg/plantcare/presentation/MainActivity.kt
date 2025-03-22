@@ -1,15 +1,17 @@
 package net.micg.plantcare.presentation
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.net.toUri
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import net.micg.plantcare.receiver.AlarmReceiver
+import net.micg.plantcare.receiver.alarm.AlarmReceiver
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.ActivityMainBinding
 import net.micg.plantcare.presentation.alarms.AlarmsFragmentDirections
@@ -33,6 +35,16 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this, arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 101
             )
+        }
+
+        if (intent != null && intent.extras != null) {
+            val url = intent.getStringExtra("url");
+
+            if (url != null) {
+                startActivity(Intent(Intent.ACTION_VIEW, url.toUri()).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                })
+            }
         }
     }
 
