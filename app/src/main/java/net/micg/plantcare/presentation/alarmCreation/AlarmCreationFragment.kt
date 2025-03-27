@@ -6,7 +6,6 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.SeekBar
@@ -18,15 +17,20 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmCreationBinding
-import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.di.appComponent
+import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.utils.AlarmCreationUtils
 import net.micg.plantcare.utils.AlarmCreationUtils.calculateIntervalInMillis
-import java.util.Calendar.*
 import net.micg.plantcare.utils.AlarmCreationUtils.getCurrentCalendar
 import net.micg.plantcare.utils.AlarmCreationUtils.getTypeName
 import net.micg.plantcare.utils.FirebaseUtils
 import net.micg.plantcare.utils.InsetsUtils.addTopInsetsMarginToCurrentView
+import java.util.Calendar.DAY_OF_MONTH
+import java.util.Calendar.HOUR_OF_DAY
+import java.util.Calendar.MINUTE
+import java.util.Calendar.MONTH
+import java.util.Calendar.YEAR
+import java.util.Calendar.getInstance
 import javax.inject.Inject
 import kotlin.math.max
 
@@ -113,7 +117,12 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
 
     private fun pickDate() = with(getCurrentCalendar()) {
         DatePickerDialog(
-            requireContext(), ::setDate, get(YEAR), get(MONTH), get(DAY_OF_MONTH)
+            requireContext(),
+            R.style.CustomDatePickerDialog,
+            ::setDate,
+            get(YEAR),
+            get(MONTH),
+            get(DAY_OF_MONTH)
         ).apply {
             datePicker.minDate = timeInMillis
             show()
@@ -129,7 +138,14 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         }
 
     private fun pickTime() = with(getCurrentCalendar()) {
-        TimePickerDialog(requireContext(), ::setTime, get(HOUR_OF_DAY), get(MINUTE), true).show()
+        TimePickerDialog(
+            requireContext(),
+            R.style.CustomTimePickerDialog,
+            ::setTime,
+            get(HOUR_OF_DAY),
+            get(MINUTE),
+            true
+        ).show()
     }
 
     private fun setTime(picker: TimePicker, hour: Int, minute: Int) = with(viewModel.timeStorage) {

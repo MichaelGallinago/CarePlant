@@ -2,10 +2,17 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="gray">#7F7F7F</color>
-    <color name="panel">#DAD4DF</color>
-    <color name="border">#9F9F9F</color>
-    <color name="icons">#FFFFFF</color>
-    <color name="navigation">#F3EDF7</color>
-    <color name="article_icon">#49454F</color>
+    <color name="gray">#8A8A8A</color>
+    <color name="panel">#D9F1E5</color>
+    <color name="border">#B1E0C7</color>
+    <color name="navigation">#C8E6C9</color>
+    <color name="article_icon">#4CAF50</color>
+    <color name="background">#F7FFF8</color>
+    <color name="fab">#E8FFDD</color>
+    <color name="icons">#215E01</color>
+    <color name="text">#484F45</color>
+    <color name="text_contrast">#E8F6E9</color>
+    <color name="text_hint">#586F55</color>
+    <color name="button">#74A450</color>
+    <color name="text_highlight">#6074A450</color>
 </resources>

@@ -22,6 +22,7 @@
         android:lines="2"
         android:gravity="center"
         android:layout_margin="8dp"
+        android:textColor="@color/text"
         android:text="@string/article_name_placeholder"
         android:textSize="20sp"
         android:textStyle="bold"

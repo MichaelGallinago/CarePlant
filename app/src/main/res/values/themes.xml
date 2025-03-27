@@ -1,9 +1,46 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources>
+
     <style name="Base.Theme.PlantCare" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="searchViewStyle">@style/CustomSearchViewStyle</item>
+
+        <item name="android:datePickerDialogTheme">@style/CustomDatePickerDialog</item>
+        <item name="android:timePickerDialogTheme">@style/CustomTimePickerDialog</item>
     </style>
 
-    <style name="Theme.PlantCare" parent="Base.Theme.PlantCare" />
+    <style name="CustomSearchViewStyle" parent="android:Widget.Material.SearchView">
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textColorHint">@color/text</item>
+        <item name="android:tint">@color/text</item>
+    </style>
+
+    <style name="CustomDatePickerDialog" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/icons</item>
+        <item name="colorAccent">@color/button</item>
+        <item name="colorSurface">@color/background</item>
+    </style>
+
+    <style name="CustomTimePickerDialog" parent="ThemeOverlay.MaterialComponents.TimePicker">
+        <item name="colorPrimary">@color/icons</item>
+        <item name="colorAccent">@color/button</item>
+        <item name="colorSurface">@color/background</item>
+        <item name="android:timePickerStyle">@style/CustomTimePickerWidgetStyle</item>
+    </style>
+
+    <style name="CustomTimePickerWidgetStyle" parent="@android:style/Widget.Material.TimePicker">
+        <item name="android:headerBackground">@color/button</item>
+        <item name="android:numbersSelectorColor">#AA99F999</item>
+        <item name="android:numbersBackgroundColor">@color/fab</item>
+        <item name="android:textColorHighlight">@color/text_highlight</item>
+        <item name="android:numbersTextColor">@color/text</item>
+        <item name="android:numbersInnerTextColor">@color/text_hint</item>
+        <item name="android:headerTimeTextAppearance">
+            @style/TextAppearance.TimePickerDialogStyle.TimeLabel
+        </item>
+    </style>
+
+    <style name="TextAppearance.TimePickerDialogStyle.TimeLabel" parent="@android:style/TextAppearance.Material">
+        <item name="android:textSize">60sp</item>
+        <item name="android:textColor">@color/text_contrast</item>
+    </style>
+
 </resources>

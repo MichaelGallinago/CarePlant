@@ -16,6 +16,7 @@ import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentArticlesBinding
 import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.di.appComponent
+import net.micg.plantcare.utils.InsetsUtils
 import net.micg.plantcare.utils.InsetsUtils.addTopInsetsPaddingToCurrentView
 import javax.inject.Inject
 
@@ -53,7 +54,7 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
     }
 
     private fun setUpEdgeToEdgeForCurrentFragment() =
-        addTopInsetsPaddingToCurrentView(binding.recycler)
+        InsetsUtils.addTopInsetsMarginToCurrentView(binding.searchView)
 
     private fun setUpViewModel() = with(viewModel) {
         errorMessage.observe(viewLifecycleOwner) { error ->

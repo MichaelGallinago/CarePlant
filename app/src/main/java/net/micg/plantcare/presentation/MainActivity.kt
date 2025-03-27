@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (intent != null && intent.extras != null) {
-            val url = intent.getStringExtra("url");
+            val url = intent.getStringExtra("url")
 
             if (url != null) {
                 startActivity(Intent(Intent.ACTION_VIEW, url.toUri()).apply {
@@ -46,6 +47,8 @@ class MainActivity : AppCompatActivity() {
                 })
             }
         }
+
+        window.navigationBarColor = ContextCompat.getColor(this, R.color.navigation)
     }
 
     private fun setUpActivity() = with(ActivityMainBinding.inflate(layoutInflater)) {
