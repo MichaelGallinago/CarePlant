@@ -22,9 +22,9 @@
         tools:targetApi="35">
         <activity
             android:name=".presentation.MainActivity"
-            android:theme="@style/Base.Theme.PlantCare"
             android:exported="true"
             android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.PlantCare"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +38,9 @@
         <receiver
             android:name=".receiver.alarm.NotificationDismissReceiver"
             android:enabled="true" />
+        <receiver
+            android:name=".receiver.alarm.NotificationCloseReceiver"
+            android:exported="false" />
 
         <service
             android:name=".service.PlantCareFirebaseMessagingService"

@@ -10,6 +10,9 @@ import android.os.Handler
 import android.os.Looper
 import androidx.core.app.NotificationCompat
 import net.micg.plantcare.R
+import net.micg.plantcare.receiver.alarm.AlarmNotificationUtils.createContentIntent
+import net.micg.plantcare.receiver.alarm.AlarmNotificationUtils.createDeleteIntent
+import net.micg.plantcare.receiver.alarm.AlarmNotificationUtils.getGroupSummaryNotification
 import net.micg.plantcare.utils.AlarmCreationUtils
 
 class AlarmReceiver : BroadcastReceiver() {
@@ -31,13 +34,27 @@ class AlarmReceiver : BroadcastReceiver() {
                     .setContentText(type)
                     .setDefaults(NotificationCompat.DEFAULT_ALL)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setContentIntent(AlarmNotificationUtils.createContentIntent(context, id))
-                    .setAutoCancel(true)
+                    .setContentIntent(createContentIntent(context, id))
+                    .setAutoCancel(false)
                     .setOngoing(true)
                     .setGroup(ALARM_GROUP)
-//                    .setDeleteIntent(createDeleteIntent(context, id, name, type))
+                    .setDeleteIntent(createDeleteIntent(context, id, name, type))
+                    .addAction(
+                        R.drawable.ic_close,
+                        context.getString(R.string.complete),
+                        PendingIntent.getBroadcast(
+                            context,
+                            id,
+                            Intent(context, NotificationCloseReceiver::class.java).apply {
+                                putExtra("id", id)
+                                putExtra("name", id)
+                                putExtra("type", id)
+                            },
+                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                        )
+                    )
                     .build()
-            )
+                )
             1 -> {
                 val existsNotification = notificationManager.activeNotifications[0]
                 val extras = existsNotification.notification.extras
@@ -81,7 +98,7 @@ class AlarmReceiver : BroadcastReceiver() {
             .setContentText(type)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setContentIntent(AlarmNotificationUtils.createContentIntent(context, id))
+            .setContentIntent(createContentIntent(context, id))
             .setAutoCancel(false)
             .setGroup(ALARM_GROUP)
             .setDeleteIntent(createDeleteIntent(context, id, name, type))
@@ -93,32 +110,17 @@ class AlarmReceiver : BroadcastReceiver() {
     ) = Handler(Looper.getMainLooper()).postDelayed({
         notificationManager.notify(
             GROUP_SUMMARY_ID,
-            AlarmNotificationUtils.getGroupSummaryNotification(
-                context,
-                context.getString(R.string.complete)
-            )
+            getGroupSummaryNotification(context, context.getString(R.string.complete))
         )
     }, GROUP_SUMMARY_DELAY)
 
     private fun getString(context: Context, intent: Intent, name: String, resId: Int) =
         intent.getStringExtra(name).takeUnless { it.isNullOrBlank() } ?: context.getString(resId)
 
-    private fun createDeleteIntent(context: Context, id: Int, name: String, type: String)
-        = PendingIntent.getBroadcast(
-            context,
-            id,
-            Intent(context, NotificationDismissReceiver::class.java).apply {
-                putExtra(ID_EXTRA, id)
-                putExtra(NAME_EXTRA, name)
-                putExtra(TYPE_EXTRA, type)
-            },
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
     companion object {
         const val ID_EXTRA = "id"
         const val NAME_EXTRA = "name"
-        const val TYPE_EXTRA = "name"
+        const val TYPE_EXTRA = "type"
 
         const val FRAGMENT_TAG = "fragment_tag"
         const val ALARMS_FRAGMENT_TAG = "fragment_tag"

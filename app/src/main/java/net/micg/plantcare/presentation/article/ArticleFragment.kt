@@ -15,6 +15,7 @@ import net.micg.plantcare.databinding.FragmentArticleBinding
 import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.utils.FirebaseUtils
+import net.micg.plantcare.utils.FirebaseUtils.ARTICLE_READ_DURATION
 import javax.inject.Inject
 import kotlin.getValue
 
@@ -24,6 +25,9 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
     private val binding: FragmentArticleBinding by viewBinding()
     private val viewModel: ArticleViewModel by viewModels { factory }
+
+    private var startTime = 0L
+    private var articleName = ""
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -38,6 +42,22 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         }
 
         setUpArguments()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startTime = System.currentTimeMillis()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        context?.let { ctx ->
+            FirebaseUtils.logEvent(ctx, ARTICLE_READ_DURATION, Bundle().apply {
+                putLong("duration_ms", System.currentTimeMillis() - startTime)
+                putString("article_name", articleName)
+            })
+        }
     }
 
     private fun setUpCreateAlarmButton(data: AlarmCreationModel) = with(binding.createAlarmButton) {
@@ -56,6 +76,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
     private fun setUpArguments() = arguments?.let {
         ArticleFragmentArgs.fromBundle(it).articleName
     }?.let { name ->
+        articleName = name
         viewModel.getAlarmCreationData("$name.json")
         with(binding.webView) {
             settings.cacheMode = WebSettings.LOAD_DEFAULT

@@ -1,12 +1,16 @@
 package net.micg.plantcare.receiver.alarm
 
 import android.app.AlarmManager
+import android.app.PendingIntent
 import android.app.PendingIntent.*
 import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import net.micg.plantcare.R
 import net.micg.plantcare.presentation.MainActivity
+import net.micg.plantcare.receiver.alarm.AlarmReceiver.Companion.ID_EXTRA
+import net.micg.plantcare.receiver.alarm.AlarmReceiver.Companion.NAME_EXTRA
+import net.micg.plantcare.receiver.alarm.AlarmReceiver.Companion.TYPE_EXTRA
 
 object AlarmNotificationUtils {
     private const val HALF_MINUTE_IN_MILLIS = 1000L * 30L
@@ -54,7 +58,7 @@ object AlarmNotificationUtils {
         .setGroupSummary(true)
         .build()
 
-    fun createContentIntent(context: Context, id: Int) = getActivity(
+    fun createContentIntent(context: Context, id: Int): PendingIntent? = getActivity(
         context,
         id,
         Intent(context, MainActivity::class.java).apply {
@@ -73,6 +77,18 @@ object AlarmNotificationUtils {
         intent,
         FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
     )
+
+    fun createDeleteIntent(context: Context, id: Int, name: String, type: String): PendingIntent? =
+        getBroadcast(
+            context,
+            id,
+            Intent(context, NotificationDismissReceiver::class.java).apply {
+                putExtra(ID_EXTRA, id)
+                putExtra(NAME_EXTRA, name)
+                putExtra(TYPE_EXTRA, type)
+            },
+            FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
+        )
 
     private fun createIntent(context: Context) = Intent(context, AlarmReceiver::class.java)
 
