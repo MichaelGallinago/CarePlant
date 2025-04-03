@@ -77,13 +77,15 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         ArticleFragmentArgs.fromBundle(it).articleName
     }?.let { name ->
         articleName = name
-        viewModel.getAlarmCreationData("$name.json")
-        with(binding.webView) {
-            settings.cacheMode = WebSettings.LOAD_DEFAULT
-            loadUrl("$ARTICLE_FOLDER$name.html")
-        }
 
         context?.let { ctx ->
+            val locale = ctx.getString(R.string.culture_name)
+            viewModel.getAlarmCreationData(locale, "/$name.json")
+            with(binding.webView) {
+                settings.cacheMode = WebSettings.LOAD_DEFAULT
+                loadUrl("$ARTICLE_FOLDER/$locale/$name.html")
+            }
+
             FirebaseUtils.logEvent(ctx, FirebaseUtils.ARTICLE_ENTERS, Bundle().apply {
                 putString("name", name)
             })
@@ -91,6 +93,6 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
     }
 
     companion object {
-        private const val ARTICLE_FOLDER = "${BuildConfig.WEB_STORAGE_URL}articles/"
+        private const val ARTICLE_FOLDER = "${BuildConfig.WEB_STORAGE_URL}data/articles/"
     }
 }

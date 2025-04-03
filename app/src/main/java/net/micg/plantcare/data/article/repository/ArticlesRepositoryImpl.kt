@@ -9,7 +9,7 @@ class ArticlesRepositoryImpl @Inject constructor(
     private val localDataSource: LocalArticlesDataSource,
     private val remoteDataSource: RemoteArticlesDataSource,
 ) : ArticlesRepository {
-    override suspend fun getAll() = remoteDataSource.getAll().apply {
+    override suspend fun getAll(locale: String) = remoteDataSource.getAll(locale).apply {
         if (this is HttpResponseState.Success) {
             localDataSource.clear()
             localDataSource.insertAll(this.value)
@@ -22,6 +22,6 @@ class ArticlesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAlarmCreationData(fileName: String) =
-        remoteDataSource.getAlarmCreationData(fileName)
+    override suspend fun getAlarmCreationData(locale: String, fileName: String) =
+        remoteDataSource.getAlarmCreationData(locale, fileName)
 }

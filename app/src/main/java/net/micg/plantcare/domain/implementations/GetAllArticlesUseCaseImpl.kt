@@ -7,5 +7,5 @@ import javax.inject.Inject
 class GetAllArticlesUseCaseImpl @Inject constructor(
     private val repository: ArticlesRepository,
 ) : GetAllArticlesUseCase {
-    override suspend operator fun invoke() = repository.getAll()
+    override suspend operator fun invoke(locale: String) = repository.getAll(locale)
 }

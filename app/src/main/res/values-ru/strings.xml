@@ -1,0 +1,48 @@
+<resources>
+    <string name="culture_name">ru</string>
+    <string name="app_name">CarePlant</string>
+    <string name="articles">Статьи</string>
+    <string name="alarms">Напоминания</string>
+    <string name="article_name_placeholder">Название</string>
+    <string name="add_alarm_button_description">Добавить напоминание</string>
+    <string name="back_button_description">Назад к статьям</string>
+    <string name="switch_button_placeholder">Switch</string>
+    <string name="cancel">Отмена</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="new_alarm">Новое напоминание</string>
+    <string name="alarm_name_hint">Название растения</string>
+    <string name="watering">Полив</string>
+    <string name="fertilize">Удобрение</string>
+    <string name="monday">Понеделник</string>
+    <string name="tuesday">Вторник</string>
+    <string name="wednesday">Среда</string>
+    <string name="thursday">Четверг</string>
+    <string name="friday">Пятница</string>
+    <string name="saturday">Суббота</string>
+    <string name="sunday">Воскресенье</string>
+    <string name="select_interval">Выбрать интервал напоминания раз в … дней:</string>
+    <string name="days">Дни</string>
+    <string name="hours">Часы</string>
+    <string name="minutes">Минуты</string>
+
+    <string name="notification_name_placeholder">Уход за растением</string>
+    <string name="notification_type_placeholder">Ваше растение нуждается в вас</string>
+
+    <string name="type_watering">Полив</string>
+    <string name="type_fertilizing">Удобрение</string>
+    <string name="type_unknown">Неизвестно</string>
+
+    <string name="error_loading">Требуется подключение к интернету</string>
+    <string name="error_loading_extended">Ошибка загрузки и нет данных в кеше</string>
+    <string name="select_date_and_time">Выбрать дату и время:</string>
+    <string name="right_arrow_description">Открыть статью</string>
+    <string name="alarms_label">Напоминания</string>
+
+    <string name="time_days">%d д</string>
+    <string name="time_hours">%d ч</string>
+    <string name="time_minutes">%d мин</string>
+    <string name="search_articles">Поиск статей…</string>
+    <string name="create_alarm_description">Создать напоминание</string>
+    <string name="article_grid_item_image_description">Изображение статьи</string>
+    <string name="complete">Завершить</string>
+</resources>

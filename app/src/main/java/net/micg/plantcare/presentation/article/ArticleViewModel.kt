@@ -17,8 +17,10 @@ class ArticleViewModel @Inject constructor(
     private val _alarmCreationModule = MutableLiveData<AlarmCreationModel>()
     val alarmCreationModule: LiveData<AlarmCreationModel> get() = _alarmCreationModule
 
-    fun getAlarmCreationData(fileName: String) = viewModelScope.launch(Dispatchers.IO) {
-        with(getAlarmCreationDataUseCase(fileName)) {
+    fun getAlarmCreationData(
+        locale: String, fileName: String,
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        with(getAlarmCreationDataUseCase(locale, fileName)) {
             when (this) {
                 is HttpResponseState.Success -> { _alarmCreationModule.postValue(this.value) }
                 is HttpResponseState.Failure -> {}

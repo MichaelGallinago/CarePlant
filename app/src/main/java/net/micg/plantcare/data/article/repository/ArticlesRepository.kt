@@ -5,6 +5,8 @@ import net.micg.plantcare.data.alarm.models.AlarmCreationModel
 import net.micg.plantcare.data.article.models.Article
 
 interface ArticlesRepository {
-    suspend fun getAll(): HttpResponseState<List<Article>>
-    suspend fun getAlarmCreationData(fileName: String): HttpResponseState<AlarmCreationModel>
+    suspend fun getAll(locale: String): HttpResponseState<List<Article>>
+    suspend fun getAlarmCreationData(
+        locale: String, fileName: String,
+    ): HttpResponseState<AlarmCreationModel>
 }

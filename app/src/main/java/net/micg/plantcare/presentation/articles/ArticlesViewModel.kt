@@ -29,8 +29,8 @@ class ArticlesViewModel @Inject constructor(
             filterArticles()
         }
 
-    fun loadArticles() = viewModelScope.launch(Dispatchers.IO) {
-        with(getAllArticlesUseCase()) {
+    fun loadArticles(locale: String) = viewModelScope.launch(Dispatchers.IO) {
+        with(getAllArticlesUseCase(locale)) {
             when (this) {
                 is HttpResponseState.Success -> {
                     _errorMessage.postValue(null)

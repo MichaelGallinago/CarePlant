@@ -7,6 +7,6 @@ import javax.inject.Inject
 class GetAlarmCreationDataUseCaseImpl @Inject constructor(
     private val repository: ArticlesRepository,
 ): GetAlarmCreationDataUseCase {
-    override suspend operator fun invoke(fileName: String) =
-        repository.getAlarmCreationData(fileName)
+    override suspend operator fun invoke(locale: String, fileName: String) =
+        repository.getAlarmCreationData(locale, fileName)
 }

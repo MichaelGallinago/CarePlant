@@ -68,7 +68,9 @@ class ArticlesFragment : Fragment(R.layout.fragment_articles) {
             articlesAdapter.submitList(articles)
         }
 
-        loadArticles()
+        context?.apply {
+            loadArticles(getString(R.string.culture_name))
+        }
     }
 
     private fun setUpRecyclerView() = with(binding.recycler) {

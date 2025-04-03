@@ -4,5 +4,7 @@ import net.micg.plantcare.data.models.HttpResponseState
 import net.micg.plantcare.data.alarm.models.AlarmCreationModel
 
 interface GetAlarmCreationDataUseCase {
-    suspend operator fun invoke(fileName: String): HttpResponseState<AlarmCreationModel>
+    suspend operator fun invoke(
+        locale: String, fileName: String,
+    ): HttpResponseState<AlarmCreationModel>
 }

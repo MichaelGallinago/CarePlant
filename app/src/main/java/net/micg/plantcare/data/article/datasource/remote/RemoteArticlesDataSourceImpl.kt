@@ -12,8 +12,8 @@ class RemoteArticlesDataSourceImpl @Inject constructor(
     private val api: ArticlesApi,
 ) : RemoteArticlesDataSource {
 
-    override suspend fun getAll(): HttpResponseState<List<Article>> = runCatching {
-        api.getArticles().awaitResponse()
+    override suspend fun getAll(locale: String): HttpResponseState<List<Article>> = runCatching {
+        api.getArticles(locale).awaitResponse()
     }.fold(
         onSuccess = { response ->
             if (!response.isSuccessful) return HttpResponseState.Failure(
@@ -26,9 +26,10 @@ class RemoteArticlesDataSourceImpl @Inject constructor(
     )
 
     override suspend fun getAlarmCreationData(
+        locale: String,
         fileName: String,
     ): HttpResponseState<AlarmCreationModel> = runCatching {
-        api.getAlarmCreationData(fileName).awaitResponse()
+        api.getAlarmCreationData(locale, fileName).awaitResponse()
     }.fold(
         onSuccess = { response ->
             if (!response.isSuccessful) return HttpResponseState.Failure(

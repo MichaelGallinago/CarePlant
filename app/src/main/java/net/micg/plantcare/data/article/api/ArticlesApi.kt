@@ -7,9 +7,12 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface ArticlesApi {
-    @GET("articles.json")
-    fun getArticles(): Call<List<Article>>
+    @GET("data/list/{locale}/articles.json")
+    fun getArticles(@Path("locale") locale: String): Call<List<Article>>
 
-    @GET("alarmData/{fileName}")
-    fun getAlarmCreationData(@Path("fileName") fileName: String): Call<AlarmCreationModel>
+    @GET("data/alarmData/{locale}/{fileName}")
+    fun getAlarmCreationData(
+        @Path("locale") locale: String,
+        @Path("fileName") fileName: String
+    ): Call<AlarmCreationModel>
 }
