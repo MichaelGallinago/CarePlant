@@ -16,6 +16,7 @@ import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.utils.FirebaseUtils
 import net.micg.plantcare.utils.FirebaseUtils.ARTICLE_READ_DURATION
+import net.micg.plantcare.utils.InsetsUtils
 import javax.inject.Inject
 import kotlin.getValue
 
@@ -42,6 +43,8 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         }
 
         setUpArguments()
+
+        InsetsUtils.addTopInsetsMarginToCurrentView(binding.webView)
     }
 
     override fun onResume() {
