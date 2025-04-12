@@ -12,4 +12,8 @@ class TimeConverter @Inject constructor(private val timeLocalization: TimeLocali
 
         return timeLocalization.formatTime(days, hours, minutes)
     }
+
+    companion object {
+        fun millisecondsToDays(milliseconds: Long) = (milliseconds / (1000 * 60 * 60 * 24)).toInt()
+    }
 }

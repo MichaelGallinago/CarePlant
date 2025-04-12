@@ -15,4 +15,5 @@
     <color name="text_hint">#86988F</color>
     <color name="button">#558B6E</color>
     <color name="text_highlight">#668B6E50</color>
+    <color name="transparent_panel">#D0AAFFAA</color>
 </resources>

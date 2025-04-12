@@ -2,12 +2,13 @@ package net.micg.plantcare.domain.useCase
 
 import net.micg.plantcare.presentation.models.Alarm
 
-interface InsertAlarmUseCase {
+interface UpdateAlarmDataUseCase {
     suspend operator fun invoke(
         name: String,
         type: Byte,
         dateInMillis: Long,
         intervalInMillis: Long,
-        isEnabled: Boolean
+        isEnabled: Boolean,
+        id: Long
     ): Alarm
 }

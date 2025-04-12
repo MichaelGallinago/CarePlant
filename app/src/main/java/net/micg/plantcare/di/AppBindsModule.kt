@@ -18,6 +18,7 @@ import net.micg.plantcare.domain.implementations.GetAllArticlesUseCaseImpl
 import net.micg.plantcare.domain.implementations.GetErrorMessageUseCaseImpl
 import net.micg.plantcare.domain.implementations.InsertAlarmUseCaseImpl
 import net.micg.plantcare.domain.implementations.SetAlarmUseCaseImpl
+import net.micg.plantcare.domain.implementations.UpdateAlarmDataUseCaseImpl
 import net.micg.plantcare.domain.implementations.UpdateAlarmUseCaseImpl
 import net.micg.plantcare.domain.useCase.CancelAlarmUseCase
 import net.micg.plantcare.domain.useCase.DeleteAlarmByIdUseCase
@@ -27,6 +28,7 @@ import net.micg.plantcare.domain.useCase.GetAllArticlesUseCase
 import net.micg.plantcare.domain.useCase.GetErrorMessageUseCase
 import net.micg.plantcare.domain.useCase.InsertAlarmUseCase
 import net.micg.plantcare.domain.useCase.SetAlarmUseCase
+import net.micg.plantcare.domain.useCase.UpdateAlarmDataUseCase
 import net.micg.plantcare.domain.useCase.UpdateAlarmUseCase
 
 @Module
@@ -82,4 +84,8 @@ interface AppBindsModule {
     @Binds
     @AppComponentScope
     fun bindRemoteArticlesDataSource(dataSource: RemoteArticlesDataSourceImpl): RemoteArticlesDataSource
+
+    @Binds
+    @AppComponentScope
+    fun bindUpdateAlarmDataUseCase(useCase: UpdateAlarmDataUseCaseImpl): UpdateAlarmDataUseCase
 }

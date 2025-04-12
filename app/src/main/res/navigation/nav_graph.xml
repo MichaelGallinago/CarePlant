@@ -58,6 +58,18 @@
             android:name="fragmentName"
             android:defaultValue=""
             app:argType="string" />
+        <argument
+            android:name="isEdition"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="id"
+            android:defaultValue="0L"
+            app:argType="long" />
+        <argument
+            android:name="isEnabled"
+            android:defaultValue="true"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_alarmCreationFragment_to_alarmsFragment"
             app:destination="@id/alarmsFragment" />

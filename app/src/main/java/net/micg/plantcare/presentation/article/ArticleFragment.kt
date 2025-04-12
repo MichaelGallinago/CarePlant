@@ -69,7 +69,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             with(data) {
                 findNavController().navigate(
                     ArticleFragmentDirections.actionArticleFragmentToAlarmCreationFragment(
-                        plantName, interval, "Article"
+                        plantName, interval, "Article", false
                     )
                 )
             }

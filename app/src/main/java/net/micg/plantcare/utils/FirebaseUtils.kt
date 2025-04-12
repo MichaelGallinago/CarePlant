@@ -25,6 +25,7 @@ object FirebaseUtils {
 
     const val MARKED_PUSH_MESSAGES = "marked_push_messages"
     const val CREATED_NOTIFICATIONS = "created_notifications"
+    const val EDITED_NOTIFICATIONS = "edited_notifications"
 
     const val ALARMS_ENTERS = "alarms_enters"
     const val ARTICLE_ENTERS = "article_enters"

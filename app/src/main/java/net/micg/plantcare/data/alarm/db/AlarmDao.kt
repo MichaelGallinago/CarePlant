@@ -6,6 +6,9 @@ import net.micg.plantcare.data.alarm.models.AlarmEntity
 
 @Dao
 interface AlarmDao {
+    @Update
+    suspend fun updateData(alarm: AlarmEntity)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(alarm: AlarmEntity): Long
 

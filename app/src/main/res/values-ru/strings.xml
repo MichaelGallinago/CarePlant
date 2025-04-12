@@ -45,4 +45,6 @@
     <string name="create_alarm_description">Создать напоминание</string>
     <string name="article_grid_item_image_description">Изображение статьи</string>
     <string name="complete">Завершить</string>
+    <string name="delete">Удалить</string>
+    <string name="edit">Изменить</string>
 </resources>

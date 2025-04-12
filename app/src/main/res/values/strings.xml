@@ -45,4 +45,6 @@
     <string name="create_alarm_description">Create Reminder</string>
     <string name="article_grid_item_image_description">Article Image</string>
     <string name="complete">Complete</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
 </resources>

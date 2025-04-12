@@ -6,6 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.SeekBar
@@ -19,12 +20,14 @@ import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmCreationBinding
 import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.di.viewModel.ViewModelFactory
+import net.micg.plantcare.presentation.models.Alarm
 import net.micg.plantcare.utils.AlarmCreationUtils
 import net.micg.plantcare.utils.AlarmCreationUtils.calculateIntervalInMillis
 import net.micg.plantcare.utils.AlarmCreationUtils.getCurrentCalendar
 import net.micg.plantcare.utils.AlarmCreationUtils.getTypeName
 import net.micg.plantcare.utils.FirebaseUtils
 import net.micg.plantcare.utils.InsetsUtils.addTopInsetsMarginToCurrentView
+import net.micg.plantcare.utils.TypeLabelUtils
 import java.util.Calendar.DAY_OF_MONTH
 import java.util.Calendar.HOUR_OF_DAY
 import java.util.Calendar.MINUTE
@@ -40,6 +43,10 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
 
     private val binding: FragmentAlarmCreationBinding by viewBinding()
     private val viewModel: AlarmCreationViewModel by viewModels { factory }
+
+    private var isEditing = false
+    private var editingId = 0L
+    private var editingIsEnabled = true
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -57,13 +64,19 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private fun setUpArguments() = arguments?.let {
         AlarmCreationFragmentArgs.fromBundle(it)
     }?.let { args ->
-        binding.intervalBar.progress = max(args.interval - 1, 0)
-        binding.nameEditText.setText(args.plantName)
+        with(args) {
+            binding.intervalBar.progress = max(interval - 1, 0)
+            binding.nameEditText.setText(plantName)
 
-        context?.let { ctx ->
-            FirebaseUtils.logEvent(ctx, FirebaseUtils.ALARM_CREATION_ENTERS, Bundle().apply {
-                putString("from_screen", args.fragmentName)
-            })
+            isEditing = isEdition
+            editingId = id
+            editingIsEnabled = isEnabled
+
+            context?.let { ctx ->
+                FirebaseUtils.logEvent(ctx, FirebaseUtils.ALARM_CREATION_ENTERS, Bundle().apply {
+                    putString("from_screen", fragmentName)
+                })
+            }
         }
     }
 
@@ -159,20 +172,40 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         val interval = viewModel.interval
         val type = if (radioWatering.isChecked) 0 else 1
 
-        viewModel.insert(
-            name,
-            type.toByte(),
-            dateInMillis,
-            calculateIntervalInMillis(interval)
-        )
+        if (isEditing) {
+            viewModel.updateData(
+                editingId,
+                name,
+                type.toByte(),
+                dateInMillis,
+                calculateIntervalInMillis(interval),
+                editingIsEnabled
+            )
 
-        context?.let { ctx ->
-            FirebaseUtils.logEvent(ctx, FirebaseUtils.CREATED_NOTIFICATIONS, Bundle().apply {
-                putString("type", getTypeName(type))
-                putString("name", name)
-                putString("date", AlarmCreationUtils.convertTimeToString(dateInMillis))
-                putLong("interval", interval)
-            })
+            context?.let { ctx ->
+                FirebaseUtils.logEvent(ctx, FirebaseUtils.EDITED_NOTIFICATIONS, Bundle().apply {
+                    putString("type", getTypeName(type))
+                    putString("name", name)
+                    putString("date", AlarmCreationUtils.convertTimeToString(dateInMillis))
+                    putLong("interval", interval)
+                })
+            }
+        } else {
+            viewModel.insert(
+                name,
+                type.toByte(),
+                dateInMillis,
+                calculateIntervalInMillis(interval)
+            )
+
+            context?.let { ctx ->
+                FirebaseUtils.logEvent(ctx, FirebaseUtils.CREATED_NOTIFICATIONS, Bundle().apply {
+                    putString("type", getTypeName(type))
+                    putString("name", name)
+                    putString("date", AlarmCreationUtils.convertTimeToString(dateInMillis))
+                    putLong("interval", interval)
+                })
+            }
         }
     }
 

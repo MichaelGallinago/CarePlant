@@ -9,4 +9,5 @@ interface AlarmsRepository {
     suspend fun insert(alarm: AlarmEntity): Long
     suspend fun deleteById(id: Long)
     suspend fun update(isEnabled: Boolean, id: Long)
+    suspend fun updateData(alarm: AlarmEntity)
 }

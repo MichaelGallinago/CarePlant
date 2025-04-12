@@ -50,6 +50,11 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
     private fun setUpAdapter() = AlarmsAdapter(
         onToggleClick = { alarm, isEnabled -> viewModel.update(isEnabled, alarm) },
         TimeConverter(TimeLocalization(requireContext())),
+        onEditClick = { alarm ->
+            val interval = TimeConverter.millisecondsToDays(alarm.intervalInMillis)
+            navigateToAlarmCreation(alarm.name, interval, true, alarm.id, alarm.isEnabled)
+        },
+        onDeleteClick = { alarm -> viewModel.delete(alarm) }
     ).also {
         ItemTouchHelper(TouchHelperCallback(it)).attachToRecyclerView(binding.recycler)
 
@@ -68,13 +73,19 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
         viewModel.allAlarms.observe(viewLifecycleOwner) { alarms -> it.submitList(alarms) }
     }
 
-    private fun setUpNavigation() = with(findNavController()) {
+    private fun setUpNavigation() {
         binding.addAlarmButton.setOnClickListener {
-            navigate(AlarmsFragmentDirections.actionAlarmsFragmentToAlarmCreationFragment(
-                "", 0, "Alarms"
-            ))
+            navigateToAlarmCreation("", 0, false)
         }
     }
+
+    private fun navigateToAlarmCreation(
+        name: String, interval: Int, isEdit: Boolean, id: Long = 0L, isEnabled: Boolean = true
+    ) = findNavController().navigate(
+        AlarmsFragmentDirections.actionAlarmsFragmentToAlarmCreationFragment(
+            name, interval, "Alarms", isEdit, id, isEnabled
+        )
+    )
 
     private inner class TouchHelperCallback(val adapter: AlarmsAdapter) :
         ItemTouchHelper.SimpleCallback(

@@ -5,6 +5,7 @@
 
         <item name="android:datePickerDialogTheme">@style/CustomDatePickerDialog</item>
         <item name="android:timePickerDialogTheme">@style/CustomTimePickerDialog</item>
+        <item name="android:popupMenuStyle">@style/PopupMenuOverlay</item>
     </style>
 
     <style name="CustomSearchViewStyle" parent="android:Widget.Material.SearchView">
@@ -41,6 +42,12 @@
     <style name="TextAppearance.TimePickerDialogStyle.TimeLabel" parent="@android:style/TextAppearance.Material">
         <item name="android:textSize">60sp</item>
         <item name="android:textColor">@color/text_contrast</item>
+    </style>
+
+    <style name="PopupMenuOverlay" parent="Widget.Material3.PopupMenu.ListPopupWindow">
+        <item name="colorControlNormal">@color/fab</item>
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:popupBackground">@color/transparent_panel</item>
     </style>
 
 </resources>
