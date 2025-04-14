@@ -23,6 +23,7 @@ object FirebaseUtils {
 
     private const val USER_UUID = "user_uuid"
 
+    const val INSTALLED_FROM_SOURCE = "installed_from_source"
     const val MARKED_PUSH_MESSAGES = "marked_push_messages"
     const val CREATED_NOTIFICATIONS = "created_notifications"
     const val EDITED_NOTIFICATIONS = "edited_notifications"

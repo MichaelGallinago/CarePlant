@@ -3,6 +3,7 @@ package net.micg.plantcare.presentation
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -17,6 +18,9 @@ import net.micg.plantcare.R
 import net.micg.plantcare.databinding.ActivityMainBinding
 import net.micg.plantcare.presentation.alarms.AlarmsFragmentDirections
 import net.micg.plantcare.presentation.articles.ArticlesFragmentDirections
+import androidx.core.content.edit
+import net.micg.plantcare.utils.FirebaseUtils
+import net.micg.plantcare.utils.FirebaseUtils.INSTALLED_FROM_SOURCE
 
 class MainActivity : AppCompatActivity() {
     private val destinationFragmentIdToNavItemMapId = mapOf(
@@ -38,15 +42,8 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        if (intent != null && intent.extras != null) {
-            val url = intent.getStringExtra("url")
-
-            if (url != null) {
-                startActivity(Intent(Intent.ACTION_VIEW, url.toUri()).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                })
-            }
-        }
+        navigateToWeb()
+        handleFirstLaunch()
 
         window.navigationBarColor = ContextCompat.getColor(this, R.color.navigation)
     }
@@ -77,12 +74,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpBottomNavAnimation(
         bottomNavView: BottomNavigationView, navController: NavController,
-    ) {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            bottomNavView.menu.findItem(
-                destinationFragmentIdToNavItemMapId[destination.id] ?: R.id.articlesFragment
-            )?.isChecked = true
-        }
+    ) = navController.addOnDestinationChangedListener { _, destination, _ ->
+        bottomNavView.menu.findItem(
+            destinationFragmentIdToNavItemMapId[destination.id] ?: R.id.articlesFragment
+        )?.isChecked = true
     }
 
     private fun handleIntent() {
@@ -94,5 +89,36 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    private fun navigateToWeb() {
+        if (intent == null || intent.extras == null) return
+
+        intent.getStringExtra("url")?.apply {
+            startActivity(Intent(Intent.ACTION_VIEW, toUri()).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            })
+        }
+    }
+
+    private fun handleFirstLaunch() {
+        val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
+        val isFirstLaunch = prefs.getBoolean("is_first_launch", true)
+
+        if (!isFirstLaunch) return
+
+        prefs.edit {
+            putBoolean("is_first_launch", false)
+        }
+
+        logInstallation()
+    }
+
+    private fun logInstallation() = with(applicationContext) {
+        val installer = packageManager.getInstallerPackageName(packageName) ?: "unknown_installer"
+
+        FirebaseUtils.logEvent(this, INSTALLED_FROM_SOURCE, Bundle().apply {
+            putString("source", installer)
+        })
     }
 }
