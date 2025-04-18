@@ -1,0 +1,50 @@
+<resources>
+    <string name="culture_name">zh</string>
+    <string name="app_name">CarePlant</string>
+    <string name="articles">文章</string>
+    <string name="alarms">提醒</string>
+    <string name="article_name_placeholder">名称</string>
+    <string name="add_alarm_button_description">添加提醒</string>
+    <string name="back_button_description">返回文章</string>
+    <string name="switch_button_placeholder">切换</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+    <string name="new_alarm">新提醒</string>
+    <string name="alarm_name_hint">植物名称</string>
+    <string name="watering">浇水</string>
+    <string name="fertilize">施肥</string>
+    <string name="monday">星期一</string>
+    <string name="tuesday">星期二</string>
+    <string name="wednesday">星期三</string>
+    <string name="thursday">星期四</string>
+    <string name="friday">星期五</string>
+    <string name="saturday">星期六</string>
+    <string name="sunday">星期日</string>
+    <string name="select_interval">选择提醒间隔（每…天）：</string>
+    <string name="days">天</string>
+    <string name="hours">小时</string>
+    <string name="minutes">分钟</string>
+
+    <string name="notification_name_placeholder">植物护理</string>
+    <string name="notification_type_placeholder">你的植物需要你</string>
+
+    <string name="type_watering">浇水</string>
+    <string name="type_fertilizing">施肥</string>
+    <string name="type_unknown">未知</string>
+
+    <string name="error_loading">需要互联网连接</string>
+    <string name="error_loading_extended">加载错误且无缓存数据</string>
+    <string name="select_date_and_time">选择日期和时间：</string>
+    <string name="right_arrow_description">打开文章</string>
+    <string name="alarms_label">提醒</string>
+
+    <string name="time_days">%d 天</string>
+    <string name="time_hours">%d 小时</string>
+    <string name="time_minutes">%d 分钟</string>
+    <string name="search_articles">搜索文章…</string>
+    <string name="create_alarm_description">创建提醒</string>
+    <string name="article_grid_item_image_description">文章图片</string>
+    <string name="complete">完成</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
+</resources>
