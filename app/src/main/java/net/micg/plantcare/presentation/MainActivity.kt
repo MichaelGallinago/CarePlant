@@ -19,6 +19,7 @@ import net.micg.plantcare.databinding.ActivityMainBinding
 import net.micg.plantcare.presentation.alarms.AlarmsFragmentDirections
 import net.micg.plantcare.presentation.articles.ArticlesFragmentDirections
 import androidx.core.content.edit
+import net.micg.plantcare.BuildConfig
 import net.micg.plantcare.utils.FirebaseUtils
 import net.micg.plantcare.utils.FirebaseUtils.INSTALLED_FROM_SOURCE
 
@@ -114,11 +115,9 @@ class MainActivity : AppCompatActivity() {
         logInstallation()
     }
 
-    private fun logInstallation() = with(applicationContext) {
-        val installer = packageManager.getInstallerPackageName(packageName) ?: "unknown_installer"
-
-        FirebaseUtils.logEvent(this, INSTALLED_FROM_SOURCE, Bundle().apply {
-            putString("source", installer)
-        })
-    }
+    private fun logInstallation() = FirebaseUtils.logEvent(
+        applicationContext, INSTALLED_FROM_SOURCE, Bundle().apply {
+            putString("source", BuildConfig.SOURCE)
+        }
+    )
 }

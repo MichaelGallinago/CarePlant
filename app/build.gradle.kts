@@ -16,8 +16,8 @@ android {
         applicationId = "net.micg.plantcare"
         minSdk = 24
         targetSdk = 35
-        versionCode = 11
-        versionName = "1.20"
+        versionCode = 12
+        versionName = "1.21"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -65,6 +65,18 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+    }
+
+    flavorDimensions += "source"
+    productFlavors {
+        create("rustore") {
+            dimension = "source"
+            buildConfigField("String", "SOURCE", "\"Rustore\"")
+        }
+        create("huawei") {
+            dimension = "source"
+            buildConfigField("String", "SOURCE", "\"Huawei\"")
+        }
     }
 }
 
