@@ -81,7 +81,7 @@ class AlarmsAdapter(
                 setOnCheckedChangeListener { _, isChecked -> onToggleClick(alarm, isChecked) }
             }
 
-            root.setOnLongClickListener {
+            root.setOnClickListener {
                 showPopupMenu(it, alarm, adapterPosition)
                 true
             }

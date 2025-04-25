@@ -69,6 +69,22 @@ android {
 
     flavorDimensions += "source"
     productFlavors {
+        create("trashbox") {
+            dimension = "source"
+            buildConfigField("String", "SOURCE", "\"Trashbox\"")
+        }
+        create("aptoide") {
+            dimension = "source"
+            buildConfigField("String", "SOURCE", "\"Aptoide\"")
+        }
+        create("uptodown") {
+            dimension = "source"
+            buildConfigField("String", "SOURCE", "\"Uptodown\"")
+        }
+        create("softportal") {
+            dimension = "source"
+            buildConfigField("String", "SOURCE", "\"Softportal\"")
+        }
         create("rustore") {
             dimension = "source"
             buildConfigField("String", "SOURCE", "\"Rustore\"")
