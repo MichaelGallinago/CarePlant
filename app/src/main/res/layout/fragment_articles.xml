@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/navigation"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/navigation">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
-        android:paddingTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/background"
         android:clipToPadding="false"
         android:paddingHorizontal="8dp"
+        android:paddingTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/navigation"
+        android:iconifiedByDefault="false"
         android:queryBackground="@android:color/transparent"
         android:queryHint="@string/search_articles"
         android:theme="@style/CustomSearchViewStyle"

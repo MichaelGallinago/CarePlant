@@ -9,8 +9,10 @@
     </style>
 
     <style name="CustomSearchViewStyle" parent="android:Widget.Material.SearchView">
+        <item name="android:editTextColor">@color/text</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_search_view</item>
         <item name="android:textColor">@color/text</item>
-        <item name="android:textColorHint">@color/text</item>
+        <item name="android:textColorHint">@color/text_hint</item>
         <item name="android:tint">@color/text</item>
     </style>
 
