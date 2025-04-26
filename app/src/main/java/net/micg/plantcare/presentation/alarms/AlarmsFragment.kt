@@ -56,8 +56,6 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
         },
         onDeleteClick = { alarm -> viewModel.delete(alarm) }
     ).also {
-        ItemTouchHelper(TouchHelperCallback(it)).attachToRecyclerView(binding.recycler)
-
         with(binding.recycler) {
             layoutManager = LinearLayoutManager(context)
             adapter = it
@@ -86,31 +84,4 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
             name, interval, "Alarms", isEdit, id, isEnabled
         )
     )
-
-    private inner class TouchHelperCallback(val adapter: AlarmsAdapter) :
-        ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ) {
-
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = with(adapter) {
-            with(viewHolder.adapterPosition) {
-                viewModel.delete(currentList[this])
-                removeItem(this)
-            }
-        }
-
-        override fun onMove(
-            recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder,
-        ) = false
-
-        @Deprecated(
-            "This project doesn't provide for moving items as a useful or mandatory feature"
-        )
-        private fun moveItem(viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder) {
-            adapter.moveItem(viewHolder.adapterPosition, target.adapterPosition)
-        }
-    }
 }
