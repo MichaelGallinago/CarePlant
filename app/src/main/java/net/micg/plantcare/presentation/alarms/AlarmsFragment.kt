@@ -8,9 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmsBinding
@@ -68,13 +66,22 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
             }
         }
 
-        viewModel.allAlarms.observe(viewLifecycleOwner) { alarms -> it.submitList(alarms) }
+        viewModel.allAlarms.observe(viewLifecycleOwner) { alarms ->
+            it.submitList(alarms)
+            setHelpVisibility(alarms.isNullOrEmpty())
+        }
     }
 
     private fun setUpNavigation() {
         binding.addAlarmButton.setOnClickListener {
             navigateToAlarmCreation("", 0, false)
         }
+    }
+
+    private fun setHelpVisibility(isVisible: Boolean) = with(binding) {
+        val visibility = if (isVisible) View.VISIBLE else View.GONE
+        arrow.visibility = visibility
+        helpLabel.visibility = visibility
     }
 
     private fun navigateToAlarmCreation(
