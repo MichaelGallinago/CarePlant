@@ -8,17 +8,26 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.core.app.NotificationCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import net.micg.plantcare.PlantCareApplication
 import net.micg.plantcare.R
+import net.micg.plantcare.domain.useCase.DeleteAlarmByIdUseCase
 import net.micg.plantcare.receiver.alarm.AlarmNotificationUtils.createContentIntent
 import net.micg.plantcare.receiver.alarm.AlarmNotificationUtils.createDeleteIntent
 import net.micg.plantcare.receiver.alarm.AlarmNotificationUtils.getGroupSummaryNotification
 import net.micg.plantcare.utils.AlarmCreationUtils
 import net.micg.plantcare.utils.FirebaseUtils
 import net.micg.plantcare.utils.FirebaseUtils.POSTED_PUSH_MESSAGES
+import javax.inject.Inject
 import kotlin.random.Random
 
 class AlarmReceiver : BroadcastReceiver() {
+    @Inject lateinit var deleteAlarmUseCase: DeleteAlarmByIdUseCase
+
     override fun onReceive(context: Context, intent: Intent) {
         val id = intent.getIntExtra(ALARM_ID, 0)
 
@@ -43,8 +52,14 @@ class AlarmReceiver : BroadcastReceiver() {
         val intervalInMillis =
             intent.getLongExtra(ALARM_INTERVAL, AlarmCreationUtils.calculateIntervalInMillis(1L))
 
-        //TODO: replace to value type instead of context string, that's real shit
-        if (type == context.getString(R.string.transplanting)) return
+        if (intervalInMillis == 0L)
+        {
+            (context.applicationContext as PlantCareApplication).appComponent.inject(this)
+            CoroutineScope(Dispatchers.IO).launch {
+                deleteAlarmUseCase(id.toLong())
+            }
+            return
+        }
 
         AlarmNotificationUtils.setAlarm(
             context, id, name, type, dateInMillis + intervalInMillis, intervalInMillis

@@ -20,7 +20,7 @@
     <string name="friday">Пятница</string>
     <string name="saturday">Суббота</string>
     <string name="sunday">Воскресенье</string>
-    <string name="select_interval">Выбрать интервал напоминания раз в … дней:</string>
+    <string name="select_interval">Выберите интервал (в днях):</string>
     <string name="days">Дни</string>
     <string name="hours">Часы</string>
     <string name="minutes">Минуты</string>
@@ -34,7 +34,7 @@
 
     <string name="error_loading">Требуется подключение к интернету</string>
     <string name="error_loading_extended">Ошибка загрузки и нет данных в кеше</string>
-    <string name="select_start_date">Выбрать дату и время:</string>
+    <string name="select_start_date">Выберите дату начала:</string>
     <string name="right_arrow_description">Открыть статью</string>
     <string name="alarms_label">Напоминания</string>
 

@@ -61,6 +61,21 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         setUpListeners(findNavController())
         setUpFragment()
         setUpArguments()
+        setUpRadioGroupListener()
+    }
+
+    private fun setUpRadioGroupListener() = with(binding.actionRadioGroup) {
+        setOnCheckedChangeListener { _, checkedId ->
+            val isTransplanting = checkedId == R.id.radioTransplanting
+            val visibility = if (isTransplanting) View.GONE else View.VISIBLE
+
+            with(binding) {
+                intervalLabel.visibility = visibility
+                intervalValue.visibility = visibility
+                removeButton.visibility = visibility
+                addButton.visibility = visibility
+            }
+        }
     }
 
     private fun setUpArguments() = arguments?.let {
@@ -91,13 +106,13 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         intervalValue.addTextChangedListener(IntervalValueTextWatcher())
 
         removeButton.setOnClickListener {
-            if (viewModel.interval > 1) {
+            if (viewModel.interval > INTERVAL_MIN) {
                 updateInterval(viewModel.interval - 1)
             }
         }
 
         addButton.setOnClickListener {
-            if (viewModel.interval < 365) {
+            if (viewModel.interval < INTERVAL_MAX) {
                 updateInterval(viewModel.interval + 1)
             }
         }
@@ -182,11 +197,14 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         wasAlarmSaved = true
 
         val name = nameEditText.text.toString()
-        val interval = viewModel.interval
+        var interval = viewModel.interval
         val type = when {
             radioWatering.isChecked -> 0
             radioFertilizing.isChecked -> 1
-            radioTransplanting.isChecked -> 2
+            radioTransplanting.isChecked -> {
+                interval = 0
+                2
+            }
             else -> 0
         }
 

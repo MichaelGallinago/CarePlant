@@ -7,6 +7,7 @@ import net.micg.plantcare.presentation.alarmCreation.AlarmCreationFragment
 import net.micg.plantcare.presentation.alarms.AlarmsFragment
 import net.micg.plantcare.presentation.article.ArticleFragment
 import net.micg.plantcare.presentation.articles.ArticlesFragment
+import net.micg.plantcare.receiver.alarm.AlarmReceiver
 
 @AppComponentScope
 @Component(modules = [AppModule::class])
@@ -20,4 +21,5 @@ interface AppComponent {
     fun inject(fragment: ArticleFragment)
     fun inject(fragment: AlarmCreationFragment)
     fun inject(fragment: ArticlesFragment)
+    fun inject(receiver: AlarmReceiver)
 }

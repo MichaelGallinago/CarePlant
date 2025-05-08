@@ -11,6 +11,7 @@ import net.micg.plantcare.presentation.MainActivity
 import net.micg.plantcare.receiver.alarm.AlarmReceiver.Companion.ID_EXTRA
 import net.micg.plantcare.receiver.alarm.AlarmReceiver.Companion.NAME_EXTRA
 import net.micg.plantcare.receiver.alarm.AlarmReceiver.Companion.TYPE_EXTRA
+import kotlin.math.max
 
 object AlarmNotificationUtils {
     private const val HALF_MINUTE_IN_MILLIS = 1000L * 30L
@@ -21,6 +22,8 @@ object AlarmNotificationUtils {
 
     fun getValidDate(date: Long, interval: Long): Long {
         val currentTime = System.currentTimeMillis()
+
+        if (interval == 0L) return max(date, currentTime + HALF_MINUTE_IN_MILLIS)
         if (date >= currentTime - HALF_MINUTE_IN_MILLIS) return date
 
         return date + ((currentTime - date) / interval + 1L) * interval

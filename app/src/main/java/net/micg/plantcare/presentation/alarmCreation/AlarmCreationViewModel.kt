@@ -24,9 +24,7 @@ class AlarmCreationViewModel @Inject constructor(
     fun insert(
         name: String, type: Byte, dateInMillis: Long, intervalInMillis: Long,
     ) = CoroutineScope(Dispatchers.IO).launch {
-        setAlarmUseCase(
-            insertAlarmUseCase(name, type, dateInMillis, intervalInMillis, true)
-        )
+        setAlarmUseCase(insertAlarmUseCase(name, type, dateInMillis, intervalInMillis, true))
     }
 
     fun updateData(
