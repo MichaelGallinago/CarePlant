@@ -29,6 +29,7 @@ object AlarmCreationUtils {
     fun getTypeName(type: Int): String = when(type) {
         0 -> "Watering"
         1 -> "Fertilizing"
+        2 -> "Transplanting"
         else -> ""
     }
 }

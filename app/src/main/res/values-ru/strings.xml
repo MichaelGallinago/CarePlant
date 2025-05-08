@@ -50,4 +50,8 @@
     <string name="create_reminder">Создать напоминание</string>
     <string name="select_time">Выберите время:</string>
     <string name="transplanting">Пересадка</string>
+
+    <string name="complete_title_1">Отличная работа, ухоженные растения - здоровые растения</string>
+    <string name="complete_title_2">Если бы растения умели говорить, они бы сказали "спасибо"</string>
+    <string name="complete_title_3">Теперь с растениями всё хорошо</string>
 </resources>

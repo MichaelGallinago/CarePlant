@@ -6,10 +6,8 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.DatePicker
-import android.widget.SeekBar
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -185,7 +183,12 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
 
         val name = nameEditText.text.toString()
         val interval = viewModel.interval
-        val type = if (radioWatering.isChecked) 0 else 1
+        val type = when {
+            radioWatering.isChecked -> 0
+            radioFertilizing.isChecked -> 1
+            radioTransplanting.isChecked -> 2
+            else -> 0
+        }
 
         if (isEditing) {
             viewModel.updateData(

@@ -16,6 +16,7 @@ import net.micg.plantcare.receiver.alarm.AlarmNotificationUtils.getGroupSummaryN
 import net.micg.plantcare.utils.AlarmCreationUtils
 import net.micg.plantcare.utils.FirebaseUtils
 import net.micg.plantcare.utils.FirebaseUtils.POSTED_PUSH_MESSAGES
+import kotlin.random.Random
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -41,6 +42,9 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val intervalInMillis =
             intent.getLongExtra(ALARM_INTERVAL, AlarmCreationUtils.calculateIntervalInMillis(1L))
+
+        //TODO: replace to value type instead of context string, that's real shit
+        if (type == context.getString(R.string.transplanting)) return
 
         AlarmNotificationUtils.setAlarm(
             context, id, name, type, dateInMillis + intervalInMillis, intervalInMillis
@@ -129,7 +133,16 @@ class AlarmReceiver : BroadcastReceiver() {
     ) = Handler(Looper.getMainLooper()).postDelayed({
         notificationManager.notify(
             GROUP_SUMMARY_ID,
-            getGroupSummaryNotification(context, context.getString(R.string.complete))
+            getGroupSummaryNotification(
+                context,
+                context.getString(R.string.complete),
+                context.getString(when(Random.nextInt(0, 3)) {
+                    0 -> R.string.complete_title_1
+                    1 -> R.string.complete_title_2
+                    2 -> R.string.complete_title_3
+                    else -> R.string.complete_title_3
+                })
+            )
         )
     }, GROUP_SUMMARY_DELAY)
 

@@ -50,4 +50,8 @@
     <string name="select_time">选择时间:</string>
     <string name="select_interval">选择间隔（以天为单位）:</string>
     <string name="transplanting">移栽</string>
+
+    <string name="complete_title_1">伟大的工作，精心修饰的植物是健康的植物</string>
+    <string name="complete_title_2">如果植物会说话，他们会说"谢谢"</string>
+    <string name="complete_title_3">现在植物一切正常</string>
 </resources>

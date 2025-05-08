@@ -44,10 +44,11 @@ object AlarmNotificationUtils {
     )
 
     fun getGroupSummaryNotification(
-        context: Context, complete: String
+        context: Context, complete: String, title: String
     ) = NotificationCompat.Builder(context, AlarmReceiver.Companion.ALARM_CHANNEL_ID)
         .setSmallIcon(R.drawable.ic_alarm)
-        .setContentTitle(complete)
+        .setContentTitle(title)
+        .setContentText(complete)
         .setDefaults(NotificationCompat.DEFAULT_ALL)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .setOngoing(true)
