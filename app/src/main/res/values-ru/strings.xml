@@ -34,7 +34,7 @@
 
     <string name="error_loading">Требуется подключение к интернету</string>
     <string name="error_loading_extended">Ошибка загрузки и нет данных в кеше</string>
-    <string name="select_date_and_time">Выбрать дату и время:</string>
+    <string name="select_start_date">Выбрать дату и время:</string>
     <string name="right_arrow_description">Открыть статью</string>
     <string name="alarms_label">Напоминания</string>
 
@@ -48,4 +48,6 @@
     <string name="delete">Удалить</string>
     <string name="edit">Изменить</string>
     <string name="create_reminder">Создать напоминание</string>
+    <string name="select_time">Выберите время:</string>
+    <string name="transplanting">Пересадка</string>
 </resources>

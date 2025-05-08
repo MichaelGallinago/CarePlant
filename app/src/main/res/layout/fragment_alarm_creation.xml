@@ -31,11 +31,11 @@
         app:tint="@color/icons" />
 
     <TextView
-        android:id="@+id/select_date_and_time_label"
+        android:id="@+id/select_start_date_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/select_date_and_time"
+        android:text="@string/select_start_date"
         android:textColor="@color/text"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -46,32 +46,42 @@
         android:id="@+id/date_selector"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/button"
         android:drawableEnd="@drawable/ic_edit_date"
         android:lines="1"
         android:textColor="@color/text_contrast"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@id/time_selector"
-        app:layout_constraintStart_toStartOf="@id/cancelButton"
-        app:layout_constraintTop_toBottomOf="@id/select_date_and_time_label"
+        app:layout_constraintEnd_toStartOf="@id/confirmButton"
+        app:layout_constraintStart_toEndOf="@id/cancelButton"
+        app:layout_constraintTop_toBottomOf="@id/select_start_date_label"
         tools:text="04.04.2024" />
+
+    <TextView
+        android:id="@+id/select_time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/select_time"
+        android:textColor="@color/text"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/cancelButton"
+        app:layout_constraintTop_toBottomOf="@id/date_selector" />
 
     <Button
         android:id="@+id/time_selector"
-        android:layout_width="0dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="@color/button"
         android:drawableEnd="@drawable/ic_edit_time"
         android:lines="1"
         android:textColor="@color/text_contrast"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@id/confirmButton"
-        app:layout_constraintStart_toEndOf="@id/date_selector"
-        app:layout_constraintTop_toBottomOf="@id/select_date_and_time_label"
+        app:layout_constraintEnd_toStartOf="@id/confirmButton"
+        app:layout_constraintStart_toEndOf="@id/cancelButton"
+        app:layout_constraintTop_toBottomOf="@id/select_time_label"
         tools:text="04:04" />
 
     <TextView
@@ -89,22 +99,23 @@
         android:id="@+id/interval_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="@string/select_interval"
         android:textColor="@color/text"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/interval_value"
-        app:layout_constraintStart_toStartOf="@id/date_selector"
-        app:layout_constraintTop_toBottomOf="@id/date_selector" />
+        app:layout_constraintStart_toStartOf="@id/select_time_label"
+        app:layout_constraintTop_toBottomOf="@id/time_selector" />
 
     <EditText
         android:id="@+id/interval_value"
-        android:layout_width="48dp"
+        android:layout_width="64dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:backgroundTint="@color/text_hint"
+        android:gravity="center_horizontal"
         android:importantForAutofill="no"
         android:inputType="number"
         android:maxLength="3"
@@ -116,21 +127,39 @@
         android:textSelectHandleRight="@drawable/custom_handle_right"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/interval_label"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/interval_label"
-        app:layout_constraintTop_toTopOf="@id/interval_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/interval_label"
         tools:ignore="LabelFor"
         tools:text="404" />
 
-    <SeekBar
-        android:id="@+id/interval_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:progressTint="@color/text_hint"
-        android:thumbTint="@color/icons"
-        app:layout_constraintTop_toBottomOf="@id/interval_label" />
+    <ImageButton
+        android:id="@+id/remove_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/button_border"
+        android:backgroundTint="@color/button"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_remove"
+        app:layout_constraintBottom_toBottomOf="@id/interval_value"
+        app:layout_constraintEnd_toStartOf="@id/interval_value"
+        app:layout_constraintTop_toTopOf="@id/interval_value"
+        app:tint="@color/button" />
+
+    <ImageButton
+        android:id="@+id/add_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/button_border"
+        android:backgroundTint="@color/button"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toBottomOf="@id/interval_value"
+        app:layout_constraintStart_toEndOf="@id/interval_value"
+        app:layout_constraintTop_toTopOf="@id/interval_value"
+        app:tint="@color/button" />
 
     <EditText
         android:id="@+id/nameEditText"
@@ -152,7 +181,7 @@
         android:textSelectHandleLeft="@drawable/custom_handle_left"
         android:textSelectHandleRight="@drawable/custom_handle_right"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/interval_bar" />
+        app:layout_constraintTop_toBottomOf="@id/interval_value" />
 
     <RadioGroup
         android:id="@+id/actionRadioGroup"
@@ -170,7 +199,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:gravity="start"
             android:text="@string/watering"
             android:textColor="@color/text"
             android:textSize="20sp"
@@ -181,6 +209,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fertilize"
+            android:textColor="@color/text"
+            android:textSize="20sp"
+            app:buttonTint="@color/button" />
+
+        <RadioButton
+            android:id="@+id/radioTransplanting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/transplanting"
             android:textColor="@color/text"
             android:textSize="20sp"
             app:buttonTint="@color/button" />

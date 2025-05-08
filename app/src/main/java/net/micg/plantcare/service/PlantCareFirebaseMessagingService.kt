@@ -1,17 +1,11 @@
 package net.micg.plantcare.service
 
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import net.micg.plantcare.R
 import net.micg.plantcare.utils.FirebaseUtils
 
 class PlantCareFirebaseMessagingService : FirebaseMessagingService() {

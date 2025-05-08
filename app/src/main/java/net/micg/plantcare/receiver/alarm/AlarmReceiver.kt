@@ -14,6 +14,8 @@ import net.micg.plantcare.receiver.alarm.AlarmNotificationUtils.createContentInt
 import net.micg.plantcare.receiver.alarm.AlarmNotificationUtils.createDeleteIntent
 import net.micg.plantcare.receiver.alarm.AlarmNotificationUtils.getGroupSummaryNotification
 import net.micg.plantcare.utils.AlarmCreationUtils
+import net.micg.plantcare.utils.FirebaseUtils
+import net.micg.plantcare.utils.FirebaseUtils.POSTED_PUSH_MESSAGES
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -26,53 +28,14 @@ class AlarmReceiver : BroadcastReceiver() {
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         when (notificationManager.activeNotifications.count()) {
-            0 -> notificationManager.notify(
-                id,
-                NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_flower)
-                    .setContentTitle(name)
-                    .setContentText(type)
-                    .setDefaults(NotificationCompat.DEFAULT_ALL)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setContentIntent(createContentIntent(context, id))
-                    .setAutoCancel(false)
-                    .setOngoing(true)
-                    .setGroup(ALARM_GROUP)
-                    .setDeleteIntent(createDeleteIntent(context, id, name, type))
-                    .addAction(
-                        R.drawable.ic_close,
-                        context.getString(R.string.complete),
-                        PendingIntent.getBroadcast(
-                            context,
-                            id,
-                            Intent(context, NotificationCloseReceiver::class.java).apply {
-                                putExtra("id", id)
-                                putExtra("name", id)
-                                putExtra("type", id)
-                            },
-                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                        )
-                    )
-                    .build()
-                )
-            1 -> {
-                val existsNotification = notificationManager.activeNotifications[0]
-                val extras = existsNotification.notification.extras
-                notifyAlarm(
-                    context,
-                    notificationManager,
-                    existsNotification.id,
-                    extras.getString(Notification.EXTRA_TITLE) ?: "",
-                    extras.getString(Notification.EXTRA_TEXT) ?: ""
-                )
-                notifyAlarm(context, notificationManager, id, name, type)
-                notifyGroupSummary(context, notificationManager)
-            }
+            0 -> notifyFirst(context, notificationManager, id, name, type)
+            1 -> notifySecondAndUpdateFirst(context, notificationManager, id, name, type)
             else -> {
                 notifyAlarm(context, notificationManager, id, name, type)
                 notifyGroupSummary(context, notificationManager)
             }
         }
+        FirebaseUtils.onNotificationEvent(context, POSTED_PUSH_MESSAGES, intent)
 
         val dateInMillis = intent.getLongExtra(ALARM_DATE, System.currentTimeMillis())
 
@@ -82,6 +45,62 @@ class AlarmReceiver : BroadcastReceiver() {
         AlarmNotificationUtils.setAlarm(
             context, id, name, type, dateInMillis + intervalInMillis, intervalInMillis
         )
+    }
+
+    private fun notifyFirst(
+        context: Context,
+        notificationManager: NotificationManager,
+        id: Int,
+        name: String,
+        type: String
+    ) = notificationManager.notify(
+        id,
+        NotificationCompat.Builder(context, ALARM_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_flower)
+            .setContentTitle(name)
+            .setContentText(type)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(createContentIntent(context, id))
+            .setAutoCancel(false)
+            .setOngoing(true)
+            .setGroup(ALARM_GROUP)
+            .setDeleteIntent(createDeleteIntent(context, id, name, type))
+            .addAction(
+                R.drawable.ic_close,
+                context.getString(R.string.complete),
+                PendingIntent.getBroadcast(
+                    context,
+                    id,
+                    Intent(context, NotificationCloseReceiver::class.java).apply {
+                        putExtra("id", id)
+                        putExtra("name", id)
+                        putExtra("type", id)
+                    },
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                )
+            )
+            .build()
+    )
+
+    private fun notifySecondAndUpdateFirst(
+        context: Context,
+        notificationManager: NotificationManager,
+        id: Int,
+        name: String,
+        type: String
+    ) {
+        val existsNotification = notificationManager.activeNotifications[0]
+        val extras = existsNotification.notification.extras
+        notifyAlarm(
+            context,
+            notificationManager,
+            existsNotification.id,
+            extras.getString(Notification.EXTRA_TITLE) ?: "",
+            extras.getString(Notification.EXTRA_TEXT) ?: ""
+        )
+        notifyAlarm(context, notificationManager, id, name, type)
+        notifyGroupSummary(context, notificationManager)
     }
 
     private fun notifyAlarm(

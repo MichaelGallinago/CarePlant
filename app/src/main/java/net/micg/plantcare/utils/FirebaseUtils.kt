@@ -9,21 +9,25 @@ import net.micg.plantcare.receiver.alarm.AlarmReceiver.Companion.NAME_EXTRA
 import net.micg.plantcare.receiver.alarm.AlarmReceiver.Companion.TYPE_EXTRA
 
 object FirebaseUtils {
-    fun logEvent(context: Context, eventName: String, bundle: Bundle = Bundle())
-        = FirebaseAnalytics.getInstance(context).logEvent(eventName, bundle.apply {
-            putString(USER_UUID, UUIDUtils.getDeviceUUID(context))
-        })
+    fun logEvent(
+        context: Context, eventName: String, bundle: Bundle = Bundle()
+    ) = FirebaseAnalytics.getInstance(context).logEvent(eventName, bundle.apply {
+        putString(USER_UUID, UUIDUtils.getDeviceUUID(context))
+    })
 
-    fun onNotificationDismissed(context: Context, intent: Intent) =
-        logEvent(context, MARKED_PUSH_MESSAGES, Bundle().apply {
-            putInt("id", intent.getIntExtra(ID_EXTRA, 0))
-            putString("name", intent.getStringExtra(NAME_EXTRA))
-            putString("type", intent.getStringExtra(TYPE_EXTRA))
-        })
+    fun onNotificationEvent(
+        context: Context, name: String, intent: Intent
+    ) = logEvent(context, name, Bundle().apply {
+        putInt("id", intent.getIntExtra(ID_EXTRA, 0))
+        putString("name", intent.getStringExtra(NAME_EXTRA))
+        putString("type", intent.getStringExtra(TYPE_EXTRA))
+        putLong("post_time", System.currentTimeMillis())
+    })
 
     private const val USER_UUID = "user_uuid"
 
     const val INSTALLED_FROM_SOURCE = "installed_from_source"
+    const val POSTED_PUSH_MESSAGES = "posted_push_messages"
     const val MARKED_PUSH_MESSAGES = "marked_push_messages"
     const val CREATED_NOTIFICATIONS = "created_notifications"
     const val EDITED_NOTIFICATIONS = "edited_notifications"

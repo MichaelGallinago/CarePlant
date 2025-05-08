@@ -1,7 +1,11 @@
 package net.micg.plantcare.presentation.article
 
+import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.webkit.WebSettings
 import androidx.fragment.app.Fragment
@@ -30,6 +34,29 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
     private var startTime = 0L
     private var articleName = ""
 
+    private val fabPulseInterval = 10_000L
+    private val handler = Handler(Looper.getMainLooper())
+    private val fabPulseRunnable = object : Runnable {
+        override fun run() {
+            pulseFabColor()
+            handler.postDelayed(this, fabPulseInterval)
+        }
+    }
+
+    private fun pulseFabColor() {
+        val colorFrom = requireContext().getColor(R.color.fab)
+        val colorTo = requireContext().getColor(R.color.fab_highlight)
+
+        ValueAnimator.ofArgb(colorFrom, colorTo, colorFrom).apply {
+            duration = 1000
+            addUpdateListener { animator ->
+                binding.createAlarmButton.backgroundTintList =
+                    ColorStateList.valueOf(animator.animatedValue as Int)
+            }
+            start()
+        }
+    }
+
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
         super.onAttach(context)
@@ -37,6 +64,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        pulseFabColor()
 
         viewModel.alarmCreationModule.observe(viewLifecycleOwner) { data ->
             setUpCreateAlarmButton(data)
@@ -50,10 +78,13 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
     override fun onResume() {
         super.onResume()
         startTime = System.currentTimeMillis()
+        handler.postDelayed(fabPulseRunnable, fabPulseInterval)
     }
+
 
     override fun onPause() {
         super.onPause()
+        handler.removeCallbacks(fabPulseRunnable)
 
         context?.let { ctx ->
             FirebaseUtils.logEvent(ctx, ARTICLE_READ_DURATION, Bundle().apply {

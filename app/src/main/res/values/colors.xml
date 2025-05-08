@@ -9,6 +9,7 @@
     <color name="article_icon">#4CAF50</color>
     <color name="background">#F7FFF8</color>
     <color name="fab">#E8FFDD</color>
+    <color name="fab_highlight">#74A450</color>
     <color name="icons">#215E01</color>
     <color name="text">#484F45</color>
     <color name="text_contrast">#E8F6E9</color>

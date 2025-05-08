@@ -20,7 +20,6 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="sunday">Sunday</string>
-    <string name="select_interval">Select reminder interval every … days:</string>
     <string name="days">Days</string>
     <string name="hours">Hours</string>
     <string name="minutes">Minutes</string>
@@ -34,7 +33,7 @@
 
     <string name="error_loading">Internet connection required</string>
     <string name="error_loading_extended">Loading error and no data in cache</string>
-    <string name="select_date_and_time">Select date and time:</string>
+    <string name="select_start_date">Select the start date:</string>
     <string name="right_arrow_description">Open Article</string>
     <string name="alarms_label">Reminders</string>
 
@@ -47,5 +46,8 @@
     <string name="complete">Complete</string>
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
-    <string name="create_reminder">Create reminder</string>
+    <string name="select_interval">Select the interval (in days):</string>
+    <string name="create_reminder">Create a reminder</string>
+    <string name="select_time">Choose a time:</string>
+    <string name="transplanting">Transplanting</string>
 </resources>

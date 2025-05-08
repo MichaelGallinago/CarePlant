@@ -20,7 +20,6 @@
     <string name="friday">星期五</string>
     <string name="saturday">星期六</string>
     <string name="sunday">星期日</string>
-    <string name="select_interval">选择提醒间隔（每…天）：</string>
     <string name="days">天</string>
     <string name="hours">小时</string>
     <string name="minutes">分钟</string>
@@ -34,7 +33,7 @@
 
     <string name="error_loading">需要互联网连接</string>
     <string name="error_loading_extended">加载错误且无缓存数据</string>
-    <string name="select_date_and_time">选择日期和时间：</string>
+    <string name="select_start_date">选择开始日期:</string>
     <string name="right_arrow_description">打开文章</string>
     <string name="alarms_label">提醒</string>
 
@@ -48,4 +47,7 @@
     <string name="delete">删除</string>
     <string name="edit">编辑</string>
     <string name="create_reminder">创建提醒</string>
+    <string name="select_time">选择时间:</string>
+    <string name="select_interval">选择间隔（以天为单位）:</string>
+    <string name="transplanting">移栽</string>
 </resources>

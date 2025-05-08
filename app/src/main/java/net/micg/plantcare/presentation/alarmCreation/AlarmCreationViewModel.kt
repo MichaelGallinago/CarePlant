@@ -18,7 +18,7 @@ class AlarmCreationViewModel @Inject constructor(
     private val updateAlarmDataUseCase: UpdateAlarmDataUseCase,
 ) : ViewModel() {
     val timeStorage = TimeModel(0, 0, 0, 0, 0)
-    var interval = 0L
+    var interval = 1L
     var isUpdating = false
 
     fun insert(
