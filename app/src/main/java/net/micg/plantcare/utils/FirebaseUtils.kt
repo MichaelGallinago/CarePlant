@@ -26,6 +26,7 @@ object FirebaseUtils {
 
     private const val USER_UUID = "user_uuid"
 
+    const val ALARM_CREATION_ABANDONED = "alarm_creation_abandoned"
     const val INSTALLED_FROM_SOURCE = "installed_from_source"
     const val POSTED_PUSH_MESSAGES = "posted_push_messages"
     const val MARKED_PUSH_MESSAGES = "marked_push_messages"

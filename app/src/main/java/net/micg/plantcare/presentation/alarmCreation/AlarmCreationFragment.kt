@@ -25,6 +25,7 @@ import net.micg.plantcare.utils.AlarmCreationUtils.calculateIntervalInMillis
 import net.micg.plantcare.utils.AlarmCreationUtils.getCurrentCalendar
 import net.micg.plantcare.utils.AlarmCreationUtils.getTypeName
 import net.micg.plantcare.utils.FirebaseUtils
+import net.micg.plantcare.utils.FirebaseUtils.ALARM_CREATION_ABANDONED
 import net.micg.plantcare.utils.InsetsUtils.addTopInsetsMarginToCurrentView
 import java.util.Calendar.DAY_OF_MONTH
 import java.util.Calendar.HOUR_OF_DAY
@@ -44,6 +45,12 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private var isEditing = false
     private var editingId = 0L
     private var editingIsEnabled = true
+
+    private var wasAlarmSaved = false
+
+    private var wasDateSelected = false
+    private var wasTimeSelected = false
+    private var wasIntervalEdited = false
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -145,13 +152,15 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         }
     }
 
-    private fun setDate(picker: DatePicker, year: Int, month: Int, day: Int) =
-        with(viewModel.timeStorage) {
-            this.year = year
-            this.month = month
-            dayOfMonth = day
-            binding.dateSelector.text = dateFormated
-        }
+    private fun setDate(
+        picker: DatePicker, year: Int, month: Int, day: Int
+    ) = with(viewModel.timeStorage) {
+        this.year = year
+        this.month = month
+        dayOfMonth = day
+        binding.dateSelector.text = dateFormated
+        wasDateSelected = true
+    }
 
     private fun pickTime() = with(getCurrentCalendar()) {
         TimePickerDialog(
@@ -168,9 +177,12 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         hourOfDay = hour
         this.minute = minute
         binding.timeSelector.text = timeFormated
+        wasTimeSelected = true
     }
 
     private fun saveAlarm() = with(binding) {
+        wasAlarmSaved = true
+
         val name = nameEditText.text.toString()
         val interval = viewModel.interval
         val type = if (radioWatering.isChecked) 0 else 1
@@ -235,18 +247,44 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
             if (value != null && value in INTERVAL_MIN..INTERVAL_MAX) {
                 viewModel.isUpdating = true
                 viewModel.interval = value.toLong()
+                wasIntervalEdited = true
                 viewModel.isUpdating = false
             }
         }
     }
 
     private fun updateInterval(newInterval: Long) = with(binding) {
+        wasIntervalEdited = true
         viewModel.isUpdating = true
         viewModel.interval = newInterval
         val intervalText = newInterval.toString()
         intervalValue.setText(intervalText)
         intervalValue.setSelection(intervalText.length)
         viewModel.isUpdating = false
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        if (wasAlarmSaved || isEditing) return
+
+        with(binding) {
+            val hasName = nameEditText.text.toString().isNotBlank()
+            val type = when {
+                radioWatering.isChecked -> "watering"
+                radioFertilizing.isChecked -> "fertilizing"
+                radioTransplanting.isChecked -> "transplanting"
+                else -> "none"
+            }
+
+            FirebaseUtils.logEvent(requireContext(), ALARM_CREATION_ABANDONED, Bundle().apply {
+                putBoolean("entered_name", hasName)
+                putBoolean("selected_date", wasDateSelected)
+                putBoolean("selected_time", wasTimeSelected)
+                putBoolean("set_interval", wasIntervalEdited)
+                putString("selected_type", type)
+            })
+        }
     }
 
     companion object {
