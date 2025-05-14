@@ -29,6 +29,7 @@ import net.micg.plantcare.utils.InsetsUtils
 import javax.inject.Inject
 import kotlin.getValue
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import kotlin.toString
 
 class ArticleFragment : Fragment(R.layout.fragment_article) {
@@ -43,6 +44,8 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
     private var isSectionsClosed = true
 
+    private var fabAnimator: ValueAnimator? = null
+
     private val fabPulseInterval = 10_000L
     private val handler = Handler(Looper.getMainLooper())
     private val fabPulseRunnable = object : Runnable {
@@ -56,7 +59,9 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         val colorFrom = requireContext().getColor(R.color.fab)
         val colorTo = requireContext().getColor(R.color.fab_highlight)
 
-        ValueAnimator.ofArgb(colorFrom, colorTo, colorFrom).apply {
+        fabAnimator?.cancel()
+
+        fabAnimator = ValueAnimator.ofArgb(colorFrom, colorTo, colorFrom).apply {
             duration = 1000
             addUpdateListener { animator ->
                 binding.createAlarmButton.backgroundTintList =
@@ -94,7 +99,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 evaluateJavascript(
-                """
+                    """
                 (function() {
                     const detailsList = document.querySelectorAll("details");
 
@@ -166,6 +171,12 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                 putString("name", name)
             })
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        fabAnimator?.cancel()
+        fabAnimator = null
     }
 
     private fun updateHelpVisibility() = activity?.runOnUiThread {
