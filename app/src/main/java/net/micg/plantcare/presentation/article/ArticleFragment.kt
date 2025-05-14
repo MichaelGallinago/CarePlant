@@ -47,6 +47,8 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
     private var fabAnimator: ValueAnimator? = null
 
+    private var isFragmentOpened = false
+
     private val fabPulseInterval = 10_000L
     private val handler = Handler(Looper.getMainLooper())
     private val fabPulseRunnable = object : Runnable {
@@ -145,12 +147,14 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
     override fun onResume() {
         super.onResume()
+        isFragmentOpened = true
         startTime = System.currentTimeMillis()
         handler.postDelayed(fabPulseRunnable, fabPulseInterval)
     }
 
     override fun onPause() {
         super.onPause()
+        isFragmentOpened = false
         handler.removeCallbacks(fabPulseRunnable)
 
         FirebaseUtils.logEvent(requireContext(), ARTICLE_READ_DURATION, Bundle().apply {
@@ -197,12 +201,15 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         fabAnimator = null
     }
 
-    private fun updateHelpVisibility() = activity?.runOnUiThread {
-        with(binding) {
-            val visibility = if (isSectionsClosed && createAlarmButton.isVisible)
-                View.VISIBLE else View.INVISIBLE
-            helpLabel.visibility = visibility
-            arrow.visibility = visibility
+    private fun updateHelpVisibility() {
+        if (!isFragmentOpened) return
+        activity?.runOnUiThread {
+            with(binding) {
+                val visibility = if (isSectionsClosed && createAlarmButton.isVisible)
+                    View.VISIBLE else View.INVISIBLE
+                helpLabel.visibility = visibility
+                arrow.visibility = visibility
+            }
         }
     }
 

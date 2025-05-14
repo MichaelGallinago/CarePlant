@@ -54,4 +54,6 @@
     <string name="complete_title_1">伟大的工作，精心修饰的植物是健康的植物</string>
     <string name="complete_title_2">如果植物会说话，他们会说"谢谢"</string>
     <string name="complete_title_3">现在植物一切正常</string>
+
+    <string name="first_alarm_creation">祝贺你！ 第一家工厂已被添加到时间表中</string>
 </resources>

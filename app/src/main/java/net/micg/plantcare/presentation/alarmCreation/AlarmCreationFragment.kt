@@ -3,12 +3,15 @@ package net.micg.plantcare.presentation.alarmCreation
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TimePicker
+import android.widget.Toast
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -31,6 +34,7 @@ import java.util.Calendar.MINUTE
 import java.util.Calendar.MONTH
 import java.util.Calendar.YEAR
 import java.util.Calendar.getInstance
+import java.util.UUID
 import javax.inject.Inject
 
 class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
@@ -208,6 +212,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
             else -> 0
         }
 
+        val context = requireContext()
         if (isEditing) {
             viewModel.updateData(
                 editingId,
@@ -218,15 +223,15 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
                 editingIsEnabled
             )
 
-            context?.let { ctx ->
-                FirebaseUtils.logEvent(ctx, FirebaseUtils.EDITED_NOTIFICATIONS, Bundle().apply {
-                    putString("type", getTypeName(type))
-                    putString("name", name)
-                    putString("date", AlarmCreationUtils.convertTimeToString(dateInMillis))
-                    putLong("interval", interval)
-                })
-            }
+            FirebaseUtils.logEvent(context, FirebaseUtils.EDITED_NOTIFICATIONS, Bundle().apply {
+                putString("type", getTypeName(type))
+                putString("name", name)
+                putString("date", AlarmCreationUtils.convertTimeToString(dateInMillis))
+                putLong("interval", interval)
+            })
         } else {
+            sendMessageOnFirst(context)
+
             viewModel.insert(
                 name,
                 type.toByte(),
@@ -234,15 +239,25 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
                 calculateIntervalInMillis(interval)
             )
 
-            context?.let { ctx ->
-                FirebaseUtils.logEvent(ctx, FirebaseUtils.CREATED_NOTIFICATIONS, Bundle().apply {
-                    putString("type", getTypeName(type))
-                    putString("name", name)
-                    putString("date", AlarmCreationUtils.convertTimeToString(dateInMillis))
-                    putLong("interval", interval)
-                })
-            }
+            FirebaseUtils.logEvent(context, FirebaseUtils.CREATED_NOTIFICATIONS, Bundle().apply {
+                putString("type", getTypeName(type))
+                putString("name", name)
+                putString("date", AlarmCreationUtils.convertTimeToString(dateInMillis))
+                putLong("interval", interval)
+            })
         }
+    }
+
+    fun sendMessageOnFirst(context: Context) {
+        val prefs = context.getSharedPreferences("device_prefs", MODE_PRIVATE)
+        var isFirstAlarmCreation = prefs.getBoolean("is_first_alarm_creation", true)
+
+        if (!isFirstAlarmCreation) return
+
+        prefs.edit { putBoolean("is_first_alarm_creation", false) }
+
+        val message = context.getString(R.string.first_alarm_creation)
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     private val dateInMillis

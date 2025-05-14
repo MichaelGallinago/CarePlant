@@ -54,4 +54,6 @@
     <string name="complete_title_1">Great job, well-groomed plants are healthy plants</string>
     <string name="complete_title_2">If plants could speak, they would say "thank you"</string>
     <string name="complete_title_3">Everything is fine with the plants now</string>
+    
+    <string name="first_alarm_creation">The first plant has been added to the schedule!</string>
 </resources>

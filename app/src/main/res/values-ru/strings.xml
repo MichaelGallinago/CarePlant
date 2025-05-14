@@ -54,4 +54,6 @@
     <string name="complete_title_1">Отличная работа, ухоженные растения - здоровые растения</string>
     <string name="complete_title_2">Если бы растения умели говорить, они бы сказали "спасибо"</string>
     <string name="complete_title_3">Теперь с растениями всё хорошо</string>
+
+    <string name="first_alarm_creation">Первое растение добавлено в расписание!</string>
 </resources>
