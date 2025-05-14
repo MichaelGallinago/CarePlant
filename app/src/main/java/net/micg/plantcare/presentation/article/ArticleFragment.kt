@@ -7,11 +7,13 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -29,8 +31,7 @@ import net.micg.plantcare.utils.InsetsUtils
 import javax.inject.Inject
 import kotlin.getValue
 import androidx.core.view.isVisible
-import androidx.lifecycle.Lifecycle
-import kotlin.toString
+import net.micg.plantcare.utils.ErrorMessageUtils
 
 class ArticleFragment : Fragment(R.layout.fragment_article) {
     @Inject
@@ -116,6 +117,23 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                 })();
                 """.trimIndent(), null
                 )
+            }
+
+            override fun onReceivedError(
+                view: WebView,
+                request: WebResourceRequest,
+                error: WebResourceError
+            ) {
+                super.onReceivedError(view, request, error)
+
+                if (!request.isForMainFrame) return
+
+                val context = requireContext()
+                val message =
+                    ErrorMessageUtils.getMessage(context, ErrorMessageUtils.Type.LoadingError)
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+
+                view.visibility = View.GONE
             }
         }
     }
