@@ -1,13 +1,17 @@
 package net.micg.plantcare.presentation.article
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -18,11 +22,14 @@ import net.micg.plantcare.data.alarm.models.AlarmCreationModel
 import net.micg.plantcare.databinding.FragmentArticleBinding
 import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.di.viewModel.ViewModelFactory
+import net.micg.plantcare.presentation.models.JsBridge
 import net.micg.plantcare.utils.FirebaseUtils
 import net.micg.plantcare.utils.FirebaseUtils.ARTICLE_READ_DURATION
 import net.micg.plantcare.utils.InsetsUtils
 import javax.inject.Inject
 import kotlin.getValue
+import androidx.core.view.isVisible
+import kotlin.toString
 
 class ArticleFragment : Fragment(R.layout.fragment_article) {
     @Inject
@@ -33,6 +40,8 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
     private var startTime = 0L
     private var articleName = ""
+
+    private var isSectionsClosed = true
 
     private val fabPulseInterval = 10_000L
     private val handler = Handler(Looper.getMainLooper())
@@ -70,9 +79,45 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             setUpCreateAlarmButton(data)
         }
 
+        setUpWebView()
         setUpArguments()
+    }
 
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun setUpWebView() = with(binding.webView) {
         InsetsUtils.addTopInsetsMarginToCurrentView(binding.webView)
+        settings.javaScriptEnabled = true
+
+        addJavascriptInterface(JsBridge(this@ArticleFragment), "AndroidBridge")
+
+        webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                evaluateJavascript(
+                """
+                (function() {
+                    const detailsList = document.querySelectorAll("details");
+
+                    function notifyState() {
+                        const allClosed = Array.from(detailsList).every(d => !d.open);
+                        AndroidBridge.onSectionsStateChanged(allClosed);
+                    }
+
+                    detailsList.forEach(details => {
+                        details.addEventListener("toggle", notifyState);
+                    });
+
+                    notifyState();
+                })();
+                """.trimIndent(), null
+                )
+            }
+        }
+    }
+
+    fun onSectionStateChanged(isAllClosed: Boolean) {
+        isSectionsClosed = isAllClosed
+        updateHelpVisibility()
     }
 
     override fun onResume() {
@@ -81,21 +126,19 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         handler.postDelayed(fabPulseRunnable, fabPulseInterval)
     }
 
-
     override fun onPause() {
         super.onPause()
         handler.removeCallbacks(fabPulseRunnable)
 
-        context?.let { ctx ->
-            FirebaseUtils.logEvent(ctx, ARTICLE_READ_DURATION, Bundle().apply {
-                putLong("duration_ms", System.currentTimeMillis() - startTime)
-                putString("article_name", articleName)
-            })
-        }
+        FirebaseUtils.logEvent(requireContext(), ARTICLE_READ_DURATION, Bundle().apply {
+            putLong("duration_ms", System.currentTimeMillis() - startTime)
+            putString("article_name", articleName)
+        })
     }
 
     private fun setUpCreateAlarmButton(data: AlarmCreationModel) = with(binding.createAlarmButton) {
         visibility = View.VISIBLE
+        updateHelpVisibility()
         setOnClickListener {
             with(data) {
                 findNavController().navigate(
@@ -111,7 +154,6 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         ArticleFragmentArgs.fromBundle(it).articleName
     }?.let { name ->
         articleName = name
-
         context?.let { ctx ->
             val locale = ctx.getString(R.string.culture_name)
             viewModel.getAlarmCreationData(locale, "/$name.json")
@@ -123,6 +165,15 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             FirebaseUtils.logEvent(ctx, FirebaseUtils.ARTICLE_ENTERS, Bundle().apply {
                 putString("name", name)
             })
+        }
+    }
+
+    private fun updateHelpVisibility() = activity?.runOnUiThread {
+        with(binding) {
+            val visibility = if (isSectionsClosed && createAlarmButton.isVisible)
+                View.VISIBLE else View.INVISIBLE
+            helpLabel.visibility = visibility
+            arrow.visibility = visibility
         }
     }
 

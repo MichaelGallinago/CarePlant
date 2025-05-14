@@ -11,6 +11,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <TextView
+        android:id="@+id/help_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="-10dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:text="@string/create_reminder"
+        android:textColor="@color/text_hint"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/arrow"
+        app:layout_constraintStart_toStartOf="@id/arrow"
+        app:layout_constraintEnd_toStartOf="@id/arrow"
+        android:layout_marginBottom="8dp"
+        tools:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-30dp"
+        android:layout_marginEnd="12dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/big_arrow"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/create_alarm_button"
+        app:layout_constraintEnd_toStartOf="@id/create_alarm_button"
+        app:tint="@color/text_hint"
+        tools:visibility="invisible" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/create_alarm_button"
         android:layout_width="wrap_content"
