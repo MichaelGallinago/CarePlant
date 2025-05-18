@@ -221,6 +221,17 @@
             android:textColor="@color/text"
             android:textSize="20sp"
             app:buttonTint="@color/button" />
+
+        <RadioButton
+            android:id="@+id/radioWaterSpraying"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/water_spraying"
+            android:textColor="@color/text"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:buttonTint="@color/button"
+            tools:visibility="visible" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

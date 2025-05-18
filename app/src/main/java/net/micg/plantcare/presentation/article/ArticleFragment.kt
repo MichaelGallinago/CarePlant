@@ -170,7 +170,11 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
             with(data) {
                 findNavController().navigate(
                     ArticleFragmentDirections.actionArticleFragmentToAlarmCreationFragment(
-                        plantName, interval, "Article", false
+                        plantName = plantName,
+                        interval = interval,
+                        fragmentName = "Article",
+                        isEdition = false,
+                        isWaterSprayingEnabled = data.isWaterSprayingEnabled
                     )
                 )
             }

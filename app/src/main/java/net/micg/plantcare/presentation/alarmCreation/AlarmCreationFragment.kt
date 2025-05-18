@@ -93,6 +93,9 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
             editingId = id
             editingIsEnabled = isEnabled
 
+            binding.radioWaterSpraying.visibility =
+                if (isWaterSprayingEnabled) View.VISIBLE else View.GONE
+
             context?.let { ctx ->
                 FirebaseUtils.logEvent(ctx, FirebaseUtils.ALARM_CREATION_ENTERS, Bundle().apply {
                     putString("from_screen", fragmentName)
@@ -209,6 +212,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
                 interval = 0
                 2
             }
+            radioWaterSpraying.isChecked -> 3
             else -> 0
         }
 
@@ -310,6 +314,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
                 radioWatering.isChecked -> "watering"
                 radioFertilizing.isChecked -> "fertilizing"
                 radioTransplanting.isChecked -> "transplanting"
+                radioWaterSpraying.isChecked -> "water_spraying"
                 else -> "none"
             }
 

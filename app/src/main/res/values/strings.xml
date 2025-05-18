@@ -56,4 +56,5 @@
     <string name="complete_title_3">Everything is fine with the plants now</string>
     
     <string name="first_alarm_creation">The first plant has been added to the schedule!</string>
+    <string name="water_spraying">Water spraying</string>
 </resources>

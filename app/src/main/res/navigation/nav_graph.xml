@@ -70,6 +70,10 @@
             android:name="isEnabled"
             android:defaultValue="true"
             app:argType="boolean" />
+        <argument
+            android:name="isWaterSprayingEnabled"
+            android:defaultValue="true"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_alarmCreationFragment_to_alarmsFragment"
             app:destination="@id/alarmsFragment" />

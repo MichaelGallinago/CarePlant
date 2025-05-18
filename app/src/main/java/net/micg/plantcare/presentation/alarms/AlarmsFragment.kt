@@ -88,7 +88,7 @@ class AlarmsFragment : Fragment(R.layout.fragment_alarms) {
         name: String, interval: Int, isEdit: Boolean, id: Long = 0L, isEnabled: Boolean = true
     ) = findNavController().navigate(
         AlarmsFragmentDirections.actionAlarmsFragmentToAlarmCreationFragment(
-            name, interval, "Alarms", isEdit, id, isEnabled
+            name, interval, "Alarms", isEdit, id, isEnabled, true
         )
     )
 }
