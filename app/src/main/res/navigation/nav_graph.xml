@@ -71,9 +71,13 @@
             android:defaultValue="true"
             app:argType="boolean" />
         <argument
-            android:name="isWaterSprayingEnabled"
-            android:defaultValue="true"
-            app:argType="boolean" />
+            android:name="fertilizingInterval"
+            android:defaultValue="1"
+            app:argType="integer" />
+        <argument
+            android:name="waterSprayingInterval"
+            android:defaultValue="1"
+            app:argType="integer" />
         <action
             android:id="@+id/action_alarmCreationFragment_to_alarmsFragment"
             app:destination="@id/alarmsFragment" />

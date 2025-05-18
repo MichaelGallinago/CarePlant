@@ -174,7 +174,8 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
                         interval = interval,
                         fragmentName = "Article",
                         isEdition = false,
-                        isWaterSprayingEnabled = data.isWaterSprayingEnabled
+                        fertilizingInterval = fertilizingInterval,
+                        waterSprayingInterval = waterSprayingInterval
                     )
                 )
             }

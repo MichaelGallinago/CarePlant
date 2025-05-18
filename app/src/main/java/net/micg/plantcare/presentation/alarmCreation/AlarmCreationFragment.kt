@@ -7,6 +7,7 @@ import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TimePicker
@@ -34,8 +35,8 @@ import java.util.Calendar.MINUTE
 import java.util.Calendar.MONTH
 import java.util.Calendar.YEAR
 import java.util.Calendar.getInstance
-import java.util.UUID
 import javax.inject.Inject
+import kotlin.math.max
 
 class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     @Inject
@@ -53,6 +54,10 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private var wasDateSelected = false
     private var wasTimeSelected = false
     private var wasIntervalEdited = false
+
+    private var wateringInterval = 1
+    private var fertilizingInterval = 1
+    private var waterSprayingInterval = 1
 
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
@@ -79,6 +84,12 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
                 removeButton.visibility = visibility
                 addButton.visibility = visibility
             }
+
+            when(checkedId) {
+                R.id.radioWatering -> updateInterval(wateringInterval)
+                R.id.radioWaterSpraying -> updateInterval(waterSprayingInterval)
+                R.id.radioFertilizing -> updateInterval(fertilizingInterval)
+            }
         }
     }
 
@@ -86,15 +97,19 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         AlarmCreationFragmentArgs.fromBundle(it)
     }?.let { args ->
         with(args) {
-            updateInterval(interval.toLong().coerceIn(INTERVAL_MIN.toLong(), INTERVAL_MAX.toLong()))
+            binding.radioWaterSpraying.visibility =
+                if (waterSprayingInterval > 0) View.VISIBLE else View.GONE
+
+            wateringInterval = max(interval, 1)
+            this@AlarmCreationFragment.fertilizingInterval = max(fertilizingInterval, 1)
+            this@AlarmCreationFragment.waterSprayingInterval =  max(waterSprayingInterval, 1)
+
+            updateInterval(interval)
             binding.nameEditText.setText(plantName)
 
             isEditing = isEdition
             editingId = id
             editingIsEnabled = isEnabled
-
-            binding.radioWaterSpraying.visibility =
-                if (isWaterSprayingEnabled) View.VISIBLE else View.GONE
 
             context?.let { ctx ->
                 FirebaseUtils.logEvent(ctx, FirebaseUtils.ALARM_CREATION_ENTERS, Bundle().apply {
@@ -293,14 +308,25 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         }
     }
 
+    private fun updateInterval(newInterval: Int) = updateInterval(newInterval.toLong())
+
     private fun updateInterval(newInterval: Long) = with(binding) {
+        val limitedInterval =
+            newInterval.coerceIn(INTERVAL_MIN.toLong(), INTERVAL_MAX.toLong())
+
         wasIntervalEdited = true
         viewModel.isUpdating = true
-        viewModel.interval = newInterval
+        viewModel.interval = limitedInterval
         val intervalText = newInterval.toString()
         intervalValue.setText(intervalText)
         intervalValue.setSelection(intervalText.length)
         viewModel.isUpdating = false
+
+        when {
+            radioWatering.isChecked -> wateringInterval = limitedInterval.toInt()
+            radioFertilizing.isChecked -> fertilizingInterval = limitedInterval.toInt()
+            radioWaterSpraying.isChecked -> waterSprayingInterval = limitedInterval.toInt()
+        }
     }
 
     override fun onDestroyView() {
