@@ -14,7 +14,8 @@ class SetAlarmUseCaseImpl @Inject constructor(private val context: Context) : Se
             name,
             type,
             AlarmNotificationUtils.getValidDate(dateInMillis, intervalInMillis),
-            intervalInMillis
+            intervalInMillis,
+            true
         )
     }
 }

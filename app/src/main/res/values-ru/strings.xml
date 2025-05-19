@@ -57,4 +57,6 @@
 
     <string name="first_alarm_creation">Первое растение добавлено в расписание!</string>
     <string name="water_spraying">Опрыскивание водой</string>
+
+    <string name="calendar_error">Отсутствует приложение календаря</string>
 </resources>

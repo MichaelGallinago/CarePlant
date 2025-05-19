@@ -62,7 +62,7 @@ class AlarmReceiver : BroadcastReceiver() {
         }
 
         AlarmNotificationUtils.setAlarm(
-            context, id, name, type, dateInMillis + intervalInMillis, intervalInMillis
+            context, id, name, type, dateInMillis + intervalInMillis, intervalInMillis, true
         )
     }
 
