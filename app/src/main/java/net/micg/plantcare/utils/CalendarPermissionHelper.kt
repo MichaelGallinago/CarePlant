@@ -22,7 +22,6 @@ object CalendarPermissionHelper {
     fun bind(
         fragment: Fragment,
         switch: SwitchCompat,
-        coroutineScope: CoroutineScope,
         onGranted: () -> Unit = {}
     ) {
         val ctx = fragment.requireContext()

@@ -17,10 +17,11 @@ class UpdateAlarmDataUseCaseImpl @Inject constructor(
         type: Byte,
         dateInMillis: Long,
         intervalInMillis: Long,
+        isInCalendar: Boolean,
         isEnabled: Boolean,
         id: Long,
     ) = repository.updateData(
-        AlarmEntity(id, name, type, dateInMillis, intervalInMillis, isEnabled)
+        AlarmEntity(id, name, type, dateInMillis, intervalInMillis, isEnabled, isInCalendar)
     ).run {
         Alarm(
             id,
@@ -28,7 +29,8 @@ class UpdateAlarmDataUseCaseImpl @Inject constructor(
             TypeLabelUtils.getTypeLabel(context, type),
             dateInMillis,
             intervalInMillis,
-            isEnabled
+            isEnabled,
+            isInCalendar
         )
     }
 }

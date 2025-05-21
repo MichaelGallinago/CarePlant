@@ -19,15 +19,23 @@ class AlarmHelper(
         editingIsEnabled = isEnabled
     }
 
-    fun save(name: String, type: Byte, dateInMillis: Long, intervalDays: Int) {
+    fun save(
+        name: String, type: Byte, dateInMillis: Long, intervalDays: Int, isInCalendar: Boolean
+    ) {
         val intervalMillis = calculateIntervalInMillis(intervalDays)
 
         if (isEditing) {
-            viewModel.updateData(editingId, name, type, dateInMillis, intervalMillis, editingIsEnabled)
-            logAlarmEvent(FirebaseUtils.EDITED_NOTIFICATIONS, name, type, dateInMillis, intervalDays)
+            viewModel.updateData(
+                editingId, name, type, dateInMillis, intervalMillis, isInCalendar, editingIsEnabled
+            )
+            logAlarmEvent(
+                FirebaseUtils.EDITED_NOTIFICATIONS, name, type, dateInMillis, intervalDays
+            )
         } else {
-            viewModel.insert(name, type, dateInMillis, intervalMillis)
-            logAlarmEvent(FirebaseUtils.CREATED_NOTIFICATIONS, name, type, dateInMillis, intervalDays)
+            viewModel.insert(name, type, dateInMillis, intervalMillis, isInCalendar)
+            logAlarmEvent(
+                FirebaseUtils.CREATED_NOTIFICATIONS, name, type, dateInMillis, intervalDays
+            )
         }
 
         wasAlarmSaved = true

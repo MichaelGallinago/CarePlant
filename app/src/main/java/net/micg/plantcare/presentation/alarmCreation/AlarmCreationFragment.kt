@@ -8,13 +8,13 @@ import android.widget.Toast
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmCreationBinding
 import net.micg.plantcare.di.viewModel.ViewModelFactory
+import net.micg.plantcare.utils.AlarmCreationUtils
 import net.micg.plantcare.utils.AlarmHelper
 import net.micg.plantcare.utils.CalendarPermissionHelper
 import net.micg.plantcare.utils.DateTimePickerHelper
@@ -23,22 +23,40 @@ import net.micg.plantcare.utils.FirebaseUtils.logEvent
 import net.micg.plantcare.utils.InsetsUtils.addBottomInsetsMarginToCurrentView
 import net.micg.plantcare.utils.InsetsUtils.addTopInsetsMarginToCurrentView
 import net.micg.plantcare.utils.IntervalUtils
-import java.util.Calendar
+import java.util.Calendar.DAY_OF_MONTH
+import java.util.Calendar.HOUR_OF_DAY
+import java.util.Calendar.MINUTE
+import java.util.Calendar.MONTH
+import java.util.Calendar.YEAR
 import java.util.Calendar.getInstance
 import javax.inject.Inject
 import kotlin.math.max
 
 class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
+    @Inject
+    lateinit var factory: ViewModelFactory
 
-    @Inject lateinit var factory: ViewModelFactory
-    private val binding by viewBinding(FragmentAlarmCreationBinding::bind)
+    private val binding: FragmentAlarmCreationBinding by viewBinding()
     private val viewModel: AlarmCreationViewModel by viewModels { factory }
 
     private var wateringInterval = 1
     private var fertilizingInterval = 1
     private var waterSprayingInterval = 1
 
-    private val alarmHelper = AlarmHelper(requireContext(), viewModel)
+    private var isCalendarPermissionGranted = false
+
+    private lateinit var alarmHelper: AlarmHelper
+
+    private val dateInMillis get() = getInstance().apply {
+        timeInMillis = 0
+        with(viewModel.timeStorage) {
+            set(YEAR, year)
+            set(MONTH, month)
+            set(DAY_OF_MONTH, dayOfMonth)
+            set(HOUR_OF_DAY, hourOfDay)
+            set(MINUTE, minute)
+        }
+    }.timeInMillis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -65,8 +83,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private fun initPermissionSwitch() = CalendarPermissionHelper.bind(
         fragment = this,
         switch = binding.switchCalendarButton,
-        coroutineScope = viewLifecycleOwner.lifecycleScope,
-        onGranted = { /* можно сразу создать событие, если нужно */ }
+        onGranted = { isCalendarPermissionGranted = true }
     )
 
     private fun initIntervalField() = with(binding) {
@@ -77,6 +94,26 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         )
         removeButton.setOnClickListener { updateInterval(viewModel.interval - 1) }
         addButton.setOnClickListener { updateInterval(viewModel.interval + 1) }
+
+        with(viewModel.timeStorage) {
+            with(AlarmCreationUtils.getCurrentCalendar()) {
+                year = get(YEAR)
+                month = get(MONTH)
+                dayOfMonth = get(DAY_OF_MONTH)
+                hourOfDay = get(HOUR_OF_DAY)
+                minute = get(MINUTE)
+            }
+
+            with(dateSelector) {
+                text = dateFormated
+                setOnClickListener { pickDate() }
+            }
+
+            with(timeSelector) {
+                text = timeFormated
+                setOnClickListener { pickTime() }
+            }
+        }
     }
 
     private fun initRadioGroup() = with(binding.actionRadioGroup) {
@@ -95,6 +132,8 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     }
 
     private fun handleArgs() = arguments?.let(AlarmCreationFragmentArgs::fromBundle)?.apply {
+        alarmHelper = AlarmHelper(requireContext(), viewModel)
+
         binding.radioWaterSpraying.visibility =
             if (waterSprayingInterval > 0) View.VISIBLE else View.GONE
 
@@ -145,8 +184,10 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         val value = raw.coerceIn(IntervalUtils.MIN.toLong(), IntervalUtils.MAX.toLong())
         viewModel.isUpdating = true
         viewModel.interval = value
-        intervalValue.setText(value.toString())
-        intervalValue.setSelection(intervalValue.text.length)
+        with(intervalValue) {
+            setText(value.toString())
+            setSelection(text.length)
+        }
         viewModel.isUpdating = false
 
         when {
@@ -164,23 +205,23 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     }
 
     private fun saveAlarm() = with(binding) {
-        if (!alarmHelper.isEditing) sendMessageOnFirst(requireContext())
+        if (!alarmHelper.isEditing)
+            sendMessageOnFirst(requireContext())
 
         val name = nameEditText.text.toString()
         val (type, interval) = extractTypeAndInterval()
-        alarmHelper.save(name, type, dateInMillis, interval)
+        val isInCalendar = isCalendarPermissionGranted && switchCalendarButton.isChecked
+        alarmHelper.save(name, type, dateInMillis, interval, isInCalendar)
     }
 
-    private fun extractTypeAndInterval(): Pair<Byte, Int> {
-        val type = when {
-            binding.radioWatering.isChecked -> 0
-            binding.radioFertilizing.isChecked -> 1
-            binding.radioTransplanting.isChecked -> 2
-            binding.radioWaterSpraying.isChecked -> 3
-            else -> 0
-        }
-        val interval = if (type == 2) 0 else viewModel.interval.toInt()
-        return type.toByte() to interval
+    private fun extractTypeAndInterval() = when {
+        binding.radioWatering.isChecked -> 0
+        binding.radioFertilizing.isChecked -> 1
+        binding.radioTransplanting.isChecked -> 2
+        binding.radioWaterSpraying.isChecked -> 3
+        else -> 0
+    }.run {
+        toByte() to (if (this == 2) 0 else viewModel.interval.toInt())
     }
 
     private fun getCurrentCalendar() = getInstance()
@@ -193,16 +234,4 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
             }
         }
     }
-
-    private val dateInMillis: Long
-        get() = getInstance().apply {
-            timeInMillis = 0
-            with(viewModel.timeStorage) {
-                set(Calendar.YEAR, year)
-                set(Calendar.MONTH, month)
-                set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                set(Calendar.HOUR_OF_DAY, hourOfDay)
-                set(Calendar.MINUTE, minute)
-            }
-        }.timeInMillis
 }

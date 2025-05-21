@@ -18,8 +18,9 @@ class InsertAlarmUseCaseImpl @Inject constructor(
         dateInMillis: Long,
         intervalInMillis: Long,
         isEnabled: Boolean,
+        isInCalendar: Boolean
     ) = repository.insert(
-        AlarmEntity(0, name, type, dateInMillis, intervalInMillis, isEnabled)
+        AlarmEntity(0, name, type, dateInMillis, intervalInMillis, isEnabled, isInCalendar)
     ).run {
         Alarm(
             this,
@@ -27,7 +28,8 @@ class InsertAlarmUseCaseImpl @Inject constructor(
             TypeLabelUtils.getTypeLabel(context, type),
             dateInMillis,
             intervalInMillis,
-            isEnabled
+            isEnabled,
+            isInCalendar
         )
     }
 }

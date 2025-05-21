@@ -14,7 +14,8 @@ data class AlarmEntity(
     val type: Byte,
     val dateInMillis: Long,
     val intervalInMillis: Long,
-    val isEnabled: Boolean
+    val isEnabled: Boolean,
+    val isInCalendar: Boolean
 ) {
     fun toPresentationModel(context: Context): Alarm = Alarm(
         id,
@@ -22,6 +23,7 @@ data class AlarmEntity(
         TypeLabelUtils.getTypeLabel(context, type),
         dateInMillis,
         intervalInMillis,
-        isEnabled
+        isEnabled,
+        isInCalendar
     )
 }

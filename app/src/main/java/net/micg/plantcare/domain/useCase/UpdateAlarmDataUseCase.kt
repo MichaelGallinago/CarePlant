@@ -8,6 +8,7 @@ interface UpdateAlarmDataUseCase {
         type: Byte,
         dateInMillis: Long,
         intervalInMillis: Long,
+        isInCalendar: Boolean,
         isEnabled: Boolean,
         id: Long
     ): Alarm

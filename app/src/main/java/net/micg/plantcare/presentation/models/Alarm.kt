@@ -7,6 +7,7 @@ data class Alarm(
     val dateInMillis: Long,
     val intervalInMillis: Long,
     val isEnabled: Boolean,
+    val isInCalendar: Boolean
 ) {
     fun getFormattedTime(timeConverter: TimeConverter) = timeConverter.run {
         val currentTime = System.currentTimeMillis()

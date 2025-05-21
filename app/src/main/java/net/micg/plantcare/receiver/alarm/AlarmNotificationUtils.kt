@@ -1,31 +1,23 @@
 package net.micg.plantcare.receiver.alarm
 
-import android.Manifest
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.PendingIntent.*
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.icu.util.Calendar
-import android.net.Uri
 import android.provider.CalendarContract
+import android.provider.CalendarContract.Calendars
 import android.provider.CalendarContract.Events
 import android.provider.CalendarContract.Reminders
 import android.util.Log
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import net.micg.plantcare.R
 import net.micg.plantcare.presentation.MainActivity
 import net.micg.plantcare.receiver.alarm.AlarmReceiver.Companion.ID_EXTRA
 import net.micg.plantcare.receiver.alarm.AlarmReceiver.Companion.NAME_EXTRA
 import net.micg.plantcare.receiver.alarm.AlarmReceiver.Companion.TYPE_EXTRA
-import java.util.Objects
 import java.util.TimeZone
 import kotlin.math.max
 
@@ -137,9 +129,11 @@ object AlarmNotificationUtils {
     private fun getAlarmManager(context: Context) =
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    private fun insertEventAutomatically(context: Context, title: String, description: String, startMillis: Long) {
-        val projection = arrayOf(CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
-        val uri = CalendarContract.Calendars.CONTENT_URI
+    private fun insertEventAutomatically(
+        context: Context, title: String, description: String, startMillis: Long
+    ) {
+        val projection = arrayOf(Calendars._ID, Calendars.CALENDAR_DISPLAY_NAME)
+        val uri = Calendars.CONTENT_URI
         val cursor = context.contentResolver.query(uri, projection, null, null, null)
 
         if (cursor != null && cursor.moveToFirst()) {

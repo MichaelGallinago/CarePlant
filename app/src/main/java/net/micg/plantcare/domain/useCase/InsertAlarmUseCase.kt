@@ -8,6 +8,7 @@ interface InsertAlarmUseCase {
         type: Byte,
         dateInMillis: Long,
         intervalInMillis: Long,
-        isEnabled: Boolean
+        isEnabled: Boolean,
+        isInCalendar: Boolean
     ): Alarm
 }
