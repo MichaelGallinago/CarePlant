@@ -16,8 +16,8 @@ android {
         applicationId = "net.micg.plantcare"
         minSdk = 24
         targetSdk = 35
-        versionCode = 15
-        versionName = "1.24"
+        versionCode = 16
+        versionName = "1.25"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
