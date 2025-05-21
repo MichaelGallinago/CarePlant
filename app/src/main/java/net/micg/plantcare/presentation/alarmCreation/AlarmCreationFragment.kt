@@ -20,6 +20,7 @@ import net.micg.plantcare.utils.AlarmHelper
 import net.micg.plantcare.utils.CalendarPermissionHelper
 import net.micg.plantcare.utils.DateTimePickerHelper
 import net.micg.plantcare.utils.FirebaseUtils
+import net.micg.plantcare.utils.FirebaseUtils.ALARM_CREATION_ABANDONED
 import net.micg.plantcare.utils.FirebaseUtils.logEvent
 import net.micg.plantcare.utils.InsetsUtils.addBottomInsetsMarginToCurrentView
 import net.micg.plantcare.utils.InsetsUtils.addTopInsetsMarginToCurrentView
@@ -239,5 +240,28 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
                 Toast.makeText(ctx, R.string.first_alarm_creation, Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        if (alarmHelper.wasAlarmSaved || alarmHelper.isEditing) return
+        abandonAlarmCreation()
+    }
+
+    private fun abandonAlarmCreation() = with(binding) {
+        logEvent(requireContext(), ALARM_CREATION_ABANDONED, Bundle().apply {
+            putBoolean("entered_name", nameEditText.text.toString().isNotBlank())
+            putBoolean("selected_date", wasDateSelected)
+            putBoolean("selected_time", wasTimeSelected)
+            putBoolean("set_interval", wasIntervalEdited)
+            putString("selected_type", when {
+                radioWatering.isChecked -> "watering"
+                radioFertilizing.isChecked -> "fertilizing"
+                radioTransplanting.isChecked -> "transplanting"
+                radioWaterSpraying.isChecked -> "water_spraying"
+                else -> "none"
+            })
+        })
     }
 }
