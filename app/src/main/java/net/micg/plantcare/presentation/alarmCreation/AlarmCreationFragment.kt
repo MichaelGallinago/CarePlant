@@ -194,6 +194,8 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private fun updateInterval(raw: Int) = updateInterval(raw.toLong())
 
     private fun updateInterval(raw: Long) = with(binding) {
+        wasIntervalEdited = true
+
         val value = raw.coerceIn(IntervalUtils.MIN.toLong(), IntervalUtils.MAX.toLong())
         viewModel.isUpdating = true
         viewModel.interval = value
