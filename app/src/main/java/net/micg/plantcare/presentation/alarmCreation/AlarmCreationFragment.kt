@@ -45,6 +45,10 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private var fertilizingInterval = 1
     private var waterSprayingInterval = 1
 
+    private var wasDateSelected = false
+    private var wasTimeSelected = false
+    private var wasIntervalEdited = false
+
     private var isCalendarPermissionGranted = false
 
     private lateinit var alarmHelper: AlarmHelper
