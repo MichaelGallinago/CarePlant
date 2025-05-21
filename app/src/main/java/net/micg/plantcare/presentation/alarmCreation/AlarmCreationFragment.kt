@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmCreationBinding
+import net.micg.plantcare.di.appComponent
 import net.micg.plantcare.di.viewModel.ViewModelFactory
 import net.micg.plantcare.utils.AlarmCreationUtils
 import net.micg.plantcare.utils.AlarmHelper
@@ -57,6 +58,11 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
             set(MINUTE, minute)
         }
     }.timeInMillis
+
+    override fun onAttach(context: Context) {
+        context.appComponent.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
