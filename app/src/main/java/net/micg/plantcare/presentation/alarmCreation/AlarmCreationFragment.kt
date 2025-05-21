@@ -1,20 +1,29 @@
 package net.micg.plantcare.presentation.alarmCreation
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import net.micg.plantcare.R
 import net.micg.plantcare.databinding.FragmentAlarmCreationBinding
 import net.micg.plantcare.di.viewModel.ViewModelFactory
+import net.micg.plantcare.utils.AlarmHelper
 import net.micg.plantcare.utils.CalendarPermissionHelper
 import net.micg.plantcare.utils.DateTimePickerHelper
+import net.micg.plantcare.utils.FirebaseUtils
+import net.micg.plantcare.utils.FirebaseUtils.logEvent
 import net.micg.plantcare.utils.InsetsUtils.addBottomInsetsMarginToCurrentView
 import net.micg.plantcare.utils.InsetsUtils.addTopInsetsMarginToCurrentView
 import net.micg.plantcare.utils.IntervalUtils
+import java.util.Calendar
 import java.util.Calendar.getInstance
 import javax.inject.Inject
 import kotlin.math.max
@@ -29,15 +38,22 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private var fertilizingInterval = 1
     private var waterSprayingInterval = 1
 
+    private val alarmHelper = AlarmHelper(requireContext(), viewModel)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initEdgeToEdge()
         initPermissionSwitch()
         initIntervalField()
-        initButtons()
         handleArgs()
         initRadioGroup()
+        setUpListeners(findNavController())
+    }
+
+    private fun setUpListeners(navController: NavController) = with(binding) {
+        cancelButton.setOnClickListener { navController.popBackStack() }
+        confirmButton.setOnClickListener { saveAndExit(navController) }
     }
 
     private fun initEdgeToEdge() = with(binding) {
@@ -63,11 +79,6 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         addButton.setOnClickListener { updateInterval(viewModel.interval + 1) }
     }
 
-    private fun initButtons() = with(binding) {
-        cancelButton.setOnClickListener { findNavController().popBackStack() }
-        confirmButton.setOnClickListener { saveAlarmAndExit() }
-    }
-
     private fun initRadioGroup() = with(binding.actionRadioGroup) {
         setOnCheckedChangeListener { _, checked ->
             val isTransplanting = checked == R.id.radioTransplanting
@@ -87,34 +98,43 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         binding.radioWaterSpraying.visibility =
             if (waterSprayingInterval > 0) View.VISIBLE else View.GONE
 
-        wateringInterval       = max(interval, 1)
-        this@AlarmCreationFragment.fertilizingInterval    = max(fertilizingInterval, 1)
+        wateringInterval = max(interval, 1)
+        this@AlarmCreationFragment.fertilizingInterval = max(fertilizingInterval, 1)
         this@AlarmCreationFragment.waterSprayingInterval  = max(waterSprayingInterval, 1)
 
         updateInterval(interval)
         binding.nameEditText.setText(plantName)
 
-        // … остальная логика isEditing / logging …
+        if (isEdition) {
+            alarmHelper.setEditing(id, isEnabled)
+        }
+
+        logEvent(requireContext(), FirebaseUtils.ALARM_CREATION_ENTERS, Bundle().apply {
+            putString("from_screen", fragmentName)
+        })
     }
 
     private fun pickDate() = DateTimePickerHelper.showDate(
-        fragment   = this,
-        calendar   = getCurrentCalendar(),
-        themeRes   = R.style.CustomDatePickerDialog
+        fragment = this,
+        calendar = getCurrentCalendar(),
+        themeRes = R.style.CustomDatePickerDialog
     ) { y, m, d ->
         with(viewModel.timeStorage) {
-            year = y; month = m; dayOfMonth = d
+            year = y
+            month = m
+            dayOfMonth = d
             binding.dateSelector.text = dateFormated
         }
     }
 
     private fun pickTime() = DateTimePickerHelper.showTime(
-        fragment   = this,
-        calendar   = getCurrentCalendar(),
-        themeRes   = R.style.CustomTimePickerDialog
+        fragment = this,
+        calendar = getCurrentCalendar(),
+        themeRes = R.style.CustomTimePickerDialog
     ) { h, m ->
         with(viewModel.timeStorage) {
-            hourOfDay = h; minute = m
+            hourOfDay = h
+            minute = m
             binding.timeSelector.text = timeFormated
         }
     }
@@ -136,12 +156,53 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         }
     }
 
-    private fun saveAlarmAndExit() {
-        // ─── используй старую save-логику, она не изменилась ───
-        findNavController().navigate(
+    private fun saveAndExit(navController: NavController) {
+        saveAlarm()
+        navController.navigate(
             AlarmCreationFragmentDirections.actionAlarmCreationFragmentToAlarmsFragment()
         )
     }
 
+    private fun saveAlarm() = with(binding) {
+        if (!alarmHelper.isEditing) sendMessageOnFirst(requireContext())
+
+        val name = nameEditText.text.toString()
+        val (type, interval) = extractTypeAndInterval()
+        alarmHelper.save(name, type, dateInMillis, interval)
+    }
+
+    private fun extractTypeAndInterval(): Pair<Byte, Int> {
+        val type = when {
+            binding.radioWatering.isChecked -> 0
+            binding.radioFertilizing.isChecked -> 1
+            binding.radioTransplanting.isChecked -> 2
+            binding.radioWaterSpraying.isChecked -> 3
+            else -> 0
+        }
+        val interval = if (type == 2) 0 else viewModel.interval.toInt()
+        return type.toByte() to interval
+    }
+
     private fun getCurrentCalendar() = getInstance()
+
+    private fun sendMessageOnFirst(ctx: Context) {
+        ctx.getSharedPreferences("device_prefs", MODE_PRIVATE).apply {
+            if (getBoolean("is_first_alarm_creation", true)) {
+                edit { putBoolean("is_first_alarm_creation", false) }
+                Toast.makeText(ctx, R.string.first_alarm_creation, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private val dateInMillis: Long
+        get() = getInstance().apply {
+            timeInMillis = 0
+            with(viewModel.timeStorage) {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, month)
+                set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                set(Calendar.HOUR_OF_DAY, hourOfDay)
+                set(Calendar.MINUTE, minute)
+            }
+        }.timeInMillis
 }
