@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -61,8 +60,10 @@ class AlarmReceiver : BroadcastReceiver() {
             return
         }
 
+        val isInCalendar = intent.getBooleanExtra(ALARM_IN_CALENDAR, false)
+
         AlarmNotificationUtils.setAlarm(
-            context, id, name, type, dateInMillis + intervalInMillis, intervalInMillis, true
+            context, id, name, type, dateInMillis + intervalInMillis, intervalInMillis, isInCalendar
         )
     }
 
@@ -178,6 +179,7 @@ class AlarmReceiver : BroadcastReceiver() {
         const val ALARM_TYPE = "ALARM_TYPE"
         const val ALARM_DATE = "ALARM_DATE"
         const val ALARM_INTERVAL = "ALARM_INTERVAL"
+        const val ALARM_IN_CALENDAR = "ALARM_INTERVAL"
         const val ALARM_GROUP = "ALARM_GROUP"
 
         const val GROUP_SUMMARY_DELAY = 400L

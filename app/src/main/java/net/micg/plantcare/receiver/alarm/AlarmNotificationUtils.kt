@@ -7,11 +7,9 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
-import android.provider.CalendarContract
 import android.provider.CalendarContract.Calendars
 import android.provider.CalendarContract.Events
 import android.provider.CalendarContract.Reminders
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import net.micg.plantcare.R
 import net.micg.plantcare.presentation.MainActivity
@@ -53,7 +51,9 @@ object AlarmNotificationUtils {
             createPendingIntent(
                 context,
                 id,
-                createExtraIntent(context, id, name, type, dateInMillis, intervalInMillis)
+                createExtraIntent(
+                    context, id, name, type, dateInMillis, intervalInMillis, addToCalendar
+                )
             )
         )
 
@@ -118,12 +118,14 @@ object AlarmNotificationUtils {
         type: String,
         dateInMillis: Long,
         intervalInMillis: Long,
+        addToCalendar: Boolean
     ) = createIntent(context).apply {
         putExtra(AlarmReceiver.Companion.ALARM_ID, id)
         putExtra(AlarmReceiver.Companion.ALARM_NAME, name)
         putExtra(AlarmReceiver.Companion.ALARM_TYPE, type)
         putExtra(AlarmReceiver.Companion.ALARM_DATE, dateInMillis)
         putExtra(AlarmReceiver.Companion.ALARM_INTERVAL, intervalInMillis)
+        putExtra(AlarmReceiver.Companion.ALARM_IN_CALENDAR, addToCalendar)
     }
 
     private fun getAlarmManager(context: Context) =
@@ -136,31 +138,34 @@ object AlarmNotificationUtils {
         val uri = Calendars.CONTENT_URI
         val cursor = context.contentResolver.query(uri, projection, null, null, null)
 
-        if (cursor != null && cursor.moveToFirst()) {
-            val calId = cursor.getLong(0)
+        if (cursor == null || !cursor.moveToFirst()) return
 
-            val values = ContentValues().apply {
-                put(Events.DTSTART, startMillis)
-                put(Events.DTEND, startMillis)
-                put(Events.TITLE, title)
-                put(Events.DESCRIPTION, description)
-                put(Events.CALENDAR_ID, calId)
-                put(Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
-            }
+        val calId = cursor.getLong(0)
 
-            val eventUri = context.contentResolver.insert(Events.CONTENT_URI, values)
-            Log.d("CalendarCalendar", "Событие создано: $eventUri")
-            val eventId = ContentUris.parseId(eventUri ?: return)
-
-            context.contentResolver.insert(Reminders.CONTENT_URI, ContentValues().apply {
-                put(Reminders.EVENT_ID, eventId)
-                put(Reminders.MINUTES, 0)
-                put(Reminders.METHOD, Reminders.METHOD_ALERT)
-            })
-
-            cursor.close()
-        } else {
-            Log.e("CalendarCalendar", "Не удалось получить доступный календарь")
+        val values = ContentValues().apply {
+            put(Events.DTSTART, startMillis)
+            put(Events.DTEND, startMillis)
+            put(Events.TITLE, title)
+            put(Events.DESCRIPTION, description)
+            put(Events.CALENDAR_ID, calId)
+            put(Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
         }
+
+        val eventUri = context.contentResolver.insert(Events.CONTENT_URI, values)
+        val eventId = ContentUris.parseId(eventUri ?: return)
+
+        context.contentResolver.insert(Reminders.CONTENT_URI, ContentValues().apply {
+            put(Reminders.EVENT_ID, eventId)
+            put(Reminders.MINUTES, 0)
+            put(Reminders.METHOD, Reminders.METHOD_ALERT)
+        })
+
+        cursor.close()
+    }
+
+    //TODO: use if needed
+    fun deleteCalendarEvent(context: Context, eventId: Long) {
+        val uri = ContentUris.withAppendedId(Events.CONTENT_URI, eventId)
+        context.contentResolver.delete(uri, null, null)
     }
 }
