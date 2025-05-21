@@ -1,17 +1,21 @@
 package net.micg.plantcare.presentation.alarmCreation
 
+import android.Manifest
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
+import android.widget.CompoundButton
 import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,9 +30,11 @@ import net.micg.plantcare.utils.AlarmCreationUtils
 import net.micg.plantcare.utils.AlarmCreationUtils.calculateIntervalInMillis
 import net.micg.plantcare.utils.AlarmCreationUtils.getCurrentCalendar
 import net.micg.plantcare.utils.AlarmCreationUtils.getTypeName
+import net.micg.plantcare.utils.CalendarSharedPrefs
 import net.micg.plantcare.utils.FirebaseUtils
 import net.micg.plantcare.utils.FirebaseUtils.ALARM_CREATION_ABANDONED
 import net.micg.plantcare.utils.InsetsUtils.addTopInsetsMarginToCurrentView
+import java.util.Calendar
 import java.util.Calendar.DAY_OF_MONTH
 import java.util.Calendar.HOUR_OF_DAY
 import java.util.Calendar.MINUTE
@@ -59,6 +65,54 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private var fertilizingInterval = 1
     private var waterSprayingInterval = 1
 
+    private val calendarPermissions = arrayOf(
+        Manifest.permission.READ_CALENDAR,
+        Manifest.permission.WRITE_CALENDAR
+    )
+
+    private val calendarSwitchListener =
+        CompoundButton.OnCheckedChangeListener { button, isChecked ->
+            if (isChecked && !hasCalendarPermission()) {
+                button.isChecked = false
+                calendarPermissionLauncher.launch(calendarPermissions)
+            }
+        }
+
+    private val calendarPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { result ->
+        val granted = result.values.all { it }
+
+        binding.switchCalendarButton.setOnCheckedChangeListener(null)
+        binding.switchCalendarButton.isChecked = granted
+        binding.switchCalendarButton.setOnCheckedChangeListener(calendarSwitchListener)
+
+        if (!granted) {
+            Toast.makeText(
+                requireContext(),
+                R.string.require_calendar,
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            // Здесь можно сразу создать событие или просто сохранить флаг
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            binding.switchCalendarButton.isChecked = true
+            CalendarSharedPrefs.setSwitchEnabled(requireContext(), true)
+        } else {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.calendar_error),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
     override fun onAttach(context: Context) {
         context.appComponent.inject(this)
         super.onAttach(context)
@@ -71,6 +125,19 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         setUpFragment()
         setUpArguments()
         setUpRadioGroupListener()
+        setUpSwitchCalendarButton()
+    }
+
+    private fun setUpSwitchCalendarButton() = with(binding.switchCalendarButton) {
+        isChecked = CalendarSharedPrefs.isSwitchEnabled(requireContext())
+        setOnCheckedChangeListener { _, _ -> checkCalendarPermissionAndToggleSwitch() }
+    }
+
+    override fun onResume() = with(binding.switchCalendarButton) {
+        super.onResume()
+        setOnCheckedChangeListener(null)
+        isChecked = hasCalendarPermission()
+        setOnCheckedChangeListener(calendarSwitchListener)
     }
 
     private fun setUpRadioGroupListener() = with(binding.actionRadioGroup) {
@@ -85,7 +152,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
                 addButton.visibility = visibility
             }
 
-            when(checkedId) {
+            when (checkedId) {
                 R.id.radioWatering -> updateInterval(wateringInterval)
                 R.id.radioWaterSpraying -> updateInterval(waterSprayingInterval)
                 R.id.radioFertilizing -> updateInterval(fertilizingInterval)
@@ -102,7 +169,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
 
             wateringInterval = max(interval, 1)
             this@AlarmCreationFragment.fertilizingInterval = max(fertilizingInterval, 1)
-            this@AlarmCreationFragment.waterSprayingInterval =  max(waterSprayingInterval, 1)
+            this@AlarmCreationFragment.waterSprayingInterval = max(waterSprayingInterval, 1)
 
             updateInterval(interval)
             binding.nameEditText.setText(plantName)
@@ -227,6 +294,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
                 interval = 0
                 2
             }
+
             radioWaterSpraying.isChecked -> 3
             else -> 0
         }
@@ -351,6 +419,30 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
                 putBoolean("set_interval", wasIntervalEdited)
                 putString("selected_type", type)
             })
+        }
+    }
+
+    private fun hasCalendarPermission() = calendarPermissions.all {
+        ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun checkCalendarPermissionAndToggleSwitch() {
+        val switch = binding.switchCalendarButton
+
+        if (ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.WRITE_CALENDAR
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            val newState = !switch.isChecked
+            switch.isChecked = newState
+            setCalendarSwitchEnabled(newState)
+        } else {
+            val previousState = switch.isChecked
+            switch.setOnCheckedChangeListener(null)
+            switch.isChecked = previousState
+            switch.setOnCheckedChangeListener { _, _ -> checkCalendarPermissionAndToggleSwitch() }
+
+            requestPermissionLauncher.launch(Manifest.permission.WRITE_CALENDAR)
         }
     }
 

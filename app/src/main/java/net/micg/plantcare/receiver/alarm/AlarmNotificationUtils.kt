@@ -66,9 +66,7 @@ object AlarmNotificationUtils {
         )
 
         if (!addToCalendar) return
-        //insertCalendarEvent(context, name, type, dateInMillis)
-        //insertEventAutomatically(context, name, type, dateInMillis, dateInMillis)
-        addEventToCalendar(context)
+        insertEventAutomatically(context, type, name, dateInMillis)
     }
 
     fun getGroupSummaryNotification(
@@ -139,7 +137,7 @@ object AlarmNotificationUtils {
     private fun getAlarmManager(context: Context) =
         context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-    fun insertEventAutomatically(context: Context, title: String, description: String, startMillis: Long) {
+    private fun insertEventAutomatically(context: Context, title: String, description: String, startMillis: Long) {
         val projection = arrayOf(CalendarContract.Calendars._ID, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
         val uri = CalendarContract.Calendars.CONTENT_URI
         val cursor = context.contentResolver.query(uri, projection, null, null, null)
@@ -154,7 +152,6 @@ object AlarmNotificationUtils {
                 put(Events.DESCRIPTION, description)
                 put(Events.CALENDAR_ID, calId)
                 put(Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
-
             }
 
             val eventUri = context.contentResolver.insert(Events.CONTENT_URI, values)
@@ -171,13 +168,5 @@ object AlarmNotificationUtils {
         } else {
             Log.e("CalendarCalendar", "Не удалось получить доступный календарь")
         }
-    }
-
-    fun addEventToCalendar(context: Context) {
-
-
-        val time = Calendar.getInstance().timeInMillis + 60000
-        insertEventAutomatically(context, "Цветок", "Полив", time)
-        Log.d("MYDEBUG", time.toString())
     }
 }

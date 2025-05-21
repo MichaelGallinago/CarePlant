@@ -1,14 +1,9 @@
 package net.micg.plantcare.presentation
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -24,7 +19,6 @@ import net.micg.plantcare.presentation.alarms.AlarmsFragmentDirections
 import net.micg.plantcare.presentation.articles.ArticlesFragmentDirections
 import androidx.core.content.edit
 import net.micg.plantcare.BuildConfig
-import net.micg.plantcare.receiver.alarm.AlarmNotificationUtils.addEventToCalendar
 import net.micg.plantcare.utils.FirebaseUtils
 import net.micg.plantcare.utils.FirebaseUtils.INSTALLED_FROM_SOURCE
 
@@ -52,8 +46,6 @@ class MainActivity : AppCompatActivity() {
         handleFirstLaunch()
 
         window.navigationBarColor = ContextCompat.getColor(this, R.color.navigation)
-
-        checkAndRequestCalendarPermissions()
     }
 
     private fun setUpActivity() = with(ActivityMainBinding.inflate(layoutInflater)) {
@@ -127,25 +119,4 @@ class MainActivity : AppCompatActivity() {
             putString("source", BuildConfig.SOURCE)
         }
     )
-
-    private val calendarPermissionRequest =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            val granted = permissions[Manifest.permission.WRITE_CALENDAR] == true
-            if (granted) {
-                addEventToCalendar(this)
-            } else {
-                Toast.makeText(this, "Необходимо разрешение на доступ к календарю", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-    fun checkAndRequestCalendarPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            calendarPermissionRequest.launch(arrayOf(
-                Manifest.permission.READ_CALENDAR,
-                Manifest.permission.WRITE_CALENDAR
-            ))
-        } else {
-            addEventToCalendar(this)
-        }
-    }
 }

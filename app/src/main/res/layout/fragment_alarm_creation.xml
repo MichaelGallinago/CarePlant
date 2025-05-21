@@ -46,7 +46,7 @@
         android:id="@+id/date_selector"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:backgroundTint="@color/button"
         android:drawableEnd="@drawable/ic_edit_date"
         android:lines="1"
@@ -61,7 +61,7 @@
         android:id="@+id/select_time_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:text="@string/select_time"
         android:textColor="@color/text"
         android:textSize="24sp"
@@ -73,7 +73,7 @@
         android:id="@+id/time_selector"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:backgroundTint="@color/button"
         android:drawableEnd="@drawable/ic_edit_time"
         android:lines="1"
@@ -99,7 +99,7 @@
         android:id="@+id/interval_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:text="@string/select_interval"
         android:textColor="@color/text"
         android:textSize="24sp"
@@ -165,7 +165,8 @@
         android:id="@+id/nameEditText"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_margin="16dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
         android:autofillHints="name"
         android:backgroundTint="@color/text_hint"
         android:hint="@string/alarm_name_hint"
@@ -188,7 +189,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -197,7 +198,7 @@
         <RadioButton
             android:id="@+id/radioWatering"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:checked="true"
             android:text="@string/watering"
             android:textColor="@color/text"
@@ -207,7 +208,7 @@
         <RadioButton
             android:id="@+id/radioFertilizing"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="@string/fertilize"
             android:textColor="@color/text"
             android:textSize="20sp"
@@ -216,7 +217,7 @@
         <RadioButton
             android:id="@+id/radioTransplanting"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="@string/transplanting"
             android:textColor="@color/text"
             android:textSize="20sp"
@@ -225,7 +226,7 @@
         <RadioButton
             android:id="@+id/radioWaterSpraying"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="@string/water_spraying"
             android:textColor="@color/text"
             android:textSize="20sp"
@@ -233,5 +234,19 @@
             app:buttonTint="@color/button"
             tools:visibility="visible" />
     </RadioGroup>
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_calendar_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16sp"
+        android:text="@string/add_to_calendar"
+        android:textColor="@color/text"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/cancelButton"
+        app:thumbTint="@color/switch_thumb_color"
+        app:trackTint="@color/switch_track_color" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

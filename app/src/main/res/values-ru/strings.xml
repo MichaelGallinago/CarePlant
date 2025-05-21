@@ -59,4 +59,6 @@
     <string name="water_spraying">Опрыскивание водой</string>
 
     <string name="calendar_error">Отсутствует приложение календаря</string>
+    <string name="add_to_calendar">Добавить в календарь: </string>
+    <string name="require_calendar">Для включения нужно разрешить доступ</string>
 </resources>
