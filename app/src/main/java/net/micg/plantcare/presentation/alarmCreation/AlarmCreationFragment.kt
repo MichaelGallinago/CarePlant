@@ -169,6 +169,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         calendar = getCurrentCalendar(),
         themeRes = R.style.CustomDatePickerDialog
     ) { y, m, d ->
+        wasDateSelected = true
         with(viewModel.timeStorage) {
             year = y
             month = m
@@ -182,6 +183,7 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
         calendar = getCurrentCalendar(),
         themeRes = R.style.CustomTimePickerDialog
     ) { h, m ->
+        wasTimeSelected = true
         with(viewModel.timeStorage) {
             hourOfDay = h
             minute = m
