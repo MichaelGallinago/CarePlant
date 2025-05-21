@@ -122,17 +122,17 @@ class AlarmCreationFragment : Fragment(R.layout.fragment_alarm_creation) {
     private fun updateInterval(raw: Int) = updateInterval(raw.toLong())
 
     private fun updateInterval(raw: Long) = with(binding) {
-        val v = raw.coerceIn(IntervalUtils.MIN.toLong(), IntervalUtils.MAX.toLong())
+        val value = raw.coerceIn(IntervalUtils.MIN.toLong(), IntervalUtils.MAX.toLong())
         viewModel.isUpdating = true
-        viewModel.interval = v
-        intervalValue.setText(v.toString())
+        viewModel.interval = value
+        intervalValue.setText(value.toString())
         intervalValue.setSelection(intervalValue.text.length)
         viewModel.isUpdating = false
 
         when {
-            radioWatering.isChecked      -> wateringInterval      = v.toInt()
-            radioFertilizing.isChecked   -> fertilizingInterval   = v.toInt()
-            radioWaterSpraying.isChecked -> waterSprayingInterval = v.toInt()
+            radioWatering.isChecked      -> wateringInterval      = value.toInt()
+            radioFertilizing.isChecked   -> fertilizingInterval   = value.toInt()
+            radioWaterSpraying.isChecked -> waterSprayingInterval = value.toInt()
         }
     }
 
