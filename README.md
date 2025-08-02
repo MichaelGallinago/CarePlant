@@ -1,1 +1,1 @@
-Приложение, где можно читать статьи об уходе за растениями и устанавливать напоминания об их поливе.
+An application where you can read articles about caring for plants and set reminders about watering/fertilizing them.
